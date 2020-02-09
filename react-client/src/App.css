@@ -13,8 +13,8 @@
   background-color: #282c34;
   width: 100vw;
   display: flex;
-  height: calc(30px + 6vmin);
   justify-content: center;
+  height: calc(30px + 6vmin);
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -24,4 +24,3 @@
   display: flex;
   justify-content: center;
 }
-

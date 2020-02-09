@@ -30,7 +30,9 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1>Build-a-Bot Royale</h1>
+          <img src='./logo.svg' style={{margin:'0.5vmin 3vmin', width:'calc(30px + 5vmin)'}}/>
+          <h1 style={{textAlign:'center'}}>Build-a-Bot Royale</h1>
+          <img src='./logo.svg' style={{margin:'0.5vmin 3vmin', width:'calc(30px + 5vmin)'}}/>
         </header>
         <div className="App-body" style={backgroundStyle}>
           <TextInput/>
