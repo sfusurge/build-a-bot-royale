@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import background from './background.jpg';
+import TextInput from './Components/TextInput'
 import './App.css';
+
+const backgroundStyle = {
+  backgroundImage:`url(${background})`,
+  flex: 1,
+  resizeMode: 'cover', 
+  backgroundPosition:"center",
+}
 
 class App extends Component {
   constructor(props) {
@@ -22,20 +30,11 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <h1>Build-a-Bot Royale</h1>
         </header>
-        <p className="App-intro">{this.state.apiResponse}</p>
+        <div className="App-body" style={backgroundStyle}>
+          <TextInput/>
+        </div>
       </div>
     );
   }
