@@ -4,22 +4,21 @@ var socketApi = {};
 
 socketApi.io = io;
 
-var games = {};
-
 io.on('connection', function(socket){
-    console.log('A user connected: ' + socket.author);
-});
+    console.log("user connected");
+    var currentRoom = "no-room";
 
-io.on('message', function(data) {
-    const { chatRoomName, author, message } = data;
-    console.log("message!");
-    if (message == "newgame") {
-        console.log("new game!!!!");
-    }
-});
+    socket.on('message', function(msg){
+        console.log("message");
+      io.to(currentRoom).emit('message', msg);
+    });
 
-socketApi.sendNotification = function() {
-    io.sockets.emit('hello', {msg: 'Hello World!'});
-}
+    socket.on('joingame', function (gameID) {
+        socket.leaveAll();
+        socket.join(gameID);
+        currentRoom = gameID;
+        socket.emit("connected-to-gameid", gameID);
+    });
+});
 
 module.exports = socketApi;
