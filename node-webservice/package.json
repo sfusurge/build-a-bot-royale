@@ -5,8 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
-    "build-client": "cd ../react-client/ && npm install && npm run build && cd ../ && mv react-client/build/* node-webservice/public/",
-    "heroku-deploy": "npm run build-client && npm run start"
+    "build-client": "cd react-client && npm install && npm run build",
+    "heroku-postbuild": "npm run build-client"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

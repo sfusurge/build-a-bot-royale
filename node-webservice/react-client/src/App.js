@@ -13,17 +13,19 @@ const backgroundStyle = {
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { apiResponse: "" };
+    this.state = { apiResponse: "waiting for api..." };
   }
 
   callAPI() {
-      fetch("http://localhost:9000/testAPI")
+      fetch("/api/test")
           .then(res => res.text())
           .then(res => this.setState({ apiResponse: res }));
   }
 
   componentWillMount() {
+    setTimeout(() => {
       this.callAPI();
+    }, 2000);
   }
 
   render() {
@@ -36,6 +38,7 @@ class App extends Component {
         </header>
         <div className="App-body" style={backgroundStyle}>
           <TextInput/>
+          <p>API status: { this.state.apiResponse }</p>
         </div>
       </div>
     );
