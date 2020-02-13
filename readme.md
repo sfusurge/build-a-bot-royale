@@ -22,7 +22,7 @@ Each of the three parts of the project require their own development setup. Ther
 ### React setup
 * Clone the repo
 * Download Node.js
-* Navigate to /react-client
+* Navigate to /node-webservice/react-client
 * Run `npm install` to install dependencies
 * Run `npm run start`
 * The react app is now being served from `localhost:3000`, open this url in your browser
