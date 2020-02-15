@@ -16,16 +16,17 @@ Each of the three parts of the project require their own development setup. Ther
 * Download Node.js
 * Navigate to /node-webservice
 * Run `npm install` to install dependencies
-* Run `npm run start` to start the webservice
+* Run `npm run start` to start the webservice (alternatively, run `npm run dev` to start the webservice and auto-restart when code changes)
 * The Node webservice is now being served from `localhost:9000`, open this url in your browser
 
 ### React setup
 * Clone the repo
 * Download Node.js
-* Navigate to /react-client
+* Navigate to /node-webservice/react-client
 * Run `npm install` to install dependencies
 * Run `npm run start`
-* The react app is now being served from `localhost:3000`, open this url in your browser
+* The react app is now being served from `localhost:3000`, open this url in your browser.
+* For the React app to access the Node.js API, you will need to have it running at the same time.
 
 For doing web dev work, it's best to have both the Node.js and React services running, you'll need to run two terminals for this.
 

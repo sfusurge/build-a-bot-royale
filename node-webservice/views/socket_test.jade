@@ -1,0 +1,45 @@
+extends layout
+
+block content
+    h1 Socket test page
+
+    <ul id="messages"></ul>
+    <form id='game-form' action="">
+    <p>Game: </p><input id="currentgameid" autocomplete="off" /><br/><button>Send</button>
+    </form>
+
+    <form id='message-form' action="">
+    <p>Message: </p><input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+
+    <br/>
+    <br/>
+    <p>Current game id: </p><p id="gameid"></p>
+
+    script(src="/socket.io/socket.io.js")
+    script(src="https://code.jquery.com/jquery-1.11.1.js")
+    script.
+        $(() => {
+            var socket = io();
+            $('#message-form').submit(function(e){
+                e.preventDefault(); // prevents page reloading
+                socket.emit('message', $('#m').val());
+                $('#m').val('');
+                return false;
+            });
+
+            $('#game-form').submit(function(e){
+                e.preventDefault(); // prevents page reloading
+                socket.emit('joingame', $('#currentgameid').val());
+                $('#m').val('');
+                return false;
+            });
+
+            socket.on('message', function(msg){
+                $('#messages').append($('<li>').text(msg));
+            });
+
+            socket.on('connected-to-gameid', function (data) {
+                $('#gameid').text(data);
+            });
+        })
