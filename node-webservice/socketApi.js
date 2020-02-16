@@ -10,6 +10,14 @@ io.on('connection', function(socket){
     currentConnections += 1;
     console.log("user connected | " + currentConnections);
 
+    // test messages to check that socket.io service is working
+    socket.on('test-connection', function() {
+        socket.emit("socket.io api available");
+    });
+    socket.on('beep', function() {
+        socket.emit("boop");
+    });
+
     var currentGame = "no-game";
     function joinGame(gameID) {
         // leave any room already joined
@@ -19,10 +27,6 @@ io.on('connection', function(socket){
         socket.join(gameID);
         currentGame = gameID;
     }
-
-    socket.on('test-connection', function() {
-        socket.emit("socket.io api available", getTime());
-    });
 
     // when user creates a new game, generate a game id and join that game
     socket.on('newgame', function(onJoinGame) {
