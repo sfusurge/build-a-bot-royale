@@ -5,7 +5,6 @@ using UnityEngine;
 public class RoombaMovement : MonoBehaviour
 {
     [SerializeField] private float MovementSpeed = 2f;
-    [SerializeField] private float ChangeDirectionAfterTime = 5f;
 
     void Start()
     {
@@ -23,11 +22,22 @@ public class RoombaMovement : MonoBehaviour
         // never stop this coroutine.
         while (true)
         {
-            // wait some time between changing directions
-            yield return new WaitForSeconds(ChangeDirectionAfterTime);
-
-            // change rotation to a random direction
-            transform.Rotate(Vector3.forward, Random.Range(0f, 360f));
+            float newDirection = Random.Range(-180f,180f);
+            float rotationSpeed = Random.Range(0.5f,1.5f);
+            float totalRotation = 0;
+            if(newDirection < 0){
+                while(totalRotation > newDirection){
+                    transform.Rotate(Vector3.forward, -rotationSpeed);
+                    totalRotation -= rotationSpeed;
+                    yield return new WaitForSeconds(0.01f);
+                }
+            }else{
+                while(totalRotation < newDirection){
+                    transform.Rotate(Vector3.forward, rotationSpeed);
+                    totalRotation += rotationSpeed;
+                    yield return new WaitForSeconds(0.01f);
+                }
+            }
         }
     }
 }

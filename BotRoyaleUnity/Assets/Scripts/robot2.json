@@ -1,0 +1,44 @@
+[
+    {
+        "type": "block",
+        "x": 2,
+        "y": 3,
+        "direction": "north"
+    },
+    {
+        "type": "spike",
+        "x": 3,
+        "y": 3,
+        "direction": "east"
+    },
+    {
+        "type": "center",
+        "x": 2,
+        "y": 2,
+        "direction": "north"
+    },
+    {
+        "type": "block",
+        "x": 2,
+        "y": 1,
+        "direction": "north"
+    },
+    {
+        "type": "spike",
+        "x": 4,
+        "y": 2,
+        "direction": "east"
+    },
+    {
+        "type": "block",
+        "x": 3,
+        "y": 2,
+        "direction": "north"
+    },
+    {
+        "type": "spike",
+        "x": 3,
+        "y": 1,
+        "direction": "east"
+    }
+]
