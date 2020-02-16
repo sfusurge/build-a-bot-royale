@@ -3,43 +3,66 @@ extends layout
 block content
     h1 Socket test page
 
-    <ul id="messages"></ul>
-    <form id='game-form' action="">
-    <p>Game: </p><input id="currentgameid" autocomplete="off" /><br/><button>Send</button>
+    <h2><span>Current game id: </span><b><span id="gameid"></span></b></h2>
+
+    <h2>Create a game</h2>
+    <form id='create-game-form' action="">
+    <button>Create new game</button>
     </form>
 
+    <h2>Join a game</h2>
+    <form id='join-game-form' action="">
+    <span>Game id: </span>
+    <input id="currentgameid" autocomplete="off" /><br/>
+    <button>Send</button>
+    </form>
+
+    <h2>Send a game-message</h2>
     <form id='message-form' action="">
-    <p>Message: </p><input id="m" autocomplete="off" /><button>Send</button>
+    <span>Message type: </span>
+    <input id="messageType" autocomplete="off"/><br/>
+    <span>Message data: </span>
+    <Textarea id="messageData"></Textarea><br/>
+    <button>Send</button>
     </form>
 
     <br/>
     <br/>
-    <p>Current game id: </p><p id="gameid"></p>
+
+    <h2>Messages received</h2>
+    <ul id="messages"></ul>
 
     script(src="/socket.io/socket.io.js")
     script(src="https://code.jquery.com/jquery-1.11.1.js")
     script.
         $(() => {
+            function onConnectedToGame(gameID) {
+                $('#gameid').text(gameID);
+            }
+
             var socket = io();
+            $('#create-game-form').submit(function(e){
+                e.preventDefault();
+                socket.emit('newgame', onConnectedToGame);
+                return false;
+            });
+
+            $('#join-game-form').submit(function(e){
+                e.preventDefault(); // prevents page reloading
+                var inputGameID = $('#currentgameid').val();
+                socket.emit('joingame', inputGameID, onConnectedToGame);
+                return false;
+            });
+
             $('#message-form').submit(function(e){
                 e.preventDefault(); // prevents page reloading
-                socket.emit('message', $('#m').val());
-                $('#m').val('');
+                var messageType = $('#messageType').val();
+                var messageData = $('#messageData').val();
+                socket.emit('game-message', messageType, messageData, () => console.log("message sent"));
                 return false;
             });
 
-            $('#game-form').submit(function(e){
-                e.preventDefault(); // prevents page reloading
-                socket.emit('joingame', $('#currentgameid').val());
-                $('#m').val('');
-                return false;
-            });
-
-            socket.on('message', function(msg){
-                $('#messages').append($('<li>').text(msg));
-            });
-
-            socket.on('connected-to-gameid', function (data) {
-                $('#gameid').text(data);
+            socket.on('game-message', function(messageType, messageData){
+                $('#messages').append($('<li>').text(messageType + " - " + messageData));
             });
         })
