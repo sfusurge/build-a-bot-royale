@@ -1,35 +1,56 @@
 var socket_io = require('socket.io');
 var io = socket_io();
 var socketApi = {};
+var GameID = require('./js/GameID.js');
 
 socketApi.io = io;
 
+var currentConnections = 0;
 io.on('connection', function(socket){
-    console.log("user connected");
-    var currentRoom = "no-room";
+    currentConnections += 1;
+    console.log("user connected | " + currentConnections);
 
-    // when user sends a message
-    socket.on('message', function(messageContent){
-        // forward the sent message to everyone in the current room
-        io.to(currentRoom).emit('message', messageContent);
+    var currentGame = "no-game";
+    function joinGame(gameID) {
+        // leave any room already joined
+        socket.leaveAll();
+    
+        // join the specified room
+        socket.join(gameID);
+        currentGame = gameID;
+    }
+
+    socket.on('test-connection', function() {
+        socket.emit("socket.io api available", getTime());
+    });
+
+    // when user creates a new game, generate a game id and join that game
+    socket.on('newgame', function(onJoinGame) {
+        var gameID = GameID.GenerateGameID(5);
+        joinGame(gameID);
+        if (onJoinGame != null) {
+            onJoinGame(gameID);
+        }
     });
 
     // when user joins a game, specifying a game ID
-    socket.on('joingame', function (gameID) {
-        // leave any room already joined
-        socket.leaveAll();
+    socket.on('joingame', function (gameID, onJoinGame) {
+        joinGame(gameID);
+        onJoinGame(gameID);
+    });
 
-        // join the specified room
-        socket.join(gameID);
-        currentRoom = gameID;
-
-        // send message back to client saying they have joined this room
-        socket.emit("connected-to-gameid", gameID);
+    // forward game messages to all clients in the current game
+    socket.on('game-message', function (messageType, messageData, onBroadcastSent) {
+        io.to(currentGame).emit('game-message', messageType, messageData);
+        if (onBroadcastSent != null) {
+            onBroadcastSent();
+        }
     });
 
     // when user disconnects
     socket.on('disconnect', function () {
-       console.log("user disconnected");
+        currentConnections -= 1;
+       console.log("user disconnected | " + currentConnections);
     });
 });
 
