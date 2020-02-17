@@ -215,14 +215,16 @@ public static partial class JSONTemplates {
 		}
 		return result;
 	}
-	
+
+#pragma warning disable CS0618 // Type or member is obsolete
 	public static Keyframe ToKeyframe(JSONObject obj){
 		Keyframe k = new Keyframe(obj.HasField("time")? obj.GetField("time").n : 0, obj.HasField("value")? obj.GetField("value").n : 0);
 		if(obj.HasField("inTangent")) k.inTangent = obj.GetField("inTangent").n;
 		if(obj.HasField("outTangent")) k.outTangent = obj.GetField("outTangent").n;
-		if(obj.HasField("tangentMode")) k.tangentMode = (int)obj.GetField("tangentMode").n;
-		
-		return k;
+        if (obj.HasField("tangentMode")) k.tangentMode = (int)obj.GetField("tangentMode").n;
+
+
+        return k;
 	}
 	public static JSONObject FromKeyframe(Keyframe k){
 		JSONObject result = JSONObject.obj;
@@ -233,5 +235,6 @@ public static partial class JSONTemplates {
 		if(k.value != 0)	result.AddField("value", k.value);
 		return result;
 	}
-	
+#pragma warning restore CS0618 // Type or member is obsolete
+
 }

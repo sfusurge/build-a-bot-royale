@@ -26,7 +26,7 @@ public class SocketConnectionHandler : MonoBehaviour
     [SerializeField] private Servers server = Servers.LOCAL;
 
     [Header("Required references")]
-    [SerializeField] private GameObject SocketIOComponentPrefab;
+    [SerializeField] private GameObject SocketIOComponentPrefab = default;
 
     private Dictionary<string, List<Action<JSONObject>>> GameMessageListeners;
     private SocketIOComponent socket;
