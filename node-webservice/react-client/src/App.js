@@ -9,7 +9,6 @@ import {
   Link,
   useParams
 } from "react-router-dom";
-import socketIO from './API/socketHandler.js';
 import socket from './API/socketHandler.js';
 
 const backgroundStyle = {
@@ -39,7 +38,7 @@ class App extends Component {
       this.callAPI();
     }, 2000);
 
-    socketIO.on('connect', () => {
+    socket.on('connect', () => {
       this.setState({ connectedToAPI: true });
     });
   }
