@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1983309871796344354}
   - component: {fileID: 1960953045198776898}
   m_Layer: 0
-  m_Name: SM_Primitive_Cube_01P
+  m_Name: Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,6 +91,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 10d475a0f15b31443aa032c25648465b, type: 3}

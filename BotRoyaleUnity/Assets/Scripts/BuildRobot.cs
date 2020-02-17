@@ -17,6 +17,7 @@ public class BuildRobot : MonoBehaviour
         GameObject robot1 = build(jsonString);
         jsonString = File.ReadAllText("Assets/Scripts/robot2.json");
         GameObject robot2 = build(jsonString);
+        robot2.transform.position = new Vector3(3,3,3);
     }
 
     void setParent(GameObject parent, GameObject child)
@@ -84,6 +85,8 @@ public class BuildRobot : MonoBehaviour
             index++;
         }
         parent.AddComponent<RoombaMovement>();
+        Rigidbody parentRigidbody = parent.AddComponent<Rigidbody>();
+        parentRigidbody.mass = 5;
         return parent;
     }
 
