@@ -1,4 +1,6 @@
 import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:9000');
+
+var socketURL = process.env.NODE_ENV === 'production' ? 'https://build-a-bot-royale.herokuapp.com/' : 'http://localhost:9000';
+const socket = openSocket(socketURL);
 
 export default socket;
