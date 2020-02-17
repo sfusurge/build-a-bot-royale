@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RoombaMovement : MonoBehaviour
 {
-    [SerializeField] private float MovementSpeed = 2f;
+    [SerializeField] private float MovementSpeed = 4f;
 
     void Start()
     {

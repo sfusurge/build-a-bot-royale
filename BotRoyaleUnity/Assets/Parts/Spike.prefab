@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1249411123306027090}
   - component: {fileID: 282300062733116752}
   m_Layer: 0
-  m_Name: SM_Primitive_Cone_01P
+  m_Name: Spike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,6 +91,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: cace0b4260176de46b5ca288f5d42e32, type: 3}
