@@ -30,7 +30,6 @@ public class SocketConnectionHandler : MonoBehaviour
 
     private Dictionary<string, List<Action<JSONObject>>> GameMessageListeners;
     private SocketIOComponent socket;
-    private bool didConnect = false;
 
     void Awake()
     {
@@ -41,41 +40,12 @@ public class SocketConnectionHandler : MonoBehaviour
 
         socket.On("open", OnOpenMessage); // handles message that confirms connection
 
-        socket.On("connect", (_) =>
-        {
-            didConnect = true;
-        });
-
         // console log when beep-boop message is received
         socket.On("boop", (_) =>
         {
             Debug.Log("boop received");
         });
 	}
-
-    private IEnumerator WaitForConnection()
-    {
-        while (didConnect == false)
-        {
-            yield return null;
-        }
-    }
-
-    
-    private IEnumerator startGame()
-    {
-        yield return WaitForConnection();
-        Debug.Log("here");
-
-        int i = 0;
-        while (true)
-        {
-            yield return new WaitForSeconds(5f);
-            string m = "{ \"yeet\": \"" + i++ + "\" }";
-            Debug.Log("Sending: " + m);
-            EmitGameMessage(new JSONObject(m), null);
-        }
-    }
 
     private SocketIOComponent ConnectToSocketAPI(Servers server)
     {
@@ -101,7 +71,12 @@ public class SocketConnectionHandler : MonoBehaviour
 
     private void HandleGameMessageReceived(SocketIOEvent socketEvent)
     {
-        // todo: parse event data to get the type. Call all actions in GameMessageListeners for that type
+        // call registered listeners for the action name
+        string actionName = socketEvent.data["action"].str;
+        foreach (Action<JSONObject> action in GameMessageListeners[actionName])
+        {
+            action.Invoke(socketEvent.data);
+        }
     }
     #endregion
 
