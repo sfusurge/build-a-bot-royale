@@ -7,7 +7,7 @@ using System;
 
 public class BuildRobot : MonoBehaviour
 {
-    public GameObject block, center, spike;
+    public GameObject block, center, spike, pare;
 
 
     // Start is called before the first frame update
