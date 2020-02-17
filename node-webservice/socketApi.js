@@ -44,10 +44,20 @@ io.on('connection', function(socket){
     });
 
     // forward game messages to all clients in the current game
-    socket.on('game-message', function (messageType, messageData, onBroadcastSent) {
-        io.to(currentGame).emit('game-message', messageType, messageData);
-        if (onBroadcastSent != null) {
-            onBroadcastSent();
+    socket.on('game-message', function (messageData, ack) {
+        try {
+            if (typeof messageData !== 'object')
+            {
+                throw "messagedata is of type " + typeof messageData + " but has to be an object";
+            }
+
+            io.to(currentGame).emit('game-message', messageData);
+            if (ack != null) {
+                ack();
+            }
+        } catch (e) {
+            console.log("Error sending message: " + e);
+            ack(e);
         }
     });
 

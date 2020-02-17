@@ -19,10 +19,8 @@ block content
 
     <h2>Send a game-message</h2>
     <form id='message-form' action="">
-    <span>Message type: </span>
-    <input id="messageType" autocomplete="off"/><br/>
-    <span>Message data: </span>
-    <Textarea id="messageData"></Textarea><br/>
+    <span>Message data (json object): </span>
+    <Textarea id="messageData">{ "action": "submitRobot", "parts": [ "cube", "spike" ] }</Textarea><br/>
     <button>Send</button>
     </form>
 
@@ -56,13 +54,16 @@ block content
 
             $('#message-form').submit(function(e){
                 e.preventDefault(); // prevents page reloading
-                var messageType = $('#messageType').val();
                 var messageData = $('#messageData').val();
-                socket.emit('game-message', messageType, messageData, () => console.log("message sent"));
+                socket.emit('game-message', JSON.parse(messageData), (err) => {
+                    if (err != null) {
+                        alert("error sending message " + err);
+                    }
+                });
                 return false;
             });
 
-            socket.on('game-message', function(messageType, messageData){
-                $('#messages').append($('<li>').text(messageType + " - " + messageData));
+            socket.on('game-message', function(messageData){
+                $('#messages').append($('<li>').text(JSON.stringify(messageData)));
             });
         })
