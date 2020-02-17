@@ -7,7 +7,7 @@ using System;
 
 public class BuildRobot : MonoBehaviour
 {
-    public GameObject block, center, spike, pare;
+    public GameObject block, center, spike, robotParent;
 
 
     // Start is called before the first frame update
@@ -29,9 +29,7 @@ public class BuildRobot : MonoBehaviour
     {
         var json = JSON.Parse(jsonString);
         int index = 0;
-        GameObject parent = new GameObject("Parent");
-        parent.transform.position = new Vector3(0, 0.5f, 0);
-        parent.transform.rotation = Quaternion.Euler(90, 0, -90);
+        GameObject parent = Instantiate(robotParent);
         int centerX = 0, centerY = 0;
         while (json[index] != null)
         {
@@ -84,9 +82,6 @@ public class BuildRobot : MonoBehaviour
             setParent(parent, childPart);
             index++;
         }
-        parent.AddComponent<RoombaMovement>();
-        Rigidbody parentRigidbody = parent.AddComponent<Rigidbody>();
-        parentRigidbody.mass = 5;
         return parent;
     }
 

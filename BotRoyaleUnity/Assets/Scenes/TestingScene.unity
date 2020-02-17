@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 121133730}
   - component: {fileID: 121133729}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Logo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -263,7 +263,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1195201006219206, guid: 65fc5f9e066342e4a95bdaf155d5834a, type: 3}
       propertyPath: m_Name
-      value: SM_Primitive_Tube_01P
+      value: Walls
       objectReference: {fileID: 0}
     - target: {fileID: 4904535692658968, guid: 65fc5f9e066342e4a95bdaf155d5834a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -338,7 +338,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1534924917660268, guid: ec4503891085d7140942097eb5240701, type: 3}
       propertyPath: m_Name
-      value: SM_Primitive_Cylander_01P
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 4106012832463844, guid: ec4503891085d7140942097eb5240701, type: 3}
       propertyPath: m_LocalPosition.x
@@ -624,3 +624,5 @@ MonoBehaviour:
   block: {fileID: 8736103249537691212, guid: 31deed506f6563843b3acf56bc7d1029, type: 3}
   center: {fileID: 2004312985709963388, guid: 78bb3452906c6544995439392a5f391d, type: 3}
   spike: {fileID: 1043172287319980891, guid: 52b40627f40d057429388eb2711edde2, type: 3}
+  robotParent: {fileID: 4527237787506125075, guid: 160acb923a0ec5b4284df509297c983a,
+    type: 3}
