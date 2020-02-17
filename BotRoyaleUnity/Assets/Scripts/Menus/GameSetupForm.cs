@@ -10,11 +10,10 @@ public class GameSetupForm : MonoBehaviour
 
     private void Start()
     {
-        gameObject.SetActive(false);
-
         socketIO = FindObjectOfType<SocketConnectionHandler>();
 
         // only show this menu when connected to the server
+        gameObject.SetActive(false);
         socketIO.OnSocketEvent("connect", (_) =>
         {
             gameObject.SetActive(true);

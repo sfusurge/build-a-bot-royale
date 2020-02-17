@@ -11,6 +11,18 @@ public class SendMessageForm : MonoBehaviour
     void Start()
     {
         socketIO = FindObjectOfType<SocketConnectionHandler>();
+
+        // only show this menu when connected to the server
+        gameObject.SetActive(false);
+        socketIO.OnSocketEvent("connect", (_) =>
+        {
+            gameObject.SetActive(true);
+        });
+
+        socketIO.OnSocketEvent("disconnect", (_) =>
+        {
+            gameObject.SetActive(false);
+        });
     }
 
     public void OnSubmitButtonClicked()

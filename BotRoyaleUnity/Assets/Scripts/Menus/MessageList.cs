@@ -11,6 +11,8 @@ public class MessageList : MonoBehaviour
     void Start()
     {
         socketIO = FindObjectOfType<SocketConnectionHandler>();
+
+        // add messages to the text box
         socketIO.OnSocketEvent("game-message", eventData =>
         {
             TextElement.text = "> " + eventData.data + "\n" + TextElement.text;
