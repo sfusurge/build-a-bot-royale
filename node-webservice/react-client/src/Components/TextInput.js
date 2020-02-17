@@ -29,7 +29,7 @@ class TextInput extends Component {
     }
 
     handleSubmit(event){
-        alert("A game code was submitted: " + this.state.value);
+        this.props.onSubmit(this.state.value);
         event.preventDefault();
     }
 
