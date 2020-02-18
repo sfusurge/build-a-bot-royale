@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import background from './background.jpg';
-import TextInput from './Components/TextInput'
+import TextInput from './Components/TextInput';
+import RobotJSONObjectForm from './Components/RobotJSONObjectForm';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -49,6 +50,16 @@ class App extends Component {
     });
   }
 
+  onRobotDataSubmit(robotObj) {
+    socket.emit('game-message', { action: "submitrobot", parts: robotObj}, (err) => {
+      if (err == null) {
+        alert("sent robot data");
+      }else {
+        alert("error sending robot: " + err);
+      }
+    });
+  }
+
   render() {
     if (this.state.connectedToAPI) {
       if (this.state.currentGameID == null) {
@@ -78,7 +89,13 @@ class App extends Component {
         );
       }else {
         return (
-          <h1>Playing the game with id {this.state.currentGameID}!</h1>
+          <div>
+            <h1>Playing the game with id {this.state.currentGameID}!</h1>
+            <RobotJSONObjectForm onSubmit={ this.onRobotDataSubmit.bind(this) }/>
+            <ul>
+
+            </ul>
+          </div>
         );
       }
     }else {
