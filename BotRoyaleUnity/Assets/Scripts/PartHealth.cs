@@ -13,8 +13,8 @@ public class PartHealth : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {   
-    
+    {
+
     }
 
     public void hit()
@@ -22,7 +22,7 @@ public class PartHealth : MonoBehaviour
         health--;
         if (health <= 0)
         {
-            if (gameObject.tag == "Center")
+            if (gameObject.CompareTag("Center"))
             {
                 Destroy(transform.parent.gameObject);
             }

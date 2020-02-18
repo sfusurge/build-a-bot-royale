@@ -14,13 +14,13 @@ public class BuildRobot : MonoBehaviour
     void Start()
     {
         string jsonString = File.ReadAllText("Assets/Scripts/robot1.json");
-        GameObject robot1 = build(jsonString,"robot1");
+        GameObject robot1 = build(jsonString, "robot1");
         jsonString = File.ReadAllText("Assets/Scripts/robot2.json");
-        GameObject robot2 = build(jsonString,"robot2");
-        robot2.transform.position = new Vector3(3f,1f,3f);
+        GameObject robot2 = build(jsonString, "robot2");
+        robot2.transform.position = new Vector3(3f, 1f, 3f);
         jsonString = File.ReadAllText("Assets/Scripts/robot3.json");
-        GameObject robot3 = build(jsonString,"robot3");
-        robot3.transform.position = new Vector3(-3f,1f,-3f);
+        GameObject robot3 = build(jsonString, "robot3");
+        robot3.transform.position = new Vector3(-3f, 1f, -3f);
     }
 
     void setParent(GameObject parent, GameObject child)
