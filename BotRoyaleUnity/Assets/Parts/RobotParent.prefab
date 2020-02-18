@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8339759501384675791}
   - component: {fileID: -4943726971973764577}
   - component: {fileID: -5042660844591130227}
+  - component: {fileID: -7409454869288576214}
   m_Layer: 0
   m_Name: RobotParent
   m_TagString: Untagged
@@ -61,3 +62,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSpeed: 4
+--- !u!114 &-7409454869288576214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4527237787506125075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7572ae3b3d07e94995a0f4780ea43ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
