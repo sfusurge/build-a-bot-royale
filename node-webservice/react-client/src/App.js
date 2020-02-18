@@ -51,7 +51,7 @@ class App extends Component {
   }
 
   onRobotDataSubmit(robotObj) {
-    socket.emit('game-message', { action: "submitrobot", parts: robotObj}, (err) => {
+    socket.emit('game-message', { action: "submitrobot", parts: robotObj }, (err) => {
       if (err == null) {
         alert("sent robot data");
       }else {
@@ -92,9 +92,6 @@ class App extends Component {
           <div>
             <h1>Playing the game with id {this.state.currentGameID}!</h1>
             <RobotJSONObjectForm onSubmit={ this.onRobotDataSubmit.bind(this) }/>
-            <ul>
-
-            </ul>
           </div>
         );
       }
