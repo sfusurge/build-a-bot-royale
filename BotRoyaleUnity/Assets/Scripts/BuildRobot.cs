@@ -14,9 +14,9 @@ public class BuildRobot : MonoBehaviour
     void Start()
     {
         string jsonString = File.ReadAllText("Assets/Scripts/robot1.json");
-        GameObject robot1 = build(jsonString);
+        GameObject robot1 = build(jsonString,"robot1");
         jsonString = File.ReadAllText("Assets/Scripts/robot2.json");
-        GameObject robot2 = build(jsonString);
+        GameObject robot2 = build(jsonString,"robot2");
         robot2.transform.position = new Vector3(3,3,3);
     }
 
@@ -25,7 +25,7 @@ public class BuildRobot : MonoBehaviour
         child.transform.parent = parent.transform;
     }
 
-    GameObject build(string jsonString)
+    GameObject build(string jsonString, string name)
     {
         var json = JSON.Parse(jsonString);
         int index = 0;
@@ -79,6 +79,7 @@ public class BuildRobot : MonoBehaviour
                 default:
                     throw new NotImplementedException("Invalid JSON - type");
             }
+            childPart.name = name;
             setParent(parent, childPart);
             index++;
         }
