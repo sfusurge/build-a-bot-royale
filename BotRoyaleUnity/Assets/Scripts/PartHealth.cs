@@ -14,7 +14,7 @@ public class PartHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
-
+    
     }
 
     public void hit()

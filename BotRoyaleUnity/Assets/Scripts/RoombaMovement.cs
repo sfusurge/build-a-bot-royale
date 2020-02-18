@@ -15,6 +15,9 @@ public class RoombaMovement : MonoBehaviour
     {
         // move in the forward direction
         transform.position += transform.up * MovementSpeed * Time.deltaTime;
+        if(transform.position.y < -5){
+            Destroy(gameObject);
+        }
     }
 
     private IEnumerator ChangeDirectionCoroutine()
