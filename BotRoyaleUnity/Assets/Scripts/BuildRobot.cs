@@ -8,12 +8,15 @@ using System;
 public class BuildRobot : MonoBehaviour
 {
     public GameObject block, center, spike, robotParent;
+    public Boolean buildSampleBots = true;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        //BuildSampleRobots();
+        if(buildSampleBots){
+            BuildSampleRobots();
+        }
     }
 
     private void BuildSampleRobots()
@@ -23,11 +26,9 @@ public class BuildRobot : MonoBehaviour
         jsonString = File.ReadAllText("Assets/Scripts/robot2.json");
         GameObject robot2 = build(jsonString, "robot2");
         robot2.transform.position = new Vector3(4f, 1f, 4f);
-        /*
         jsonString = File.ReadAllText("Assets/Scripts/robot3.json");
         GameObject robot3 = build(jsonString, "robot3");
         robot3.transform.position = new Vector3(-3f, 1f, -3f);
-        */
     }
 
     void setParent(GameObject parent, GameObject child)
@@ -96,6 +97,7 @@ public class BuildRobot : MonoBehaviour
         }
         parent.GetComponent<PartHandler>().setParts();
         parent.GetComponent<PartHandler>().delUnattachedParts();
+        GameObject.Find("Arena").GetComponent<ShrinkArena>().addRobot();
         return parent;
     }
 

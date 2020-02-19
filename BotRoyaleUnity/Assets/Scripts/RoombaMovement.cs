@@ -17,6 +17,7 @@ public class RoombaMovement : MonoBehaviour
         transform.position += transform.up * MovementSpeed * Time.deltaTime;
         if(transform.position.y < -5){
             Destroy(gameObject);
+            GameObject.Find("Arena").GetComponent<ShrinkArena>().removeRobot();
         }
     }
 
