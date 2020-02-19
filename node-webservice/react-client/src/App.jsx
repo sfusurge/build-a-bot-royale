@@ -52,7 +52,7 @@ class App extends Component {
         <Switch>
           <Route path="/" exact component={ JoinGameForm } />
           <Route path="/game/:gameid" exact component={ GameplayPage } />
-          <Route component={ ErrorPage } />
+          <Route component={ () => <ErrorPage>Page not found</ErrorPage> } />
         </Switch>
       </Router>
     );

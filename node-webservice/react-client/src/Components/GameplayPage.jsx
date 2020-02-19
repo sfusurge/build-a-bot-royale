@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import RobotJSONObjectForm from './RobotJSONObjectForm';
+import ErrorPage from './ErrorPage';
 import socket from '../API/socketHandler';
 
 class GameplayPage extends Component {
@@ -18,8 +19,12 @@ class GameplayPage extends Component {
     const gameID = this.props.match.params.gameid;
 
     // join the game by sending the 'joingame' message to the socket API
-    socket.emit('joingame', gameID, (returnedID) => {
-        this.setState({ joinedGameID: returnedID });
+    socket.emit('joingame', gameID, (err) => {
+      if (err) {
+        this.setState({ error: err});
+      } else {
+        this.setState({ joinedGameID: gameID });
+      }
     });
   }
 
@@ -35,6 +40,9 @@ class GameplayPage extends Component {
   }
 
   render() {
+    if (this.state.error) {
+      return <ErrorPage>{this.state.error}</ErrorPage>
+    }
     if (this.state.joinedGameID === null) {
       return <h1>Joining game { this.props.match.params.gameid }...</h1>;
     }
