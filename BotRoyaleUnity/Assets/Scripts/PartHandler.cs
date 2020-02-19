@@ -27,15 +27,15 @@ public class PartHandler : MonoBehaviour
         recursiveAttached(4,4);
         foreach (Transform child in transform)
         {
-            int x = child.gameObject.GetComponent<PartHealth>().relPos[0];
-            int z = child.gameObject.GetComponent<PartHealth>().relPos[1];
+            int x = child.gameObject.GetComponent<PartHealth>().relPos.x;
+            int z = child.gameObject.GetComponent<PartHealth>().relPos.y;
             if(parts[x+4,z+4] && !attachedParts[x+4,z+4]){
                 Destroy(child.gameObject);
             }
         }
     }
 
-    public void recursiveAttached(int x, int z)
+    private void recursiveAttached(int x, int z)
     {
         if(x >= 0 && x <= 8 && z >=0 && z <= 8){
             if(!attachedParts[x,z]&& parts[x,z]){
@@ -58,5 +58,10 @@ public class PartHandler : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void partDestroyed(int x, int z){
+        parts[x+4,z+4] = false;
+        delUnattachedParts();
     }
 }

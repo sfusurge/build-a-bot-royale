@@ -7,6 +7,30 @@
     },
     {
         "type": "block",
+        "x": -3,
+        "y": 0,
+        "direction": "north"
+    },
+    {
+        "type": "block",
+        "x": -2,
+        "y": 0,
+        "direction": "north"
+    },
+    {
+        "type": "block",
+        "x": -1,
+        "y": 0,
+        "direction": "north"
+    },
+    {
+        "type": "block",
+        "x": -4,
+        "y": 0,
+        "direction": "north"
+    },
+    {
+        "type": "block",
         "x": 1,
         "y": 0,
         "direction": "north"
