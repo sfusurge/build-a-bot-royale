@@ -13,6 +13,11 @@ public class BuildRobot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //BuildSampleRobots();
+    }
+
+    private void BuildSampleRobots()
+    {
         string jsonString = File.ReadAllText("Assets/Scripts/robot1.json");
         GameObject robot1 = build(jsonString, "robot1");
         jsonString = File.ReadAllText("Assets/Scripts/robot2.json");
@@ -30,7 +35,7 @@ public class BuildRobot : MonoBehaviour
         child.transform.parent = parent.transform;
     }
 
-    GameObject build(string jsonString, string name)
+    public GameObject build(string jsonString, string name)
     {
         var json = JSON.Parse(jsonString);
         int index = 0;
