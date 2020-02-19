@@ -1,44 +1,68 @@
 [
     {
-        "type": "block",
-        "x": 2,
-        "y": 3,
-        "direction": "north"
-    },
-    {
-        "type": "spike",
-        "x": 3,
-        "y": 3,
-        "direction": "east"
-    },
-    {
         "type": "center",
-        "x": 2,
-        "y": 2,
+        "x": 0,
+        "y": 0,
+        "direction": "north"
+    },
+    {
+        "type": "block",
+        "x": -3,
+        "y": 0,
+        "direction": "north"
+    },
+    {
+        "type": "block",
+        "x": -2,
+        "y": 0,
+        "direction": "north"
+    },
+    {
+        "type": "block",
+        "x": -1,
+        "y": 0,
+        "direction": "north"
+    },
+    {
+        "type": "block",
+        "x": -4,
+        "y": 0,
+        "direction": "north"
+    },
+    {
+        "type": "block",
+        "x": 1,
+        "y": 0,
         "direction": "north"
     },
     {
         "type": "block",
         "x": 2,
-        "y": 1,
+        "y": 0,
         "direction": "north"
     },
     {
-        "type": "spike",
+        "type": "block",
+        "x": 3,
+        "y": 0,
+        "direction": "north"
+    },
+    {
+        "type": "block",
         "x": 4,
-        "y": 2,
-        "direction": "east"
-    },
-    {
-        "type": "block",
-        "x": 3,
-        "y": 2,
+        "y": 0,
         "direction": "north"
     },
     {
-        "type": "spike",
-        "x": 3,
-        "y": 1,
-        "direction": "east"
+        "type": "block",
+        "x": 0,
+        "y": -2,
+        "direction": "north"
+    },
+    {
+        "type": "block",
+        "x": 0,
+        "y": 2,
+        "direction": "north"
     }
 ]
