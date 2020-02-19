@@ -5,7 +5,8 @@ class ErrorPage extends Component {
   render() {
     return (
         <div>
-          <h2 className='error-message'>That's an error. No page for <code>{this.props.location.pathname}</code></h2>
+          <h4>That's an error:</h4>
+          <h2>{ this.props.children }</h2>
           <Link to="/">Back to home</Link>
         </div>
     );
