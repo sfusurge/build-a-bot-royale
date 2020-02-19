@@ -2,6 +2,7 @@ var socket_io = require('socket.io');
 var io = socket_io();
 var socketApi = {};
 var GameID = require('./js/GameID.js');
+var GameUtils = require('./js/GameUtils')(io);
 
 socketApi.io = io;
 
@@ -26,11 +27,25 @@ io.on('connection', function(socket){
         // join the specified room
         socket.join(gameID);
         currentGame = gameID;
+
+        // emit joined game message
+        socket.to(currentGame).emit(
+            "playerjoined",
+            {
+                players: GameUtils.NumberOfClientsInGame(currentGame) - 1  // -1 because one client is the Unity app, which is not a player
+            }
+        );
     }
 
     // when user creates a new game, generate a game id and join that game
     socket.on('newgame', function(onJoinGame) {
-        var gameID = GameID.GenerateGameID(5);
+        // generate game id. Regenerate the id if another game with that ID is already happening
+        var gameID = null;
+        while (gameID === null || GameUtils.IsAnotherClientInGame(gameID)) {
+            gameID = GameID.GenerateGameID(5);
+        }
+
+        // join the generated game id
         joinGame(gameID);
         if (onJoinGame != null) {
             onJoinGame(gameID);
@@ -38,9 +53,13 @@ io.on('connection', function(socket){
     });
 
     // when user joins a game, specifying a game ID
-    socket.on('joingame', function (gameID, onJoinGame) {
-        joinGame(gameID);
-        onJoinGame(gameID);
+    socket.on('joingame', function (gameID, ack) {
+        if (GameUtils.CanPlayerJoinGame(gameID)) {
+            joinGame(gameID);
+            ack(null); // ack with null to say no error
+        } else {
+            ack("Game " + gameID + " hasn't been created");
+        }
     });
 
     // forward game messages to all clients in the current game
