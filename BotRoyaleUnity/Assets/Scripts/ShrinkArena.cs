@@ -5,6 +5,8 @@ using UnityEngine;
 public class ShrinkArena : MonoBehaviour
 {
     private float scale = 1f;
+    public int numRobots;
+    float minArenaScale;
     
     // Start is called before the first frame update
     void Start()
@@ -15,10 +17,19 @@ public class ShrinkArena : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(scale > 0.3){
-            transform.localScale = new Vector3(scale,1,scale);
-            scale-=0.00005f;
+        minArenaScale = 0.1f + 0.3f*numRobots;
+        if(scale > minArenaScale){
+            transform.localScale = new Vector3(scale,0.5f + scale/2,scale);
+            scale-=0.0001f;
         }
     
+    }
+
+    public void addRobot(){
+        numRobots++;
+    }
+
+    public void removeRobot(){
+        numRobots--;
     }
 }

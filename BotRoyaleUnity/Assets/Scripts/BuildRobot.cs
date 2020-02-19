@@ -94,6 +94,7 @@ public class BuildRobot : MonoBehaviour
         }
         parent.GetComponent<PartHandler>().setParts();
         parent.GetComponent<PartHandler>().delUnattachedParts();
+        GameObject.Find("Arena").GetComponent<ShrinkArena>().addRobot();
         return parent;
     }
 
