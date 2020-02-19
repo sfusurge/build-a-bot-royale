@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import socket from '../API/socketHandler';
 
 class RobotJSONObjectForm extends Component {
   constructor(props) {
     super(props);
+
     this.state = {robotString: JSON.stringify([
       {
           "type": "block",
@@ -22,7 +24,7 @@ class RobotJSONObjectForm extends Component {
           "y": 3,
           "direction": "north"
       }
-  ])};
+    ])};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,13 +35,24 @@ class RobotJSONObjectForm extends Component {
   }
 
   handleSubmit(event) {
-    try {
-      var robotObject = JSON.parse(this.state.robotString);
-      this.props.onSubmit(robotObject);
-    } catch {
-      alert("Invalid json");
-    }
     event.preventDefault();
+
+    try {
+      const robotObject = JSON.parse(this.state.robotString);
+
+      socket.emit(
+        'game-message',
+        { action: "submitrobot", parts: robotObject },
+        (err) => {
+          if (err) {
+            alert("Error processing robot data: " + err);
+          }
+        }
+      );
+      alert("Sent robot data");
+    } catch(e) {
+      alert("Error sending robot data: " + e);
+    }
   }
 
   render() {
