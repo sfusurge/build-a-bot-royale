@@ -23,12 +23,15 @@ public class BuildRobot : MonoBehaviour
     {
         string jsonString = File.ReadAllText("Assets/Scripts/robot1.json");
         GameObject robot1 = build(jsonString, "robot1");
+        robot1.transform.position = new Vector3(0f, 1f, 0f);
+        /*
         jsonString = File.ReadAllText("Assets/Scripts/robot2.json");
         GameObject robot2 = build(jsonString, "robot2");
         robot2.transform.position = new Vector3(4f, 1f, 4f);
         jsonString = File.ReadAllText("Assets/Scripts/robot3.json");
         GameObject robot3 = build(jsonString, "robot3");
         robot3.transform.position = new Vector3(-3f, 1f, -3f);
+        */
     }
 
     void setParent(GameObject parent, GameObject child)
@@ -56,7 +59,7 @@ public class BuildRobot : MonoBehaviour
         {
             string type = json[index]["type"];
             GameObject childPart = null;
-            Vector3 pos = new Vector3((float)(json[index]["x"] - centerX), 0.5f, (float)(json[index]["y"] - centerY));
+            Vector3 pos = new Vector3((float)(json[index]["x"] - centerX), 1f, (float)(json[index]["y"] - centerY));
             Quaternion rot;
             string direction = json[index]["direction"];
             switch (direction)

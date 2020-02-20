@@ -5,8 +5,11 @@ using UnityEngine;
 public class CollisionDetection : MonoBehaviour
 {
     // Start is called before the first frame update
+    
+    private float lastDirectionChange;
     void Start()
     {
+        lastDirectionChange = Time.time;
 
     }
 
@@ -24,11 +27,26 @@ public class CollisionDetection : MonoBehaviour
             Collider other = contact.otherCollider;
             if (!other.CompareTag("Untagged"))
             {
-                //Debug.Log(current.tag + " "+ current.name + " : " + other.tag + " " + other.name);
-                if (current.CompareTag("Spike"))
+                if (!other.CompareTag("Wall"))
                 {
-                    other.gameObject.GetComponent<PartHealth>().hit();
+                    if (current.CompareTag("Spike"))
+                    {
+                        other.gameObject.GetComponent<PartHealth>().hit();
+                    }
                 }
+                /*
+                else if(Time.time - lastDirectionChange > 1)
+                {
+                    if (gameObject.GetComponent<RoombaMovement>().navigationMode == "reverse")
+                    {
+                        gameObject.GetComponent<RoombaMovement>().setNavigationMode("forward");
+                    }
+                    else
+                    {
+                        gameObject.GetComponent<RoombaMovement>().setNavigationMode("reverse");
+                    }
+                }
+                */
             }
         }
     }
