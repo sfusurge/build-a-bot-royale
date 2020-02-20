@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class RoombaMovement : MonoBehaviour
 {
-    [SerializeField] private float MovementSpeed = 4f;
     Rigidbody rigidBody;
     public float speed;
 
-    public GameObject target;
-
+    public GameObject target = null;
 
     public string navigationMode;
 
+    private int robotsRemaining;
+
     void Start()
     {
-        target = GameObject.Find("target");
+        SetClosestTarget();
         navigationMode = "target";
         rigidBody = gameObject.GetComponent<Rigidbody>();
         StartCoroutine(ChangeDirectionCoroutine());
@@ -31,20 +31,23 @@ public class RoombaMovement : MonoBehaviour
         }
     }
 
-    /*
+
     void FixedUpdate()
     {
         speed = rigidBody.velocity.magnitude;
         if (speed < 8)
         {
-            if(navigationMode != "reverse"){
-                rigidBody.AddForce(transform.up * 50);
-            }else{
-                rigidBody.AddForce(-transform.up * 50);
+            if (navigationMode != "reverse")
+            {
+                rigidBody.AddForce(transform.forward * 15 * rigidBody.mass);
+            }
+            else
+            {
+                rigidBody.AddForce(-transform.forward * 15 * rigidBody.mass);
             }
         }
     }
-    */
+
 
     private IEnumerator ChangeDirectionCoroutine()
     {
@@ -66,10 +69,18 @@ public class RoombaMovement : MonoBehaviour
             transform.Rotate(Vector3.forward, -rotationThisFrame);
             yield return null;
         }
-        while(navigationMode == "target"){
-            Vector3 direction = target.transform.position - transform.position;
-            Quaternion rotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 5f * Time.deltaTime);
+        while (navigationMode == "target")
+        {
+            if (target != null)
+            {
+                Vector3 direction = target.transform.position - transform.position;
+                Quaternion rotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 3f * Time.deltaTime);
+            }
+            else if (robotsRemaining > 1)
+            {
+                SetClosestTarget();
+            }
             yield return null;
         }
         while (navigationMode == "random")
@@ -101,8 +112,29 @@ public class RoombaMovement : MonoBehaviour
         yield return null;
     }
 
-    public void setNavigationMode(string mode){
+    public void setNavigationMode(string mode)
+    {
         navigationMode = mode;
+    }
+
+    public void SetClosestTarget()
+    {
+        GameObject[] robots = GameObject.FindGameObjectsWithTag("robot");
+        robotsRemaining = robots.Length;
+        GameObject closestBot = null;
+        foreach (GameObject robot in robots)
+        {
+            if (closestBot == null && robot != gameObject)
+            {
+                closestBot = robot;
+                //if the robot is closer that the previous closest
+            }
+            else if (robot != gameObject && (transform.position - robot.transform.position).magnitude < (transform.position - closestBot.transform.position).magnitude)
+            {
+                closestBot = robot;
+            }
+        }
+        target = closestBot;
     }
 
 }

@@ -7,6 +7,8 @@ TagManager:
   - Block
   - Center
   - Spike
+  - Wall
+  - robot
   layers:
   - Default
   - TransparentFX

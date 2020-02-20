@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5674724055143094955}
   m_Layer: 0
   m_Name: RobotParent
-  m_TagString: Untagged
+  m_TagString: robot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
