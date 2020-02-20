@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 
 const HomePage = props => (
     <div className="home-page">
+        <JoinGameForm {...props}/>
+        <br/>
         <Link to="/host">Host a game</Link><br/>
         <Link to="/about">About</Link>
-        <JoinGameForm {...props}/>
     </div>
 );
 

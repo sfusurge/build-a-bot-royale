@@ -35,7 +35,7 @@ class TextInput extends Component {
 
     render() { 
         return ( 
-            <div style={{display:'table', height:'calc(100vh - calc(30px + 6vmin))'}}>
+            <div style={{display:'table'}}>
                 <form onSubmit={this.handleSubmit} style={{display:'table-cell', verticalAlign:'middle', width:'30vw'}}>
                     <input type="text" placeholder="Game Code" style={inputStyle}value={this.state.value} onChange={this.handleChange}/>
                     <input type="submit" value='Enter' style={submitStyle}/>
