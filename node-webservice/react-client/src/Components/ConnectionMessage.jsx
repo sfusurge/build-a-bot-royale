@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class ConnectionMessage extends Component {
-  render() {
-    return <h1 className="connection-message">Connecting...</h1>;
-  }
-}
+const ConnectionMessage = props => (
+  <h1 className="connection-message">Connecting...</h1>
+);
 
 export default ConnectionMessage;
