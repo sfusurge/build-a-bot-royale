@@ -9,7 +9,7 @@ public class PartHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        health = 3;
+        health = 5;
     }
 
     // Update is called once per frame
@@ -18,9 +18,9 @@ public class PartHealth : MonoBehaviour
 
     }
 
-    public void hit()
+    public void SubtractHealth(int damage)
     {
-        health--;
+        health -= damage;
         if (health <= 0)
         {
             if (gameObject.CompareTag("Center"))

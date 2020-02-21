@@ -13,8 +13,13 @@ public class RoombaMovement : MonoBehaviour
 
     private int robotsRemaining;
 
+    private float stuckTimer;
+
+    private float rotationSpeed = 100f;
+
     void Start()
     {
+        stuckTimer = Time.time;
         SetClosestTarget();
         navigationMode = "target";
         rigidBody = gameObject.GetComponent<Rigidbody>();
@@ -40,10 +45,24 @@ public class RoombaMovement : MonoBehaviour
             if (navigationMode != "reverse")
             {
                 rigidBody.AddForce(transform.forward * 15 * rigidBody.mass);
+                if (speed > 1)
+                {
+                    stuckTimer = Time.time;
+                }
+                else if (Time.time - stuckTimer > 1)
+                {
+                    navigationMode = "reverse";
+                    stuckTimer = Time.time;
+                }
             }
             else
             {
-                rigidBody.AddForce(-transform.forward * 15 * rigidBody.mass);
+                rigidBody.AddForce(-transform.forward * 10 * rigidBody.mass);
+                if (Time.time - stuckTimer > 0.55)
+                {
+                    navigationMode = "target";
+                    stuckTimer = Time.time;
+                }
             }
         }
     }
@@ -51,23 +70,9 @@ public class RoombaMovement : MonoBehaviour
 
     private IEnumerator ChangeDirectionCoroutine()
     {
-        while (navigationMode == "straight" || navigationMode == "reverse")
+        while (navigationMode == "reverse")
         {
-            yield return null;
-        }
-        while (navigationMode == "left")
-        {
-            float rotationSpeed = 130f;
-            float rotationThisFrame = rotationSpeed * Time.deltaTime;
-            transform.Rotate(Vector3.forward, rotationThisFrame);
-            yield return null;
-        }
-        while (navigationMode == "right")
-        {
-            float rotationSpeed = 130f;
-            float rotationThisFrame = rotationSpeed * Time.deltaTime;
-            transform.Rotate(Vector3.forward, -rotationThisFrame);
-            yield return null;
+
         }
         while (navigationMode == "target")
         {

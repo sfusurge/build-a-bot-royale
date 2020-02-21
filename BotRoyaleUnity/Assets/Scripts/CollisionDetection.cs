@@ -5,11 +5,10 @@ using UnityEngine;
 public class CollisionDetection : MonoBehaviour
 {
     // Start is called before the first frame update
-    
+
     private float lastDirectionChange;
     void Start()
     {
-        lastDirectionChange = Time.time;
 
     }
 
@@ -31,22 +30,17 @@ public class CollisionDetection : MonoBehaviour
                 {
                     if (current.CompareTag("Spike"))
                     {
-                        other.gameObject.GetComponent<PartHealth>().hit();
+                        other.gameObject.GetComponent<PartHealth>().SubtractHealth(3);
+                    }
+                    else if (current.CompareTag("Block"))
+                    {
+                        other.gameObject.GetComponent<PartHealth>().SubtractHealth(1);
+                    }
+                    else if (current.CompareTag("Center"))
+                    {
+                        other.gameObject.GetComponent<PartHealth>().SubtractHealth(1);
                     }
                 }
-                /*
-                else if(Time.time - lastDirectionChange > 1)
-                {
-                    if (gameObject.GetComponent<RoombaMovement>().navigationMode == "reverse")
-                    {
-                        gameObject.GetComponent<RoombaMovement>().setNavigationMode("forward");
-                    }
-                    else
-                    {
-                        gameObject.GetComponent<RoombaMovement>().setNavigationMode("reverse");
-                    }
-                }
-                */
             }
         }
     }
