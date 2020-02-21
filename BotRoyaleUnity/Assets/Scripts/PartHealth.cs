@@ -1,15 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PartHealth : MonoBehaviour
 {
-    public int health;
+    public float maxHealth = 20;
+
+    private Color initialColor;
+    public float health;
     public Vector2Int relPos { get; private set; } = Vector2Int.zero;
     // Start is called before the first frame update
     void Start()
     {
-        health = 5;
+        health = maxHealth;
+        initialColor = GetComponent<Renderer>().material.color;
     }
 
     // Update is called once per frame
@@ -34,9 +39,14 @@ public class PartHealth : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+        UpdateColor();
     }
 
-    public void setRelPos(int x, int z){
-        relPos = new Vector2Int(x,z);
+    private void UpdateColor(){
+        GetComponent<Renderer>().material.color = Color.Lerp(initialColor, Color.red, 1-(health/maxHealth));
+    }
+    public void setRelPos(int x, int z)
+    {
+        relPos = new Vector2Int(x, z);
     }
 }
