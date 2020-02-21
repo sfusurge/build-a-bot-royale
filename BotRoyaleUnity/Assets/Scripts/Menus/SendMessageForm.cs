@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 using UnityEngine;
 
 public class SendMessageForm : MonoBehaviour
@@ -27,7 +28,7 @@ public class SendMessageForm : MonoBehaviour
 
     public void OnSubmitButtonClicked()
     {
-        JSONObject dataObject = new JSONObject(InputElement.text);
+        JSONObject dataObject = JSON.Parse(InputElement.text).AsObject;
         socketIO.EmitGameMessage(dataObject);
     }
 }

@@ -93,7 +93,7 @@ public class SocketConnectionHandler : MonoBehaviour
         // parse data
         var jsonData = JSON.Parse(socketEvent.data);
         JSONObject dataObject = jsonData.AsObject;
-        string actionName = dataObject["action"].ToString();
+        string actionName = dataObject["action"];
 
         // call listeners
         if (GameMessageListeners.ContainsKey(actionName))
@@ -102,6 +102,10 @@ public class SocketConnectionHandler : MonoBehaviour
             {
                 action.Invoke(dataObject);
             }
+        }
+        else
+        {
+            Debug.LogWarning("A game-message with action " + actionName + " was received, but there are no listeners for this action");
         }
     }
     
