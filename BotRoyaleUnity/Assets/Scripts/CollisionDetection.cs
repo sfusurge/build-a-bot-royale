@@ -5,6 +5,8 @@ using UnityEngine;
 public class CollisionDetection : MonoBehaviour
 {
     // Start is called before the first frame update
+
+    private float lastDirectionChange;
     void Start()
     {
 
@@ -22,12 +24,19 @@ public class CollisionDetection : MonoBehaviour
         {
             Collider current = contact.thisCollider;
             Collider other = contact.otherCollider;
-            if (!other.CompareTag("Untagged"))
+            if (other.gameObject.GetComponent<PartHealth>() != null)
             {
-                //Debug.Log(current.tag + " "+ current.name + " : " + other.tag + " " + other.name);
                 if (current.CompareTag("Spike"))
                 {
-                    other.gameObject.GetComponent<PartHealth>().hit();
+                    other.gameObject.GetComponent<PartHealth>().SubtractHealth(3);
+                }
+                else if (current.CompareTag("Block"))
+                {
+                    other.gameObject.GetComponent<PartHealth>().SubtractHealth(1);
+                }
+                else if (current.CompareTag("Center"))
+                {
+                    other.gameObject.GetComponent<PartHealth>().SubtractHealth(1);
                 }
             }
         }
