@@ -23,4 +23,5 @@
   height: calc(100vh - calc(30px + 6vmin));
   display: flex;
   justify-content: center;
+  align-items: center;
 }

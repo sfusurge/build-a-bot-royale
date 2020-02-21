@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import ConnectionMessage from './Components/ConnectionMessage';
-import JoinGameForm from './Components/JoinGameForm';
+
+import HomePage from './Components/HomePage';
 import GameplayPage from './Components/GameplayPage';
 import ErrorPage from './Components/ErrorPage';
+import AboutPage from './Components/AboutPage';
+import HostGamePage from './Components/HostGamePage';
 
 import background from './background.jpg';
 import './App.css';
@@ -50,8 +53,10 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <Route path="/" exact component={ JoinGameForm } />
+          <Route path="/" exact component={ HomePage } />
           <Route path="/game/:gameid" exact component={ GameplayPage } />
+          <Route path="/about" exact component={ AboutPage } />
+          <Route path="/host" exact component={ HostGamePage } />
           <Route component={ () => <ErrorPage>Page not found</ErrorPage> } />
         </Switch>
       </Router>
