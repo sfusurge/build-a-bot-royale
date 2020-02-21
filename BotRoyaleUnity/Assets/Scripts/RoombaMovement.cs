@@ -7,7 +7,7 @@ public class RoombaMovement : MonoBehaviour
     Rigidbody rigidBody;
     public float speed;
 
-    public GameObject target = null;
+    public GameObject attack = null;
 
     public string navigationMode;
 
@@ -15,15 +15,12 @@ public class RoombaMovement : MonoBehaviour
 
     private float stuckTimer;
 
-    private float rotationSpeed = 100f;
-
     void Start()
     {
         stuckTimer = Time.time;
         SetClosestTarget();
-        navigationMode = "target";
+        SetNavigationMode("target");
         rigidBody = gameObject.GetComponent<Rigidbody>();
-        StartCoroutine(ChangeDirectionCoroutine());
     }
 
     private void Update()
@@ -51,7 +48,7 @@ public class RoombaMovement : MonoBehaviour
                 }
                 else if (Time.time - stuckTimer > 1)
                 {
-                    navigationMode = "reverse";
+                    SetNavigationMode("reverse");
                     stuckTimer = Time.time;
                 }
             }
@@ -60,7 +57,7 @@ public class RoombaMovement : MonoBehaviour
                 rigidBody.AddForce(-transform.forward * 10 * rigidBody.mass);
                 if (Time.time - stuckTimer > 0.55)
                 {
-                    navigationMode = "target";
+                    SetNavigationMode("target");
                     stuckTimer = Time.time;
                 }
             }
@@ -68,17 +65,13 @@ public class RoombaMovement : MonoBehaviour
     }
 
 
-    private IEnumerator ChangeDirectionCoroutine()
+    private IEnumerator target()
     {
-        while (navigationMode == "reverse")
+        while (true)
         {
-
-        }
-        while (navigationMode == "target")
-        {
-            if (target != null)
+            if (attack != null)
             {
-                Vector3 direction = target.transform.position - transform.position;
+                Vector3 direction = attack.transform.position - transform.position;
                 Quaternion rotation = Quaternion.LookRotation(direction);
                 transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 3f * Time.deltaTime);
             }
@@ -88,8 +81,10 @@ public class RoombaMovement : MonoBehaviour
             }
             yield return null;
         }
-        while (navigationMode == "random")
-        {
+    }
+
+    private IEnumerator random(){
+        while(true){
             float newDirection = Random.Range(-180f, 180f);
             float rotationSpeed = Random.Range(80f, 150f);
             float totalRotation = 0;
@@ -114,11 +109,18 @@ public class RoombaMovement : MonoBehaviour
                 }
             }
         }
-        yield return null;
     }
 
-    public void setNavigationMode(string mode)
+    private IEnumerator reverse(){
+        while(true){
+            yield return null;
+        }
+    }
+
+    public void SetNavigationMode(string mode)
     {
+        StopAllCoroutines();
+        StartCoroutine(mode);
         navigationMode = mode;
     }
 
@@ -139,7 +141,7 @@ public class RoombaMovement : MonoBehaviour
                 closestBot = robot;
             }
         }
-        target = closestBot;
+        attack = closestBot;
     }
 
 }
