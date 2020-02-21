@@ -7,7 +7,7 @@ public class PartHealth : MonoBehaviour
 {
     public float maxHealth = 20;
 
-    public Color initialColor;
+    private Color initialColor;
     public float health;
     public Vector2Int relPos { get; private set; } = Vector2Int.zero;
     // Start is called before the first frame update
