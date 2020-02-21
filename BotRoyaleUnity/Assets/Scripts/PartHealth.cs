@@ -42,7 +42,7 @@ public class PartHealth : MonoBehaviour
         UpdateColor();
     }
 
-    public void UpdateColor(){
+    private void UpdateColor(){
         GetComponent<Renderer>().material.color = Color.Lerp(initialColor, Color.red, 1-(health/maxHealth));
     }
     public void setRelPos(int x, int z)
