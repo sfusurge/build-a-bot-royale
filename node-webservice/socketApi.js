@@ -12,11 +12,10 @@ io.on('connection', function(socket){
     console.log("user connected | " + currentConnections);
 
     // test messages to check that socket.io service is working
-    socket.on('test-connection', function() {
-        socket.emit("socket.io api available");
-    });
+    var numberOfBeeps = 0;
     socket.on('beep', function() {
-        socket.emit("boop");
+        console.log("beeped: " + numberOfBeeps++);
+        socket.emit("boop", {});
     });
 
     var currentGame = "no-game";
