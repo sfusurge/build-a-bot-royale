@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using SocketIO;
 using UnityEngine;
 using UnityEngine.Assertions;
+using SimpleJSON;
+using UnitySocketIO;
+using UnitySocketIO.Events;
 
 /// <summary>
 /// Connects to the Socket.IO API.
@@ -18,8 +20,13 @@ public class SocketConnectionHandler : MonoBehaviour
     }
     private Dictionary<Servers, string> ServerDomains = new Dictionary<Servers, string>()
     {
-        { Servers.LOCAL, "localhost:9000" },
+        { Servers.LOCAL, "localhost" },
         { Servers.PRODUCTION, "build-a-bot-royale.herokuapp.com" }
+    };
+    private Dictionary<Servers, int> ServerPorts = new Dictionary<Servers, int>()
+    {
+        { Servers.LOCAL, 9000 },
+        { Servers.PRODUCTION, 80 }
     };
 
     [Header("Connection configuration")]
@@ -29,11 +36,12 @@ public class SocketConnectionHandler : MonoBehaviour
     [SerializeField] private GameObject SocketIOComponentPrefab = default;
 
     private Dictionary<string, List<Action<JSONObject>>> GameMessageListeners;
-    private SocketIOComponent socket;
+    private SocketIOController socket;
 
     void Awake()
     {
         GameMessageListeners = new Dictionary<string, List<Action<JSONObject>>>();
+
         socket = ConnectToSocketAPI(server);
 
         socket.On("game-message", HandleGameMessageReceived); // handle the main events that happen in the game
@@ -44,58 +52,77 @@ public class SocketConnectionHandler : MonoBehaviour
         socket.On("boop", (_) =>
         {
             Debug.Log("boop received");
-        });
+        });   
 	}
 
-    private SocketIOComponent ConnectToSocketAPI(Servers server)
+    private SocketIOController ConnectToSocketAPI(Servers server)
     {
         if (ServerDomains.ContainsKey(server) == false)
         {
             throw new NotImplementedException("Cannot connect to " + server + " because there is no domain associated with it");
         }
-        string serverURL = "ws://" + ServerDomains[server] + "/socket.io/?EIO=4&transport=websocket";
-
+        if (ServerPorts.ContainsKey(server) == false)
+        {
+            throw new NotImplementedException("Cannot connect to " + server + " because there is no port associated with it");
+        }
         Assert.IsNotNull(SocketIOComponentPrefab);
 
-        SocketIOComponentPrefab.GetComponent<SocketIOComponent>().url = serverURL;
+        // configure socket url settings
+        var prefabSocketController = SocketIOComponentPrefab.GetComponent<SocketIOController>();
+        prefabSocketController.settings.url = ServerDomains[server];
+        prefabSocketController.settings.port = ServerPorts[server];
 
+        // instantitate and connect
         var socketGO = Instantiate(SocketIOComponentPrefab, transform);
-        return socketGO.GetComponent<SocketIOComponent>();
-    }
+        var instantiatedSocketController = socketGO.GetComponent<SocketIOController>();
+        instantiatedSocketController.Connect();
 
+        return socketGO.GetComponent<SocketIOController>();
+    }
+    
     #region Message handlers
     private void OnOpenMessage(SocketIOEvent e)
     {
         Debug.Log("[SocketIO] Open received: " + e.name + " " + e.data);
     }
-
+    
     private void HandleGameMessageReceived(SocketIOEvent socketEvent)
     {
-        // call registered listeners for the action name
-        string actionName = socketEvent.data["action"].str;
-        foreach (Action<JSONObject> action in GameMessageListeners[actionName])
+        Assert.AreEqual(socketEvent.name, "game-message");
+
+        // parse data
+        var jsonData = JSON.Parse(socketEvent.data);
+        JSONObject dataObject = jsonData.AsObject;
+        string actionName = dataObject["action"].ToString();
+
+        // call listeners
+        if (GameMessageListeners.ContainsKey(actionName))
         {
-            action.Invoke(socketEvent.data);
+            foreach (Action<JSONObject> action in GameMessageListeners[actionName])
+            {
+                action.Invoke(dataObject);
+            }
         }
     }
+    
     #endregion
 
     #region Public methods
-    public void StartNewGame(Action<JSONObject> onGameCreated)
+    public void StartNewGame(Action<string> onGameCreated)
     {
         socket.Emit("newgame", onGameCreated);
     }
 
-    public void EmitGameMessage(JSONObject data, Action<JSONObject> onMessageSent = null)
+    public void EmitGameMessage(JSONObject data, Action<string> onMessageSent = null)
     {
         if (onMessageSent == null)
         {
-            socket.Emit("game-message", data);
+            socket.Emit("game-message", data.ToString());
 
         }
         else
         {
-            socket.Emit("game-message", data, onMessageSent);
+            socket.Emit("game-message", data.ToString(), onMessageSent); ;
         }
     }
 
