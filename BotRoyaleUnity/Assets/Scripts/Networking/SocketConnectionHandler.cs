@@ -42,21 +42,27 @@ public class SocketConnectionHandler : MonoBehaviour
     {
         GameMessageListeners = new Dictionary<string, List<Action<JSONObject>>>();
 
-        socket = ConnectToSocketAPI(server);
-
-        socket.On("game-message", HandleGameMessageReceived); // handle the main events that happen in the game
-
-        socket.On("open", OnOpenMessage); // handles message that confirms connection
-
-        // console log when beep-boop message is received
-        socket.On("boop", (_) =>
-        {
-            Debug.Log("boop received");
-        });   
+        StartCoroutine(ConnectionSequence(server));
 	}
 
-    private SocketIOController ConnectToSocketAPI(Servers server)
+    #region Initialization
+    private IEnumerator ConnectionSequence(Servers server)
     {
+        // initialize the socket object
+        socket = InitializeSocket(server);
+
+        // wait some time so that the Javascript part can run in the webgl build. Not sure if there's any way to detect when it's ready
+        yield return new WaitForSeconds(1);
+
+        // connect to the server
+        socket.Connect();
+
+        InitializeMessageHandlers();
+    }
+
+    private SocketIOController InitializeSocket(Servers server)
+    {
+        // check that config fields are valid
         if (ServerDomains.ContainsKey(server) == false)
         {
             throw new NotImplementedException("Cannot connect to " + server + " because there is no domain associated with it");
@@ -72,14 +78,21 @@ public class SocketConnectionHandler : MonoBehaviour
         prefabSocketController.settings.url = ServerDomains[server];
         prefabSocketController.settings.port = ServerPorts[server];
 
-        // instantitate and connect
+        // instantitate
         var socketGO = Instantiate(SocketIOComponentPrefab, transform);
-        var instantiatedSocketController = socketGO.GetComponent<SocketIOController>();
-        instantiatedSocketController.Connect();
-
         return socketGO.GetComponent<SocketIOController>();
     }
-    
+
+    private void InitializeMessageHandlers()
+    {
+        socket.On("game-message", HandleGameMessageReceived); // handle the main events that happen in the game
+
+        socket.On("open", OnOpenMessage); // handles message that confirms connection
+
+        socket.On("boop", (_) => Debug.Log("boop received")); // console log when beep-boop message is received
+    }
+    #endregion
+
     #region Message handlers
     private void OnOpenMessage(SocketIOEvent e)
     {
