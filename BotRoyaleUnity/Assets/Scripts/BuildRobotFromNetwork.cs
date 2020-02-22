@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 using UnityEngine;
 
 public class BuildRobotFromNetwork : MonoBehaviour
@@ -12,7 +13,7 @@ public class BuildRobotFromNetwork : MonoBehaviour
 
         socketIO.OnGameMessage("submitrobot", jsonObject =>
         {
-            JSONObject partsArray = jsonObject["parts"];
+            JSONArray partsArray = jsonObject["parts"].AsArray;
 
             var robot = GetComponent<BuildRobot>().build(partsArray.ToString(), "new-robot");
 

@@ -29,7 +29,7 @@ public class GameSetupForm : MonoBehaviour
     {
         socketIO.StartNewGame(id =>
         {
-            GameIDTextElement.text = "Game ID: <b>" + id[0].str + "</b>";
+            GameIDTextElement.text = "Game ID: <b>" + id + "</b>";
         });
     }
 }

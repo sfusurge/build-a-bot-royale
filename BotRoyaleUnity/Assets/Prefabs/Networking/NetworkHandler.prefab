@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   server: 0
-  SocketIOComponentPrefab: {fileID: 8097572870523355307, guid: f11ebc539871e426bbbd811948ef7595,
+  SocketIOComponentPrefab: {fileID: 133906, guid: cbe5119cf3bbba94aabd5ace819dae01,
     type: 3}
