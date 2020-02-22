@@ -121,24 +121,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &115231520 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4411067936713518544, guid: 0e11be8abc3e448309543eace11242f9,
-    type: 3}
-  m_PrefabInstance: {fileID: 4411067936621531589}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &115231521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 115231520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbb5520be2ac62f448c9d33559e2597e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1718462568
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,6 +344,7 @@ MonoBehaviour:
   spike: {fileID: 1043172287319980891, guid: 52b40627f40d057429388eb2711edde2, type: 3}
   robotParent: {fileID: 4527237787506125075, guid: 160acb923a0ec5b4284df509297c983a,
     type: 3}
+  buildSampleBots: 1
 --- !u!1001 &4411067936621531589
 PrefabInstance:
   m_ObjectHideFlags: 0
