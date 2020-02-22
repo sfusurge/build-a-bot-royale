@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Reflection;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
 public class DevSettingsMenu : MonoBehaviour
@@ -70,11 +72,18 @@ public class DevSettingsMenu : MonoBehaviour
 
         try
         {
-            devCommands.SendMessage(command);
+            MethodInfo mi = typeof(DevCommands).GetMethod(command, BindingFlags.NonPublic | BindingFlags.Instance);
+            if (mi == null)
+            {
+                throw new ArgumentException("No available method named \"" + command + "\" in DevCommands.cs");
+            }
+
+            mi.Invoke(devCommands, null);
+
             CommandResultText.text = ">" + command + "\n" + CommandResultText.text;
         } catch (Exception e)
         {
-            CommandResultText.text = ">Error running command \"" + command + "\"" + e.Message + "\n" + CommandResultText.text;
+            CommandResultText.text = "><color=red>Error running command \"" + command + "\": " + e.Message + "</color>\n" + CommandResultText.text;
             Debug.LogException(e, this);
         }
 

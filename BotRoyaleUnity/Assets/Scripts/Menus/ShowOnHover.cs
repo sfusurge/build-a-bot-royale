@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ShowOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ShowOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [SerializeField] private Graphic[] GraphicRenderers = default;
 
@@ -35,5 +35,13 @@ public class ShowOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private void SetAlpha(Graphic graphic, float alpha)
     {
         graphic.color = new Color(graphic.color.r, graphic.color.g, graphic.color.b, alpha);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        foreach (Graphic graphic in GraphicRenderers)
+        {
+            SetAlpha(graphic, 0f);
+        }
     }
 }

@@ -168,4 +168,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9558efe97074d4599a75a59b3421322e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  elipsesInterval: 0.25
+  elipsesInterval: 0.3
+  connectedMessageDisappearAfter: 2
