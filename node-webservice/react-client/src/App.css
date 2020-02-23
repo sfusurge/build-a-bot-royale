@@ -1,0 +1,27 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+
+.App {
+  text-align: center;
+  height: 100vh;
+}
+
+.App-header {
+  background-color: #282c34;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  height: calc(30px + 6vmin);
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-body{
+  height: calc(100vh - calc(30px + 6vmin));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

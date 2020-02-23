@@ -1,0 +1,69 @@
+extends layout
+
+block content
+    h1 Socket test page
+
+    <h2><span>Current game id: </span><b><span id="gameid"></span></b></h2>
+
+    <h2>Create a game</h2>
+    <form id='create-game-form' action="">
+    <button>Create new game</button>
+    </form>
+
+    <h2>Join a game</h2>
+    <form id='join-game-form' action="">
+    <span>Game id: </span>
+    <input id="currentgameid" autocomplete="off" /><br/>
+    <button>Send</button>
+    </form>
+
+    <h2>Send a game-message</h2>
+    <form id='message-form' action="">
+    <span>Message data (json object): </span>
+    <Textarea id="messageData">{ "action": "submitRobot", "parts": [ "cube", "spike" ] }</Textarea><br/>
+    <button>Send</button>
+    </form>
+
+    <br/>
+    <br/>
+
+    <h2>Messages received</h2>
+    <ul id="messages"></ul>
+
+    script(src="/socket.io/socket.io.js")
+    script(src="https://code.jquery.com/jquery-1.11.1.js")
+    script.
+        $(() => {
+            function onConnectedToGame(gameID) {
+                $('#gameid').text(gameID);
+            }
+
+            var socket = io();
+            $('#create-game-form').submit(function(e){
+                e.preventDefault();
+                socket.emit('newgame', onConnectedToGame);
+                return false;
+            });
+
+            $('#join-game-form').submit(function(e){
+                e.preventDefault(); // prevents page reloading
+                var inputGameID = $('#currentgameid').val();
+                socket.emit('joingame', inputGameID, onConnectedToGame);
+                return false;
+            });
+
+            $('#message-form').submit(function(e){
+                e.preventDefault(); // prevents page reloading
+                var messageData = $('#messageData').val();
+                socket.emit('game-message', JSON.parse(messageData), (err) => {
+                    if (err != null) {
+                        alert("error sending message " + err);
+                    }
+                });
+                return false;
+            });
+
+            socket.on('game-message', function(messageData){
+                $('#messages').append($('<li>').text(JSON.stringify(messageData)));
+            });
+        })

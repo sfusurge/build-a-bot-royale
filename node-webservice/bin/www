@@ -50,6 +50,13 @@ function normalizePort(val) {
 }
 
 /**
+ * Socket.io
+ */
+var socketApi = require('../socketApi');
+var io = socketApi.io;
+io.attach(server);
+
+/**
  * Event listener for HTTP server "error" event.
  */
 

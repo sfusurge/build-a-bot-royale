@@ -1,0 +1,55 @@
+name: Publish Unity game to Itch.io 🎮
+
+on:
+  push:
+    branches: [master]
+    paths:
+        - 'BotRoyaleUnity/**'
+        - '!BotRoyaleUnity/readme.md'
+        - '.github/workflows/publishUnityItchIO.yml'
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+jobs:
+  buildAndPublish:
+    name: 📦 Make WebGL build of Unity game and publish it to Itch.io
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout
+      - name: 👀 Checkout repository
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+    
+      # Cache
+      - name: 💸 Cache Library folder
+        uses: actions/cache@v1.1.0
+        with:
+          path: BotRoyaleUnity/Library
+          key: Library
+
+      # Build
+      - name: 🏗 Build Unity project
+        uses: webbertakken/unity-builder@v0.10
+        with:
+          projectPath: BotRoyaleUnity
+          unityVersion: 2019.3.1f1
+          targetPlatform: WebGL
+
+      # Output
+      - name: 💾 Save build artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: WebGLBuild
+          path: build
+
+      # Upload
+      - name: 🎉 Upload to Itch.io
+        uses: josephbmanley/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}
+          CHANNEL: html5
+          ITCH_GAME: build-a-bot-royale
+          ITCH_USER: buildabot
+          PACKAGE: build/WebGL
