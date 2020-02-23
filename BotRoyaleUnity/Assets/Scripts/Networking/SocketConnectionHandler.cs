@@ -14,24 +14,6 @@ using UnitySocketIO.Events;
 /// </summary>
 public class SocketConnectionHandler : MonoBehaviour
 {
-    private enum Servers
-    {
-        LOCAL, PRODUCTION
-    }
-    private Dictionary<Servers, string> ServerDomains = new Dictionary<Servers, string>()
-    {
-        { Servers.LOCAL, "localhost" },
-        { Servers.PRODUCTION, "build-a-bot-royale.herokuapp.com" }
-    };
-    private Dictionary<Servers, int> ServerPorts = new Dictionary<Servers, int>()
-    {
-        { Servers.LOCAL, 9000 },
-        { Servers.PRODUCTION, 80 }
-    };
-
-    [Header("Connection configuration")]
-    [SerializeField] private Servers server = Servers.LOCAL;
-
     [Header("Required references")]
     [SerializeField] private GameObject SocketIOComponentPrefab = default;
 
@@ -42,14 +24,14 @@ public class SocketConnectionHandler : MonoBehaviour
     {
         GameMessageListeners = new Dictionary<string, List<Action<JSONObject>>>();
 
-        StartCoroutine(ConnectionSequence(server));
+        StartCoroutine(ConnectionSequence());
 	}
 
     #region Initialization
-    private IEnumerator ConnectionSequence(Servers server)
+    private IEnumerator ConnectionSequence()
     {
         // initialize the socket object
-        socket = InitializeSocket(server);
+        socket = InitializeSocket();
 
         // wait some time so that the Javascript part can run in the webgl build. Not sure if there's any way to detect when it's ready
         yield return new WaitForSeconds(1);
@@ -60,23 +42,14 @@ public class SocketConnectionHandler : MonoBehaviour
         InitializeMessageHandlers();
     }
 
-    private SocketIOController InitializeSocket(Servers server)
+    private SocketIOController InitializeSocket()
     {
-        // check that config fields are valid
-        if (ServerDomains.ContainsKey(server) == false)
-        {
-            throw new NotImplementedException("Cannot connect to " + server + " because there is no domain associated with it");
-        }
-        if (ServerPorts.ContainsKey(server) == false)
-        {
-            throw new NotImplementedException("Cannot connect to " + server + " because there is no port associated with it");
-        }
         Assert.IsNotNull(SocketIOComponentPrefab);
 
         // configure socket url settings
         var prefabSocketController = SocketIOComponentPrefab.GetComponent<SocketIOController>();
-        prefabSocketController.settings.url = ServerDomains[server];
-        prefabSocketController.settings.port = ServerPorts[server];
+        prefabSocketController.settings.url = StaticNetworkSettings.ServerURL;
+        prefabSocketController.settings.port = StaticNetworkSettings.ServerPort;
 
         // instantitate
         var socketGO = Instantiate(SocketIOComponentPrefab, transform);
