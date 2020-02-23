@@ -47,4 +47,20 @@ public static class StaticNetworkSettings
             }
         }
     }
+
+    public static bool UseSSL
+    {
+        get
+        {
+            switch (CurrentServer)
+            {
+                case Servers.LOCAL:
+                    return false;
+                case Servers.PRODUCTION:
+                    return true;
+                default:
+                    throw new System.NotImplementedException("No ssl setting defined for server " + CurrentServer);
+            }
+        }
+    }
 }

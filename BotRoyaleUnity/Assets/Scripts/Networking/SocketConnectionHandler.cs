@@ -50,6 +50,7 @@ public class SocketConnectionHandler : MonoBehaviour
         var prefabSocketController = SocketIOComponentPrefab.GetComponent<SocketIOController>();
         prefabSocketController.settings.url = StaticNetworkSettings.ServerURL;
         prefabSocketController.settings.port = StaticNetworkSettings.ServerPort;
+        prefabSocketController.settings.sslEnabled = StaticNetworkSettings.UseSSL;
 
         // instantitate
         var socketGO = Instantiate(SocketIOComponentPrefab, transform);
