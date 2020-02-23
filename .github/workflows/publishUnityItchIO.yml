@@ -6,6 +6,7 @@ on:
     paths:
         - 'BotRoyaleUnity/**'
         - '!BotRoyaleUnity/readme.md'
+        - '.github/workflows/publishUnityItchIO.yml'
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
