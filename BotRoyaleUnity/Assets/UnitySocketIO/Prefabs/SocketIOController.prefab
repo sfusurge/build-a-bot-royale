@@ -45,8 +45,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     url: localhost
-    port: 3000
-    sslEnabled: 0
+    port: 9000
+    sslEnabled: 1
     reconnectTime: 500
     timeToDropAck: 250
     pingTimeout: 5
