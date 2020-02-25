@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import RobotJSONObjectForm from './RobotJSONObjectForm';
+import RobotBuildingWidget from './RobotBuildingWidget';
 import ErrorPage from './ErrorPage';
 import socket from '../API/socketHandler';
 
@@ -31,7 +32,8 @@ class GameplayPage extends Component {
   renderGameplayUI() {
     // show different gameplay ui based on the gameplay phase
     if (this.state.gameplayPhase === 'buildrobot') {
-      return <RobotJSONObjectForm/>;
+      return <label><RobotJSONObjectForm/><RobotBuildingWidget/></label>;
+      //return <RobotBuildingWidget/>; //eventually remove RobotJSONObjectForm altogether
     }
     if (this.state.gameplayPhase === 'controlrobot') {
       return <h1>TODO: put robot controls here</h1>;
