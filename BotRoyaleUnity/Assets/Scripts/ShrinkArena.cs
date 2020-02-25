@@ -24,7 +24,11 @@ public class ShrinkArena : MonoBehaviour
             transform.localScale = new Vector3(scale, 0.5f + scale / 2, scale);
             scale -= shrinkSpeed * Time.deltaTime;
         }
-
+        if (numRobots <= 3){
+            GameObject.Find("GroupCamera").GetComponent<Cinemachine.CinemachineVirtualCamera>().Priority = 30;
+            GameObject.Find("OrbitalCamera").SetActive(false);
+        }
+        
     }
 
     public void addRobot()
