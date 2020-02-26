@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeb7482dabdf2e948a218c7cbb445f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
   health: 0
 --- !u!1001 &7128107031107831344
 PrefabInstance:
@@ -20,6 +21,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1960953045198776898, guid: 78bb3452906c6544995439392a5f391d,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 859e9a0f2eb61cd46a879595cff81c9e,
+        type: 2}
     - target: {fileID: 1983309871796344354, guid: 78bb3452906c6544995439392a5f391d,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

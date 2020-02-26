@@ -15,6 +15,8 @@ public class RoombaMovement : MonoBehaviour
 
     private float stuckTimer;
 
+    private int strongest;
+
     void Start()
     {
         stuckTimer = Time.time;
@@ -41,7 +43,7 @@ public class RoombaMovement : MonoBehaviour
         {
             if (navigationMode != "reverse")
             {
-                int strongest = gameObject.GetComponent<PartHandler>().greatestDirectionStrength();
+                strongest = gameObject.GetComponent<PartHandler>().greatestDirectionStrength();
                 switch(strongest){
                     case 0:
                         rigidBody.AddForce(-transform.right * 15 * rigidBody.mass);
@@ -86,7 +88,8 @@ public class RoombaMovement : MonoBehaviour
         {
             if (attack != null)
             {
-                Vector3 direction = attack.transform.position - transform.position;
+
+                Vector3 direction = Quaternion.AngleAxis(strongest * 90 + 90,Vector3.up) * (attack.transform.position - transform.position);
                 Quaternion rotation = Quaternion.LookRotation(direction);
                 transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 3f * Time.deltaTime);
             }
