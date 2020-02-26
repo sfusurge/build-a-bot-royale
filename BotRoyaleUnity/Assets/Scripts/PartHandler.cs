@@ -7,6 +7,9 @@ public class PartHandler : MonoBehaviour
     //keeps track of the positions where there are alive parts.
     public bool[,] parts = new bool[9, 9];
 
+    public int[] directionStrength = new int[4];
+
+
     //array to calculate all attached parts.
 
     public bool[,] attachedParts;
@@ -63,5 +66,32 @@ public class PartHandler : MonoBehaviour
     public void partDestroyed(int x, int z){
         parts[x+4,z+4] = false;
         delUnattachedParts();
+    }
+
+    public void changeDirectionStrength(string direction, int change){
+        switch(direction){
+            case "north":
+                directionStrength[0] += change;
+                break;
+            case "west":
+                directionStrength[1] += change;
+                break;
+            case "south":
+                directionStrength[2] += change;
+                break;
+            case "east":
+                directionStrength[3] += change;
+                break;
+        }
+    }
+
+    public int greatestDirectionStrength(){
+        int index = 0;
+        for(int a = 1; a < 4; a++){
+            if(directionStrength[a] > directionStrength[index]){
+                index = a;
+            }
+        }
+        return index;
     }
 }

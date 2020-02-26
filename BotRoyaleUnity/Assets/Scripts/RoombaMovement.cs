@@ -41,7 +41,22 @@ public class RoombaMovement : MonoBehaviour
         {
             if (navigationMode != "reverse")
             {
-                rigidBody.AddForce(transform.forward * 15 * rigidBody.mass);
+                int strongest = gameObject.GetComponent<PartHandler>().greatestDirectionStrength();
+                switch(strongest){
+                    case 0:
+                        rigidBody.AddForce(-transform.right * 15 * rigidBody.mass);
+                        break;
+                    case 1:
+                        rigidBody.AddForce(-transform.forward * 15 * rigidBody.mass);
+                        break;
+                    case 2:
+                        rigidBody.AddForce(transform.right * 15 * rigidBody.mass);
+                        break;
+                    case 3:
+                        rigidBody.AddForce(transform.forward * 15 * rigidBody.mass);
+                        break;
+
+                }
                 if (speed > 1)
                 {
                     stuckTimer = Time.time;

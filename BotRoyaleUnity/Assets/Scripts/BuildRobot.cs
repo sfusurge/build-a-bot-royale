@@ -24,17 +24,38 @@ public class BuildRobot : MonoBehaviour
         string jsonString = File.ReadAllText("Assets/Scripts/robot1.json");
         GameObject robot1 = build(jsonString, "robot1");
         robot1.transform.position = new Vector3(0f, 0.5f, 5f);
+        /*
         jsonString = File.ReadAllText("Assets/Scripts/robot2.json");
         GameObject robot2 = build(jsonString, "robot2");
         robot2.transform.position = new Vector3(4f, 0.5f, -5f);
         jsonString = File.ReadAllText("Assets/Scripts/robot3.json");
         GameObject robot3 = build(jsonString, "robot3");
         robot3.transform.position = new Vector3(-4f, 0.5f, -5f);
+        */
     }
 
     void setParent(GameObject parent, GameObject child)
     {
         child.transform.parent = parent.transform;
+    }
+
+    private void addDirectionStrength(GameObject parent, Vector3 pos, string direction, string type){
+        if(type != "spike"){
+            if(pos.x < 0){
+                parent.GetComponent<PartHandler>().changeDirectionStrength("west",1);
+            }
+            if(pos.x > 0){
+                parent.GetComponent<PartHandler>().changeDirectionStrength("east",1);
+            }
+            if(pos.z > 0){
+                parent.GetComponent<PartHandler>().changeDirectionStrength("north",1);
+            }
+            if(pos.z < 0){
+                parent.GetComponent<PartHandler>().changeDirectionStrength("south",1);
+            }
+        }else{
+            parent.GetComponent<PartHandler>().changeDirectionStrength(direction,3);
+        }
     }
 
     public GameObject build(string jsonString, string name)
@@ -81,6 +102,7 @@ public class BuildRobot : MonoBehaviour
             {
                 case "block":
                     childPart = Instantiate(block, pos, rot);
+                    
                     break;
                 case "center":
                     childPart = Instantiate(center, pos, rot);
@@ -92,7 +114,8 @@ public class BuildRobot : MonoBehaviour
                     throw new NotImplementedException("Invalid JSON - type");
             }
             childPart.name = name;
-            childPart.GetComponent<PartHealth>().setRelPos(json[index]["x"] - centerX, json[index]["y"] - centerY);
+            childPart.GetComponent<PartHealth>().setRelPos(json[index]["x"] - centerX, json[index]["y"] - centerY, type, direction);
+            addDirectionStrength(parent,pos,direction,type);
             setParent(parent, childPart);
             index++;
         }
