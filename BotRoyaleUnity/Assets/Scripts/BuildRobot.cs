@@ -61,6 +61,8 @@ public class BuildRobot : MonoBehaviour
         var json = JSON.Parse(jsonString);
         int index = 0;
         GameObject parent = Instantiate(robotParent);
+        Rigidbody rb = parent.GetComponent<Rigidbody>();
+        rb.mass = 0;
         int centerX = 0, centerY = 0;
         while (json[index] != null)
         {
@@ -115,6 +117,7 @@ public class BuildRobot : MonoBehaviour
             childPart.GetComponent<PartHealth>().setRelPos(json[index]["x"] - centerX, json[index]["y"] - centerY, type, direction);
             addDirectionStrength(parent,pos,direction,type);
             setParent(parent, childPart);
+            rb.mass++;
             index++;
         }
         parent.GetComponent<PartHandler>().setParts();

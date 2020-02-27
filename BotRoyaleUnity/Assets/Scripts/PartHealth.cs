@@ -12,6 +12,8 @@ public class PartHealth : MonoBehaviour
     public Vector2Int relPos { get; private set; } = Vector2Int.zero;
     private string type,direction;
 
+    private Rigidbody rb;
+
     private bool subtractedStrength = false;
     // Start is called before the first frame update
     void Start()
@@ -23,6 +25,7 @@ public class PartHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        rb = transform.parent.gameObject.GetComponent<Rigidbody>();
 
     }
 
@@ -43,6 +46,7 @@ public class PartHealth : MonoBehaviour
                     subtractDirectionStrength();
                     subtractedStrength = true;
                     Destroy(gameObject);
+                    rb.mass--;
                 }
             }
         }
@@ -59,7 +63,7 @@ public class PartHealth : MonoBehaviour
         this.direction = direction;
     }
 
-    private void subtractDirectionStrength(){
+    public void subtractDirectionStrength(){
         if(type != "spike"){
             if(relPos.x < 0){
                 transform.parent.gameObject.GetComponent<PartHandler>().changeDirectionStrength("west",-1);
