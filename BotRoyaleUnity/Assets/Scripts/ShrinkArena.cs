@@ -19,7 +19,7 @@ public class ShrinkArena : MonoBehaviour
     void Update()
     {
         minArenaScale = 0.1f + 0.3f * numRobots;
-        if (scale > minArenaScale)
+        if (scale > 0)
         {
             transform.localScale = new Vector3(scale, 0.5f + scale / 2, scale);
             scale -= shrinkSpeed * Time.deltaTime;

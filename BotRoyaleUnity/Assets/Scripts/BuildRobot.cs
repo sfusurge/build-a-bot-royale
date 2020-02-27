@@ -37,11 +37,32 @@ public class BuildRobot : MonoBehaviour
         child.transform.parent = parent.transform;
     }
 
+    private void addDirectionStrength(GameObject parent, Vector3 pos, string direction, string type){
+        if(type != "spike"){
+            if(pos.x < 0){
+                parent.GetComponent<PartHandler>().changeDirectionStrength("west",1);
+            }
+            if(pos.x > 0){
+                parent.GetComponent<PartHandler>().changeDirectionStrength("east",1);
+            }
+            if(pos.z > 0){
+                parent.GetComponent<PartHandler>().changeDirectionStrength("north",1);
+            }
+            if(pos.z < 0){
+                parent.GetComponent<PartHandler>().changeDirectionStrength("south",1);
+            }
+        }else{
+            parent.GetComponent<PartHandler>().changeDirectionStrength(direction,3);
+        }
+    }
+
     public GameObject build(string jsonString, string name)
     {
         var json = JSON.Parse(jsonString);
         int index = 0;
         GameObject parent = Instantiate(robotParent);
+        Rigidbody rb = parent.GetComponent<Rigidbody>();
+        rb.mass = 0;
         int centerX = 0, centerY = 0;
         while (json[index] != null)
         {
@@ -81,6 +102,7 @@ public class BuildRobot : MonoBehaviour
             {
                 case "block":
                     childPart = Instantiate(block, pos, rot);
+                    
                     break;
                 case "center":
                     childPart = Instantiate(center, pos, rot);
@@ -92,8 +114,10 @@ public class BuildRobot : MonoBehaviour
                     throw new NotImplementedException("Invalid JSON - type");
             }
             childPart.name = name;
-            childPart.GetComponent<PartHealth>().setRelPos(json[index]["x"] - centerX, json[index]["y"] - centerY);
+            childPart.GetComponent<PartHealth>().setRelPos(json[index]["x"] - centerX, json[index]["y"] - centerY, type, direction);
+            addDirectionStrength(parent,pos,direction,type);
             setParent(parent, childPart);
+            rb.mass++;
             index++;
         }
         parent.GetComponent<PartHandler>().setParts();

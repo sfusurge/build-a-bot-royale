@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class RoombaMovement : MonoBehaviour
 {
@@ -15,9 +16,17 @@ public class RoombaMovement : MonoBehaviour
 
     private float stuckTimer;
 
+    private float switchTimer;
+
+    private float boostTimer;
+
+    private int strongest;
+
     void Start()
     {
         stuckTimer = Time.time;
+        switchTimer = Time.time;
+        boostTimer = Time.time;
         SetClosestTarget();
         SetNavigationMode("target");
         rigidBody = gameObject.GetComponent<Rigidbody>();
@@ -31,17 +40,24 @@ public class RoombaMovement : MonoBehaviour
             Destroy(gameObject);
             GameObject.Find("Arena").GetComponent<ShrinkArena>().removeRobot();
         }
+        if(Input.GetButtonDown("Jump")){
+            strongest = gameObject.GetComponent<PartHandler>().greatestDirectionStrength();
+            Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
+            rigidBody.AddForce(direction * (rigidBody.mass * 850));
+        }
     }
 
 
     void FixedUpdate()
     {
         speed = rigidBody.velocity.magnitude;
-        if (speed < 8)
+        if (speed < 10)
         {
             if (navigationMode != "reverse")
             {
-                rigidBody.AddForce(transform.forward * 15 * rigidBody.mass);
+                strongest = gameObject.GetComponent<PartHandler>().greatestDirectionStrength();
+                Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
+                rigidBody.AddForce(direction * (rigidBody.mass * 15));
                 if (speed > 1)
                 {
                     stuckTimer = Time.time;
@@ -69,24 +85,30 @@ public class RoombaMovement : MonoBehaviour
     {
         while (true)
         {
-            if (attack != null)
+            if (attack != null && Time.time - switchTimer < 5)
             {
-                Vector3 direction = attack.transform.position - transform.position;
+
+                Vector3 direction = Quaternion.AngleAxis(strongest * 90 + 90, Vector3.up) * (attack.transform.position - transform.position);
                 Quaternion rotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 3f * Time.deltaTime);
+                float angle = Quaternion.Angle(transform.rotation,rotation);
+                float rotationSpeed = 30f/(0.1f + (float)Math.Sqrt(Math.Abs(angle)));
+                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
             }
             else if (robotsRemaining > 1)
             {
                 SetClosestTarget();
+                switchTimer = Time.time;
             }
             yield return null;
         }
     }
 
-    private IEnumerator random(){
-        while(true){
-            float newDirection = Random.Range(-180f, 180f);
-            float rotationSpeed = Random.Range(80f, 150f);
+    private IEnumerator random()
+    {
+        while (true)
+        {
+            float newDirection = UnityEngine.Random.Range(-180f, 180f);
+            float rotationSpeed = UnityEngine.Random.Range(80f, 150f);
             float totalRotation = 0;
             if (newDirection < 0)
             {
@@ -111,8 +133,10 @@ public class RoombaMovement : MonoBehaviour
         }
     }
 
-    private IEnumerator reverse(){
-        while(true){
+    private IEnumerator reverse()
+    {
+        while (true)
+        {
             yield return null;
         }
     }
