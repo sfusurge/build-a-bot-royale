@@ -20,12 +20,12 @@ public class PartHealth : MonoBehaviour
     {
         health = maxHealth;
         initialColor = GetComponent<Renderer>().material.color;
+        rb = transform.parent.gameObject.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        rb = transform.parent.gameObject.GetComponent<Rigidbody>();
 
     }
 
