@@ -37,7 +37,6 @@ public class PartHealth : MonoBehaviour
             if (gameObject.CompareTag("Center"))
             {
                 Destroy(transform.parent.gameObject);
-                GameObject.Find("Arena").GetComponent<ShrinkArena>().removeRobot();
             }
             else
             {

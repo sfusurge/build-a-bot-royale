@@ -53,7 +53,6 @@ public class RoombaMovement : MonoBehaviour
             if (transform.position.y < -5)
             {
                 Destroy(gameObject);
-                GameObject.Find("Arena").GetComponent<ShrinkArena>().removeRobot();
             }
             if (Input.GetButtonDown("Jump"))
             {
