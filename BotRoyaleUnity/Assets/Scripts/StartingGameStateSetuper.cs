@@ -67,8 +67,7 @@ public class StartingGameStateSetuper : MonoBehaviour
         Assert.IsNotNull(Arena, "Arena needed");
 
         // set the arena size
-        Arena.ShrinkActive = false;
-        Arena.transform.localScale = Vector3.up + new Vector3(1f, 0f, 1f) * ArenaSizeForRobots(Robots.Count);
+        yield return Arena.GrowToSize(ArenaSizeForRobots(Robots.Count));
 
         // dramatic pause
         yield return new WaitForSeconds(DelayBeforeSpawning);
@@ -112,8 +111,8 @@ public class StartingGameStateSetuper : MonoBehaviour
         // pause before battle
         yield return new WaitForSeconds(DelayAfterSpawning);
 
-        // battle starts
-        Arena.ShrinkActive = true;
+        // battle starts TODO: maybe this code goes somewhere else
+        Arena.StartShrinkSequence();
         foreach (RoombaMovement robot in FindObjectsOfType<RoombaMovement>())
         {
             robot.Activate();

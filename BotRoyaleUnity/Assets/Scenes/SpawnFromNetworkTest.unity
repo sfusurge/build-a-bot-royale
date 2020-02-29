@@ -431,7 +431,42 @@ PrefabInstance:
     - target: {fileID: 4167131572785694543, guid: 0e11be8abc3e448309543eace11242f9,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167131572785694543, guid: 0e11be8abc3e448309543eace11242f9,
+        type: 3}
+      propertyPath: GrowCurve.m_Curve.Array.data[1].inSlope
+      value: -0.76295495
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167131572785694543, guid: 0e11be8abc3e448309543eace11242f9,
+        type: 3}
+      propertyPath: GrowCurve.m_Curve.Array.data[1].outSlope
+      value: -0.76295495
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167131572785694543, guid: 0e11be8abc3e448309543eace11242f9,
+        type: 3}
+      propertyPath: GrowCurve.m_Curve.Array.data[1].inWeight
+      value: 0.08953341
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167131572785694543, guid: 0e11be8abc3e448309543eace11242f9,
+        type: 3}
+      propertyPath: GrowCurve.m_Curve.Array.data[0].time
+      value: -0.0012626648
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167131572785694543, guid: 0e11be8abc3e448309543eace11242f9,
+        type: 3}
+      propertyPath: GrowCurve.m_Curve.Array.data[0].inSlope
+      value: -0.8121405
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167131572785694543, guid: 0e11be8abc3e448309543eace11242f9,
+        type: 3}
+      propertyPath: GrowCurve.m_Curve.Array.data[0].outSlope
+      value: -0.8121405
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167131572785694543, guid: 0e11be8abc3e448309543eace11242f9,
+        type: 3}
+      propertyPath: GrowCurve.m_Curve.Array.data[0].outWeight
+      value: 0.058007605
       objectReference: {fileID: 0}
     - target: {fileID: 4411067936713518544, guid: 0e11be8abc3e448309543eace11242f9,
         type: 3}
