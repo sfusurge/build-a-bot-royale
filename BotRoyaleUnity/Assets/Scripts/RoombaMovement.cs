@@ -22,59 +22,79 @@ public class RoombaMovement : MonoBehaviour
 
     private int strongest;
 
+    private bool isActivated = false;
+    public bool ActivateOnStart = true;
+
     void Start()
     {
+        rigidBody = gameObject.GetComponent<Rigidbody>();
+        if (ActivateOnStart)
+        {
+            Activate();
+        }
+    }
+
+    public void Activate()
+    {
+        isActivated = true;
+
         stuckTimer = Time.time;
         switchTimer = Time.time;
         boostTimer = Time.time;
         SetClosestTarget();
         SetNavigationMode("target");
-        rigidBody = gameObject.GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-        // move in the forward direction
-        if (transform.position.y < -5)
+        if (isActivated)
         {
-            Destroy(gameObject);
-            GameObject.Find("Arena").GetComponent<ShrinkArena>().removeRobot();
-        }
-        if(Input.GetButtonDown("Jump")){
-            strongest = gameObject.GetComponent<PartHandler>().greatestDirectionStrength();
-            Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
-            rigidBody.AddForce(direction * (rigidBody.mass * 850));
+            // move in the forward direction
+            if (transform.position.y < -5)
+            {
+                Destroy(gameObject);
+                GameObject.Find("Arena").GetComponent<ShrinkArena>().removeRobot();
+            }
+            if (Input.GetButtonDown("Jump"))
+            {
+                strongest = gameObject.GetComponent<PartHandler>().greatestDirectionStrength();
+                Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
+                rigidBody.AddForce(direction * (rigidBody.mass * 850));
+            }
         }
     }
 
 
     void FixedUpdate()
     {
-        speed = rigidBody.velocity.magnitude;
-        if (speed < 10)
+        if (isActivated)
         {
-            if (navigationMode != "reverse")
+            speed = rigidBody.velocity.magnitude;
+            if (speed < 10)
             {
-                strongest = gameObject.GetComponent<PartHandler>().greatestDirectionStrength();
-                Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
-                rigidBody.AddForce(direction * (rigidBody.mass * 15));
-                if (speed > 1)
+                if (navigationMode != "reverse")
                 {
-                    stuckTimer = Time.time;
+                    strongest = gameObject.GetComponent<PartHandler>().greatestDirectionStrength();
+                    Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
+                    rigidBody.AddForce(direction * (rigidBody.mass * 15));
+                    if (speed > 1)
+                    {
+                        stuckTimer = Time.time;
+                    }
+                    else if (Time.time - stuckTimer > 1)
+                    {
+                        SetNavigationMode("reverse");
+                        stuckTimer = Time.time;
+                    }
                 }
-                else if (Time.time - stuckTimer > 1)
+                else
                 {
-                    SetNavigationMode("reverse");
-                    stuckTimer = Time.time;
-                }
-            }
-            else
-            {
-                rigidBody.AddForce(-transform.forward * 10 * rigidBody.mass);
-                if (Time.time - stuckTimer > 0.55)
-                {
-                    SetNavigationMode("target");
-                    stuckTimer = Time.time;
+                    rigidBody.AddForce(-transform.forward * 10 * rigidBody.mass);
+                    if (Time.time - stuckTimer > 0.55)
+                    {
+                        SetNavigationMode("target");
+                        stuckTimer = Time.time;
+                    }
                 }
             }
         }

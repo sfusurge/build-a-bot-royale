@@ -9,6 +9,8 @@ public class ShrinkArena : MonoBehaviour
     float minArenaScale;
     private float shrinkSpeed = 0.02f;
 
+    public bool ShrinkActive = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,13 +20,15 @@ public class ShrinkArena : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        minArenaScale = 0.1f + 0.3f * numRobots;
-        if (scale > 0)
+        if (ShrinkActive)
         {
-            transform.localScale = new Vector3(scale, 0.5f + scale / 2, scale);
-            scale -= shrinkSpeed * Time.deltaTime;
+            minArenaScale = 0.1f + 0.3f * numRobots;
+            if (scale > 0)
+            {
+                transform.localScale = new Vector3(scale, 0.5f + scale / 2, scale);
+                scale -= shrinkSpeed * Time.deltaTime;
+            }
         }
-
     }
 
     public void addRobot()
