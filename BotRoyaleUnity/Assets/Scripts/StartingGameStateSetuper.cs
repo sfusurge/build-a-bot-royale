@@ -78,7 +78,7 @@ public class StartingGameStateSetuper : MonoBehaviour
         float spawnDistanceFromCenter = ArenaSizeForRobots(Robots.Count) * DistanceFromCenterScale;
 
         float angle = 0f;
-        float angleInterval = 360f / Robots.Count;
+        float angleInterval = (Mathf.PI * 2f) / Robots.Count;
         int robotNumber = 1;
         foreach (JSONArray robotJSON in Robots)
         {
@@ -90,9 +90,9 @@ public class StartingGameStateSetuper : MonoBehaviour
             Vector3 spawnPosition =
                 arenaCenter + // spawn relative to center
                 new Vector3( // spawn in a circle
-                    -Mathf.Cos(angle * Mathf.Deg2Rad) * spawnDistanceFromCenter, // negative because the first one goes on the left of the screen
+                    -Mathf.Cos(angle) * spawnDistanceFromCenter, // negative because the first one goes on the left of the screen
                     0f,
-                    Mathf.Sin(angle * Mathf.Deg2Rad) * spawnDistanceFromCenter
+                    Mathf.Sin(angle) * spawnDistanceFromCenter
                 ) +
                 Vector3.up * SpawnDistanceAboveGround; // go a bit above the arena floor
 
