@@ -49,6 +49,6 @@ MonoBehaviour:
   SetupSequenceRobotSpawnInterval: 0.01
   DelayBeforeSpawning: 0.5
   DelayAfterSpawning: 1
-  TEST_number_of_robots: 100
-  TEST_SetupOnStart: 0
+  TEST_number_of_robots: 10
+  TEST_SetupOnStart: 1
   TEST_SetupOnQ: 1

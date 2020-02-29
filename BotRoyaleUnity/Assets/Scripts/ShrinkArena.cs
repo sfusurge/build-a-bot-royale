@@ -38,6 +38,7 @@ public class ShrinkArena : MonoBehaviour
 
     public IEnumerator GrowToSize(float size)
     {
+        StopAllCoroutines();
         float elapsedTime = 0f;
         Vector3 initialScale = transform.localScale;
         Vector3 finalScale = new Vector3(size, 1f, size);
