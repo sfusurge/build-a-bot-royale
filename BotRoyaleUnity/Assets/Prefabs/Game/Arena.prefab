@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4167131572670396694}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.7575641, y: -0.5, z: -2.4024937}
-  m_LocalScale: {x: 25, y: 2, z: 25}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalScale: {x: 1.12, y: 2, z: 1.12}
   m_Children: []
   m_Father: {fileID: 4167131572785694542}
   m_RootOrder: 1
@@ -120,7 +120,7 @@ Transform:
   m_GameObject: {fileID: 4167131572785694540}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.7575641, y: 0.5, z: 2.4024937}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 25, y: 1, z: 25}
   m_Children:
   - {fileID: 4167131573175071053}
   - {fileID: 4167131572670396689}
@@ -140,7 +140,94 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb5520be2ac62f448c9d33559e2597e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numRobots: 0
+  GrowTime: 0.5
+  GrowCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0012626648
+      value: 0
+      inSlope: -0.8121405
+      outSlope: -0.8121405
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.058007605
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.76295495
+      outSlope: -0.76295495
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08953341
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  ShrinkSequenceDelay: 0
+  ShrinkSequenceLength: 25
+  ShrinkCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  WallCollapseLength: 10
+  WallCollapseCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: -2.5288706
+      outSlope: -2.5288706
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.16084884
+    - serializedVersion: 3
+      time: 0.26689214
+      value: 0.47616014
+      inSlope: 1.8184073
+      outSlope: 1.8184073
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.17210154
+      outWeight: 0.1093097
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.0000039753154
+      outSlope: -0.0000039753154
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.11994952
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  MinimumScale: 15
+  MinimumWallHeight: 0
+  Walls: {fileID: 4167131572670396689}
 --- !u!1 &4167131573175071042
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,8 +254,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4167131573175071042}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 1.7575641, y: 0, z: -2.4024937}
-  m_LocalScale: {x: 1.55, y: 1, z: 1.55}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalScale: {x: 0.065, y: 1, z: 0.065}
   m_Children: []
   m_Father: {fileID: 4167131572785694542}
   m_RootOrder: 0
@@ -247,8 +334,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4167131573555365241}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.7575641, y: -0.6, z: -2.4024937}
-  m_LocalScale: {x: 25, y: 0.1, z: 25}
+  m_LocalPosition: {x: 0, y: -0.6, z: 0}
+  m_LocalScale: {x: 1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 4167131572785694542}
   m_RootOrder: 2
