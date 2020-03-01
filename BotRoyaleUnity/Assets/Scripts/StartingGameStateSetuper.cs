@@ -9,8 +9,9 @@ public class StartingGameStateSetuper : MonoBehaviour
 {
     [Header("Spawn position")]
     [SerializeField] private float SpawnDistanceAboveGround = 0.5f;
-    [SerializeField] private float DistanceFromCenterScale = 9f;
-    [SerializeField] private float ArenaScaleIncrementPerRobot = 0.1f;
+    [SerializeField] private float DistanceFromEdge = 9f;
+    [SerializeField] private float ArenaScaleIncrementPerRobot = 1f;
+    [SerializeField] private float ArenaBaseSize = 25f;
 
     [Header("Timings")]
     [SerializeField] private float SetupSequenceRobotSpawnInterval = 0.01f;
@@ -74,7 +75,7 @@ public class StartingGameStateSetuper : MonoBehaviour
 
         // spawn robots
         Vector3 arenaCenter = Arena.transform.position;
-        float spawnDistanceFromCenter = ArenaSizeForRobots(Robots.Count) * DistanceFromCenterScale;
+        float spawnDistanceFromCenter = (ArenaSizeForRobots(Robots.Count) * 0.45f) - DistanceFromEdge; // 0.45 because 90% of half the diameter for hex shape
 
         float angle = 0f;
         float angleInterval = (Mathf.PI * 2f) / Robots.Count;
@@ -122,10 +123,10 @@ public class StartingGameStateSetuper : MonoBehaviour
 
     private float ArenaSizeForRobots(int numberOfRobots)
     {
-        if (numberOfRobots < 3)
+        if (numberOfRobots < 1)
         {
-            return 1f;
+            return ArenaBaseSize;
         }
-        return 1f + (numberOfRobots - 2) * ArenaScaleIncrementPerRobot;
+        return ArenaBaseSize + (numberOfRobots * ArenaScaleIncrementPerRobot);
     }
 }

@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnDistanceAboveGround: 0.5
-  DistanceFromCenterScale: 9
-  ArenaScaleIncrementPerRobot: 0.1
+  DistanceFromEdge: 5
+  ArenaScaleIncrementPerRobot: 7
+  ArenaBaseSize: 10
   SetupSequenceRobotSpawnInterval: 0.01
   DelayBeforeSpawning: 0.5
   DelayAfterSpawning: 1
