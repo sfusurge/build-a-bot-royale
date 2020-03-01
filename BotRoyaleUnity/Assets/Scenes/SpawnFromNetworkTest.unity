@@ -403,6 +403,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4167131572670396689, guid: 0e11be8abc3e448309543eace11242f9,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4167131572670396694, guid: 0e11be8abc3e448309543eace11242f9,
         type: 3}
       propertyPath: m_IsActive
@@ -422,41 +427,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4167131572785694543, guid: 0e11be8abc3e448309543eace11242f9,
-        type: 3}
-      propertyPath: GrowCurve.m_Curve.Array.data[1].inSlope
-      value: -0.76295495
-      objectReference: {fileID: 0}
-    - target: {fileID: 4167131572785694543, guid: 0e11be8abc3e448309543eace11242f9,
-        type: 3}
-      propertyPath: GrowCurve.m_Curve.Array.data[1].outSlope
-      value: -0.76295495
-      objectReference: {fileID: 0}
-    - target: {fileID: 4167131572785694543, guid: 0e11be8abc3e448309543eace11242f9,
-        type: 3}
-      propertyPath: GrowCurve.m_Curve.Array.data[1].inWeight
-      value: 0.08953341
-      objectReference: {fileID: 0}
-    - target: {fileID: 4167131572785694543, guid: 0e11be8abc3e448309543eace11242f9,
-        type: 3}
-      propertyPath: GrowCurve.m_Curve.Array.data[0].time
-      value: -0.0012626648
-      objectReference: {fileID: 0}
-    - target: {fileID: 4167131572785694543, guid: 0e11be8abc3e448309543eace11242f9,
-        type: 3}
-      propertyPath: GrowCurve.m_Curve.Array.data[0].inSlope
-      value: -0.8121405
-      objectReference: {fileID: 0}
-    - target: {fileID: 4167131572785694543, guid: 0e11be8abc3e448309543eace11242f9,
-        type: 3}
-      propertyPath: GrowCurve.m_Curve.Array.data[0].outSlope
-      value: -0.8121405
-      objectReference: {fileID: 0}
-    - target: {fileID: 4167131572785694543, guid: 0e11be8abc3e448309543eace11242f9,
-        type: 3}
-      propertyPath: GrowCurve.m_Curve.Array.data[0].outWeight
-      value: 0.058007605
       objectReference: {fileID: 0}
     - target: {fileID: 4167131573175071042, guid: 0e11be8abc3e448309543eace11242f9,
         type: 3}
@@ -1053,6 +1023,7 @@ GameObject:
   - component: {fileID: 1997001327}
   - component: {fileID: 1997001326}
   - component: {fileID: 1997001325}
+  - component: {fileID: 1997001328}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1119,12 +1090,24 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1997001324}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 100, z: 0}
+  m_LocalPosition: {x: 0, y: 25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &1997001328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997001324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 285f020c05d3f49f88baa31720108aea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2116693094
 GameObject:
   m_ObjectHideFlags: 0
@@ -1198,6 +1181,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5884782706993335514, guid: 27bad2f471e8e455881d2c609fca8f04,
+        type: 3}
+      propertyPath: TEST_number_of_robots
+      value: 24
+      objectReference: {fileID: 0}
     - target: {fileID: 5884782706993335516, guid: 27bad2f471e8e455881d2c609fca8f04,
         type: 3}
       propertyPath: m_Name
