@@ -216,7 +216,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  MinimumScale: 0.5
+  MinimumScale: 10
   MinimumWallHeight: 0.01
   Walls: {fileID: 4167131572670396689}
 --- !u!1 &4167131573175071042

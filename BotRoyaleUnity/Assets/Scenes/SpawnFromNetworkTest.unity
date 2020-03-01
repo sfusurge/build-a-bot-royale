@@ -458,16 +458,6 @@ PrefabInstance:
       propertyPath: GrowCurve.m_Curve.Array.data[0].outWeight
       value: 0.058007605
       objectReference: {fileID: 0}
-    - target: {fileID: 4167131572785694543, guid: 0e11be8abc3e448309543eace11242f9,
-        type: 3}
-      propertyPath: MinimumWallHeight
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4167131572785694543, guid: 0e11be8abc3e448309543eace11242f9,
-        type: 3}
-      propertyPath: MinimumScale
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4167131573175071042, guid: 0e11be8abc3e448309543eace11242f9,
         type: 3}
       propertyPath: m_IsActive
