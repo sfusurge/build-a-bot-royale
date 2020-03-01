@@ -145,28 +145,28 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: -0.0012626648
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.8121405
+      outSlope: -0.8121405
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.058007605
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.76295495
+      outSlope: -0.76295495
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.08953341
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  ShrinkSequenceDelay: 3
-  ShrinkSequenceLength: 30
+  ShrinkSequenceDelay: 0
+  ShrinkSequenceLength: 15
   ShrinkCurve:
     serializedVersion: 2
     m_Curve:
@@ -182,31 +182,6 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  WallCollapseLength: 5
-  WallCollapseCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: -1.8679245
-      outSlope: -1.8679245
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.060606062
-    - serializedVersion: 3
-      time: 1
-      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -216,8 +191,42 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  MinimumScale: 10
-  MinimumWallHeight: 0.01
+  WallCollapseLength: 10
+  WallCollapseCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: -2.5288706
+      outSlope: -2.5288706
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.16084884
+    - serializedVersion: 3
+      time: 0.26689214
+      value: 0.47616014
+      inSlope: 1.8184073
+      outSlope: 1.8184073
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.17210154
+      outWeight: 0.1093097
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.0000039753154
+      outSlope: -0.0000039753154
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.11994952
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  MinimumScale: 15
+  MinimumWallHeight: 0
   Walls: {fileID: 4167131572670396689}
 --- !u!1 &4167131573175071042
 GameObject:
