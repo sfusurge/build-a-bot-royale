@@ -15,12 +15,15 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
+    private List<GameObject> robotList;
+
     public enum GameStates{
         NONE,
         //receive JSON build
         //displays count down timer for building
         //have the camera circle in before the battle
         BEFORE_BATTLE,
+        //build robot
         //robot fights
         //camera action
         //...
@@ -53,10 +56,6 @@ public class GameStateManager : MonoBehaviour
         ChangeState(GameStates.DURING_BATTLE);
     }
 
-    public void ChampBattle(){
-        ChangeState(GameStates.CHAMP_BATTLE);
-    }
-
     public void EndGame(){
         ChangeState(GameStates.GAME_OVER);
     }
@@ -74,6 +73,24 @@ public class GameStateManager : MonoBehaviour
         if (StateActions.ContainsKey(newState) && isCurrentState == false){
             foreach (Action action in StateActions[newState]){
                 action.Invoke();
+            }
+        }
+    }
+
+    public void addRobot(GameObject robot){
+        robotList.add(robot);
+        if (GameState == DURING_BATTLE){
+                if (robotList.count <= 3){
+                ChangeState(GameStates.CHAMP_BATTLE);
+            }
+        }
+    }
+
+    public void killRobot(GameObject robot){
+        robotList.remove(robot);
+            if (GameState == DURING_BATTLE){
+                if (robotList.count <= 3){
+                ChangeState(GameStates.CHAMP_BATTLE);
             }
         }
     }
