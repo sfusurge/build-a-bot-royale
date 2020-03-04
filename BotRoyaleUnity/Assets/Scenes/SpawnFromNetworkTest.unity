@@ -96,7 +96,6 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
-    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -146,7 +145,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 370564074}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 270cc38002118477ab4440a3b00b3fe4, type: 3}
   m_Name: 
@@ -394,6 +393,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkHandler
       objectReference: {fileID: 0}
+    - target: {fileID: 1455408249045750174, guid: b555938bcdc5e462684ba13e8ad92b21,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b555938bcdc5e462684ba13e8ad92b21, type: 3}
 --- !u!1001 &615394451
@@ -495,6 +499,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e11be8abc3e448309543eace11242f9, type: 3}
+--- !u!1001 &627858312
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4281020396339085160, guid: 82f1c78a5ebcbc242870aedd1dff7e8e,
+        type: 3}
+      propertyPath: m_Name
+      value: GroupCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 4514634232673605530, guid: 82f1c78a5ebcbc242870aedd1dff7e8e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.5340147
+      objectReference: {fileID: 0}
+    - target: {fileID: 4514634232673605530, guid: 82f1c78a5ebcbc242870aedd1dff7e8e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.526186
+      objectReference: {fileID: 0}
+    - target: {fileID: 4514634232673605530, guid: 82f1c78a5ebcbc242870aedd1dff7e8e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.0839472
+      objectReference: {fileID: 0}
+    - target: {fileID: 4514634232673605530, guid: 82f1c78a5ebcbc242870aedd1dff7e8e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4514634232673605530, guid: 82f1c78a5ebcbc242870aedd1dff7e8e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4514634232673605530, guid: 82f1c78a5ebcbc242870aedd1dff7e8e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4514634232673605530, guid: 82f1c78a5ebcbc242870aedd1dff7e8e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4514634232673605530, guid: 82f1c78a5ebcbc242870aedd1dff7e8e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4514634232673605530, guid: 82f1c78a5ebcbc242870aedd1dff7e8e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4514634232673605530, guid: 82f1c78a5ebcbc242870aedd1dff7e8e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4514634232673605530, guid: 82f1c78a5ebcbc242870aedd1dff7e8e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 82f1c78a5ebcbc242870aedd1dff7e8e, type: 3}
 --- !u!1001 &806316687
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -939,9 +1012,8 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1689833974}
   m_Enabled: 1
-  serializedVersion: 10
+  serializedVersion: 9
   m_Type: 1
-  m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 1
   m_Range: 10

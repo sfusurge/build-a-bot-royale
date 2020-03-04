@@ -16,6 +16,7 @@ public class BuildRobot : MonoBehaviour
     {
         if(buildSampleBots){
             BuildSampleRobots();
+         
         }
     }
 
@@ -29,6 +30,8 @@ public class BuildRobot : MonoBehaviour
         robot2.transform.position = new Vector3(4f, 0.5f, -5f);
         jsonString = File.ReadAllText("Assets/Scripts/robot3.json");
         GameObject robot3 = build(jsonString, "robot3");
+        robot3.transform.position = new Vector3(-4f, 0.5f, -5f);
+        GameObject robot4 = build(jsonString, "robot3");
         robot3.transform.position = new Vector3(-4f, 0.5f, -5f);
     }
 
