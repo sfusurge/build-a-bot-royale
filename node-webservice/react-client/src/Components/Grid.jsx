@@ -33,6 +33,7 @@ class Grid extends Component {
             key={ index }
             partType={ data.type }
             partDirection = {data.direction}
+            partHealth = {data.health}
             onClicked={() => this.props.onCellClick(data.x, data.y)}
         />
     }
