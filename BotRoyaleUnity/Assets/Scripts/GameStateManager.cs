@@ -15,7 +15,7 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
-    private List<GameObject> robotList;
+    private static List<GameObject> robotList;
 
     public enum GameStates{
         NONE,
@@ -48,7 +48,7 @@ public class GameStateManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ChangeState(BEFORE_BATTLE);
+        ChangeState(GameStates.BEFORE_BATTLE);
     }
 
     // have a signal from countdown scene to call this function 
@@ -78,18 +78,18 @@ public class GameStateManager : MonoBehaviour
     }
 
     public void addRobot(GameObject robot){
-        robotList.add(robot);
-        if (GameState == DURING_BATTLE){
-                if (robotList.count <= 3){
+        robotList.Add(robot);
+        if (GameState == GameStates.DURING_BATTLE){
+                if (robotList.Count <= 3){
                 ChangeState(GameStates.CHAMP_BATTLE);
             }
         }
     }
 
     public void killRobot(GameObject robot){
-        robotList.remove(robot);
-            if (GameState == DURING_BATTLE){
-                if (robotList.count <= 3){
+        robotList.Remove(robot);
+            if (GameState == GameStates.DURING_BATTLE){
+                if (robotList.Count <= 3){
                 ChangeState(GameStates.CHAMP_BATTLE);
             }
         }

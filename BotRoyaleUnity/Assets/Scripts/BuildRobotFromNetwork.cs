@@ -9,6 +9,10 @@ public class BuildRobotFromNetwork : MonoBehaviour
 
     void Start()
     {
+        GameStateManager.Instance.RegisterActionToState(GameStateManager.GameStates.DURING_BATTLE, socketConnection());
+    }
+
+    private void socketConnection(){
         socketIO = FindObjectOfType<SocketConnectionHandler>();
 
         socketIO.OnGameMessage("submitrobot", jsonObject =>
