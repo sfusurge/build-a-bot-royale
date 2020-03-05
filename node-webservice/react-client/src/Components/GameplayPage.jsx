@@ -91,10 +91,21 @@ class GameplayPage extends Component {
   renderGameplayUI() {
     // show different gameplay ui based on the gameplay phase
     if (this.state.gameplayPhase === 'buildrobot') {
-      return <RobotJSONObjectForm />;
+      return (
+        <div className='gameplay-page'>
+          <h3>Playing game {this.props.match.params.gameid}</h3>
+          <Grid onCellClick={this.handleCellClicked} parts={this.state.parts}></Grid>
+        </div>
+      );
+      //return <RobotJSONObjectForm />;
     }
     if (this.state.gameplayPhase === 'controlrobot') {
-      return <h1>TODO: put robot controls here</h1>;
+      return (
+        <div className='gameplay-page'>
+          <h3>Playing game {this.props.match.params.gameid}</h3>
+          <Grid onCellClick={this.handleCellClicked} parts={this.state.parts}></Grid>
+        </div>
+      );
     }
     return <h1 className="error-message">Invalid gameplay phase: {this.state.gameplayPhase}</h1>
   }
@@ -108,7 +119,7 @@ class GameplayPage extends Component {
 
     if (this.state.gameplayPhase === "buildrobot") {
       // Checks to see if there is a part in the clicked location. If there is,
-      // rotate the part.
+      // rotate the part and set 'partHere' to true.
       var partHere = false;
       var copy = this.state.parts;
       copy.forEach(element => {
@@ -150,13 +161,7 @@ class GameplayPage extends Component {
     if (this.state.joinedGameID === null) {
       return <h1>Joining game {this.props.match.params.gameid}...</h1>;
     }
-
-    return (
-      <div className='gameplay-page'>
-        <h3>Playing game {this.props.match.params.gameid}</h3>
-        <Grid onCellClick={this.handleCellClicked} parts={this.state.parts}></Grid>
-      </div>
-    );
+    return this.renderGameplayUI();
   }
 }
 
