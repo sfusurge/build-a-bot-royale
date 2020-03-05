@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import RobotJSONObjectForm from './RobotJSONObjectForm';
 import ErrorPage from './ErrorPage';
 import socket from '../API/socketHandler';
+import '../CSS/LobbyPage.css';
 
 class GameplayPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       joinedGameID: null,
-      gameplayPhase: "buildrobot"
+      gameplayPhase: "lobby"
     }
 
     this.renderGameplayUI = this.renderGameplayUI.bind(this);
@@ -35,6 +36,11 @@ class GameplayPage extends Component {
     }
     if (this.state.gameplayPhase === 'controlrobot') {
       return <h1>TODO: put robot controls here</h1>;
+    }
+    if (this.state.gameplayPhase === 'lobby') {
+      return (
+        <div className="lobby-page"></div>
+      );
     }
     return <h1 className="error-message">Invalid gameplay phase: {this.state.gameplayPhase}</h1>
   }

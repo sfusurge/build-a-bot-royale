@@ -73,6 +73,9 @@ class App extends Component {
         </header>
         <div className="App-body" style={backgroundStyle}>
           { this.renderAppBodyContent() }
+          <div className="our-special-content">Hello world</div>
+          <div className="lobby-page"></div>
+          <h1></h1>
         </div>
       </div>
     );
