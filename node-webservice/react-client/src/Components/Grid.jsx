@@ -16,7 +16,7 @@ class Grid extends Component {
 
         // put defined parts into the array
         partsData.forEach(element => {
-            partsArray[element.x][element.y] = element;
+            partsArray[element.y][element.x] = element;
         });
 
         return partsArray;
@@ -32,14 +32,19 @@ class Grid extends Component {
         return <GridCell 
             key={ index }
             partType={ data.type }
+            partDirection = {data.direction}
             onClicked={() => this.props.onCellClick(data.x, data.y)}
         />
     }
 
     render() {
         const partsArray = this.partsArrayTo2DArray(this.props.parts);
+        const gridStyle = {
+            height: "75vmin",
+            width: "75vmin",
+        }
         return (
-            <div className="Grid-Container">
+            <div className="Grid-Container" style = {gridStyle}>
                 { partsArray.map(this.renderRow.bind(this)) }
             </div>
         );

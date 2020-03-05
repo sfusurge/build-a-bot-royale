@@ -62,8 +62,50 @@ class GameplayPage extends Component {
     return (
       <div className='gameplay-page'>
         <h3>Playing game { this.props.match.params.gameid }</h3>
-        <Grid onCellClick={this.handleCellClicked} parts={ [ ] }></Grid>
-        { this.renderGameplayUI() }
+        <Grid onCellClick={this.handleCellClicked} parts={[
+    {
+        "type": "block",
+        "x": 2,
+        "y": 3,
+        "direction": "north"
+    },
+    {
+        "type": "spike",
+        "x": 1,
+        "y": 2,
+        "direction": "west"
+    },
+    {
+        "type": "center",
+        "x": 2,
+        "y": 2,
+        "direction": "north"
+    },
+    {
+        "type": "block",
+        "x": 2,
+        "y": 1,
+        "direction": "north"
+    },
+    {
+        "type": "spike",
+        "x": 4,
+        "y": 2,
+        "direction": "east"
+    },
+    {
+        "type": "spike",
+        "x": 2,
+        "y": 0,
+        "direction": "south"
+    },
+    {
+        "type": "block",
+        "x": 3,
+        "y": 2,
+        "direction": "north"
+    }
+]}></Grid>
       </div>
     );
   }
