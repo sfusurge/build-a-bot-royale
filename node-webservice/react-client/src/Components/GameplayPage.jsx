@@ -9,10 +9,69 @@ class GameplayPage extends Component {
     super(props);
     this.state = {
       joinedGameID: null,
-      gameplayPhase: "buildrobot"
+      gameplayPhase: "buildrobot",
+      parts: [
+        {
+          "type": "block",
+          "x": 2,
+          "y": 3,
+          "direction": "north",
+          "health": 1.0
+        },
+        {
+          "type": "spike",
+          "x": 1,
+          "y": 2,
+          "direction": "west",
+          "health": 1.0
+        },
+        {
+          "type": "spike",
+          "x": 2,
+          "y": 4,
+          "direction": "north",
+          "health": 1.0
+        },
+        {
+          "type": "center",
+          "x": 2,
+          "y": 2,
+          "direction": "north",
+          "health": 1.0
+        },
+        {
+          "type": "block",
+          "x": 2,
+          "y": 1,
+          "direction": "north",
+          "health": 1.0
+        },
+        {
+          "type": "spike",
+          "x": 4,
+          "y": 2,
+          "direction": "east",
+          "health": 1.0
+        },
+        {
+          "type": "spike",
+          "x": 2,
+          "y": 0,
+          "direction": "south",
+          "health": 1.0
+        },
+        {
+          "type": "block",
+          "x": 3,
+          "y": 2,
+          "direction": "north",
+          "health": 1.0
+        }
+      ]
     }
 
     this.renderGameplayUI = this.renderGameplayUI.bind(this);
+    this.handleCellClicked = this.handleCellClicked.bind(this);
   }
 
   componentDidMount() {
@@ -22,7 +81,7 @@ class GameplayPage extends Component {
     // join the game by sending the 'joingame' message to the socket API
     socket.emit('joingame', gameID, (err) => {
       if (err) {
-        this.setState({ error: err});
+        this.setState({ error: err });
       } else {
         this.setState({ joinedGameID: gameID });
       }
@@ -32,7 +91,7 @@ class GameplayPage extends Component {
   renderGameplayUI() {
     // show different gameplay ui based on the gameplay phase
     if (this.state.gameplayPhase === 'buildrobot') {
-      return <RobotJSONObjectForm/>;
+      return <RobotJSONObjectForm />;
     }
     if (this.state.gameplayPhase === 'controlrobot') {
       return <h1>TODO: put robot controls here</h1>;
@@ -41,14 +100,47 @@ class GameplayPage extends Component {
   }
 
   handleCellClicked(x, y) {
-    /*
-    if (x < 0 || x > 4) {
-      //error
+    //makes sure cell has valid coordinates
+    if (x < 0 || x > 4 || y < 0 || y > 4) {
+      console.log("Invalid x or y");
+      return;
     }
-    if (this.state.selectedToolbarItem === 1) {
 
-    }*/
-    console.log("here: " + x + ", " + y);
+    if (this.state.gameplayPhase === "buildrobot") {
+      // Checks to see if there is a part in the clicked location. If there is,
+      // rotate the part.
+      var partHere = false;
+      var copy = this.state.parts;
+      copy.forEach(element => {
+        if (element.x === x && element.y === y) {
+          element.direction = this.rotate(element.direction);
+          partHere = true;
+        }
+      })
+      this.setState({ props: copy })
+
+
+      if (!partHere) {
+        //Code to place selected part from the toolbar
+      }
+    }
+
+
+  }
+
+  rotate(current) {
+    switch (current) {
+      case "north":
+        return "west";
+      case "west":
+        return "south";
+      case "south":
+        return "east"
+      case "east":
+        return "north"
+      default:
+        return;
+    }
   }
 
   render() {
@@ -56,63 +148,13 @@ class GameplayPage extends Component {
       return <ErrorPage>{this.state.error}</ErrorPage>
     }
     if (this.state.joinedGameID === null) {
-      return <h1>Joining game { this.props.match.params.gameid }...</h1>;
+      return <h1>Joining game {this.props.match.params.gameid}...</h1>;
     }
 
     return (
       <div className='gameplay-page'>
-        <h3>Playing game { this.props.match.params.gameid }</h3>
-        <Grid onCellClick={this.handleCellClicked} parts={[
-    {
-        "type": "block",
-        "x": 2,
-        "y": 3,
-        "direction": "north",
-        "health":1.0
-    },
-    {
-        "type": "spike",
-        "x": 1,
-        "y": 2,
-        "direction": "west",
-        "health":1.0
-    },
-    {
-        "type": "center",
-        "x": 2,
-        "y": 2,
-        "direction": "north",
-        "health":1.0
-    },
-    {
-        "type": "block",
-        "x": 2,
-        "y": 1,
-        "direction": "north",
-        "health": 1.0
-    },
-    {
-        "type": "spike",
-        "x": 4,
-        "y": 2,
-        "direction": "east",
-        "health": 1.0
-    },
-    {
-        "type": "spike",
-        "x": 2,
-        "y": 0,
-        "direction": "south",
-        "health": 1.0
-    },
-    {
-        "type": "block",
-        "x": 3,
-        "y": 2,
-        "direction": "north",
-        "health": 1.0
-    }
-]}></Grid>
+        <h3>Playing game {this.props.match.params.gameid}</h3>
+        <Grid onCellClick={this.handleCellClicked} parts={this.state.parts}></Grid>
       </div>
     );
   }
