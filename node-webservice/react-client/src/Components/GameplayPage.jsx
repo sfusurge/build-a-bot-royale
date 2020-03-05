@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import RobotJSONObjectForm from './RobotJSONObjectForm';
 import ErrorPage from './ErrorPage';
 import socket from '../API/socketHandler';
+import Grid from './Grid';
 
 class GameplayPage extends Component {
   constructor(props) {
@@ -39,6 +40,17 @@ class GameplayPage extends Component {
     return <h1 className="error-message">Invalid gameplay phase: {this.state.gameplayPhase}</h1>
   }
 
+  handleCellClicked(x, y) {
+    /*
+    if (x < 0 || x > 4) {
+      //error
+    }
+    if (this.state.selectedToolbarItem === 1) {
+
+    }*/
+    console.log("here: " + x + ", " + y);
+  }
+
   render() {
     if (this.state.error) {
       return <ErrorPage>{this.state.error}</ErrorPage>
@@ -50,6 +62,7 @@ class GameplayPage extends Component {
     return (
       <div className='gameplay-page'>
         <h3>Playing game { this.props.match.params.gameid }</h3>
+        <Grid onCellClick={this.handleCellClicked} parts={ [ ] }></Grid>
         { this.renderGameplayUI() }
       </div>
     );
