@@ -113,45 +113,87 @@ class GameplayPage extends Component {
   handleCellClicked(x, y) {
     //makes sure cell has valid coordinates
     if (x < 0 || x > 4 || y < 0 || y > 4) {
-      console.log("Invalid x or y");
-      return;
+      throw new Error("Invalid x or y");
     }
 
     if (this.state.gameplayPhase === "buildrobot") {
       // Checks to see if there is a part in the clicked location. If there is,
       // rotate the part and set 'partHere' to true.
       var partHere = false;
-      var copy = this.state.parts;
+      var copy = [...this.state.parts];
       copy.forEach(element => {
         if (element.x === x && element.y === y) {
-          element.direction = this.rotate(element.direction);
+          element.direction = this.rotate(element.direction, x, y);
           partHere = true;
         }
       })
-      this.setState({ props: copy })
+      this.setState({ parts: copy })
 
 
       if (!partHere) {
         //Code to place selected part from the toolbar
+        var newPart = {
+          "type": "block",
+          "x": x,
+          "y": y,
+          "direction": "north",
+          "health": 1.0
+        }
+        copy.push(newPart);
+        this.setState({ parts: copy});
       }
     }
 
 
   }
+  TwoDIndexOf(arr, target) {
+    var found = 0;
+    arr.forEach(element => {
+      if (element[0] === target[0] && element[1] === target[1]) {
+        found = 1;
+      }
+    })
+    return found;
+  }
 
-  rotate(current) {
-    switch (current) {
-      case "north":
-        return "west";
-      case "west":
-        return "south";
-      case "south":
-        return "east"
-      case "east":
-        return "north"
-      default:
-        return;
+
+  rotate(current, x, y) {
+    const order = ["north", "west", "south", "east", "north", "west", "south", "east"]
+    var partLocations = [];
+    this.state.parts.forEach(element => {
+      partLocations.push([element.x, element.y])
+    })
+    var intial = order.indexOf(current);
+    if (intial === -1) {
+      throw new Error("invalid direction");
     }
+    for (var a = intial + 1; a < intial + 4; a++) {
+      switch (order[a]) {
+        case "north":
+          if (this.TwoDIndexOf(partLocations,[x,y-1]) === 1) {
+            return "north";
+          }
+          break;
+        case "west":
+          if (this.TwoDIndexOf(partLocations,[x+1,y]) === 1) {
+            return "west";
+          }
+          break;
+        case "south":
+          if (this.TwoDIndexOf(partLocations,[x,y+1]) === 1) {
+            return "south";
+          }
+          break;
+        case "east":
+          if (this.TwoDIndexOf(partLocations,[x-1,y]) === 1) {
+            return "east";
+          }
+          break;
+        default:
+          throw new Error("invalid direction");
+      }
+    }
+    return current;
   }
 
   render() {
