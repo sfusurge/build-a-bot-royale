@@ -37,15 +37,17 @@ class GridCell extends Component {
     style() {
         return {
             backgroundImage: this.imageForType(),
-            backgroundSize: "14.5vmin 14.5vmin",
+            backgroundSize: 'calc(15vmin - 2px) calc(15vmin - 2px)',
             height: "15vmin",
-            width: "15vmin"
+            width: "15vmin",
+            border: "1px solid black",
+            outline:"none"
         };
     }
 
     render() {
         return (
-            <button onClick={this.props.onClicked} style={ this.style() }></button>
+            <button  onClick={this.props.onClicked} style={ this.style() }></button>
         );
     }
 }
