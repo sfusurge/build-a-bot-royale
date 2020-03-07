@@ -33,8 +33,15 @@ io.on('connection', function(socket){
         currentGame = gameID;
     }
 
+    function changeGameState(newGameState) {
+        var room = io.sockets.adapter.rooms[currentGame];
+        room.gameState = newGameState;
+
+        io.to(currentGame).emit('gameStateChanged', { gameState: room.gameState });   
+    }
+
     // when user creates a new game, generate a game id and join that game
-    socket.on('newgame', function(onJoinGame) {
+    socket.on('newgame', function(ack) {
         // generate game id. Regenerate the id if another game with that ID is already happening
         var gameID = null;
         while (gameID === null || GameUtils.IsAnotherClientInGame(gameID)) {
@@ -43,12 +50,16 @@ io.on('connection', function(socket){
 
         // change this clients username to show that its a host
         socket.username = "game_host_" + gameID;
+        socket.isHost = true;
 
         // join the generated game id
         joinGame(gameID);
-        if (onJoinGame != null) {
-            onJoinGame(gameID);
+        if (ack != null) {
+            ack({ gameID: gameID });
         }
+
+        // set the initial game state
+        changeGameState("initial");            
     });
 
     // when user joins a game, specifying a game ID and username
@@ -62,17 +73,32 @@ io.on('connection', function(socket){
 
             // set the username for the socket connection
             socket.username = username;
+            socket.isHost = false;            
 
             // join the game and acknowledge to client
             joinGame(gameID);
-            ack(null); // ack with null to say no error
+            var room = io.sockets.adapter.rooms[currentGame];
+            ack({ gameState: room.gameState }); // game successfully joined, ack with the current state of the game
             
             // send message to game clients saying this user connected
             io.to(currentGame).emit('playerConnect', { username: socket.username });
         } catch (error) {
-            console.log(error);
-            ack(error.message); // was not able to join game, so ack with the error message
+            ack({ error: error.message }); // was not able to join game, so ack with the error message
         }
+    });
+
+    socket.on('updateGameState', function(data, ack) {
+        if (!socket.isHost) {         
+            if (ack) {
+                ack({ error: "Not allowed to change the game state" });
+            }
+            return;
+        }      
+        var newState = data.gameState;
+        changeGameState(newState);
+        if (ack) {
+            ack({ message: "ok" });   
+        } 
     });
 
     // forward game messages to all clients in the current game
@@ -87,12 +113,14 @@ io.on('connection', function(socket){
             messageData.username = socket.username;
 
             io.to(currentGame).emit('game-message', messageData);
-            if (ack != null) {
-                ack();
+            if (ack) {
+                ack({ message: "ok" });
             }
         } catch (e) {
             console.log("Error sending message: " + e);
-            ack(e);
+            if (ack) {
+                ack({ error: e });
+            }
         }
     });
 

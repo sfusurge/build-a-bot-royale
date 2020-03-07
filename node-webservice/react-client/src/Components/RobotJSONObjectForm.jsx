@@ -43,9 +43,9 @@ class RobotJSONObjectForm extends Component {
       socket.emit(
         'game-message',
         { action: "submitrobot", parts: robotObject },
-        (err) => {
-          if (err) {
-            alert("Error processing robot data: " + err);
+        response => {
+          if (response.error) {
+            alert("Error processing robot data: " + response.error);
           }
         }
       );

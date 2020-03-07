@@ -9,7 +9,7 @@ class GameplayPage extends Component {
     super(props);
     this.state = {
       joinedGameID: null,
-      gameplayPhase: "buildrobot",
+      gameplayPhase: "not-set",
       parts: [
         {
           "type": "block",
@@ -85,18 +85,37 @@ class GameplayPage extends Component {
     }
 
     // join the game by sending the 'joingame' message to the socket API
-    socket.emit('joingame', socketMessageData, (err) => {
-      if (err) {
-        this.setState({ error: err });
+    socket.emit('joingame', socketMessageData, response => {
+      if (response.error) {
+        this.setState({ error: response.error });
       } else {
-        this.setState({ joinedGameID: gameID, username: username });
+        this.setState({
+          joinedGameID: gameID,
+          username: username, 
+          gameplayPhase: response.gameState
+        });
       }
+    });
+
+    // update the component's state when the game changes states
+    socket.on("gameStateChanged", messageData => {
+      const newState = messageData.gameState;
+      this.setState({ gameplayPhase: newState });
     });
   }
 
   renderGameplayUI() {
     // show different gameplay ui based on the gameplay phase
-    if (this.state.gameplayPhase === 'buildrobot') {
+    if (this.state.gameplayPhase === "initial" || this.state.gameplayPhase === "lobby") {
+      return (
+        <div className='gameplay-page'>  
+          <h1>Welcome { this.state.username }</h1>
+          <h2>You are connected to game <code>{ this.state.joinedGameID }</code></h2>      
+          <h3>Waiting for game to start...</h3>
+        </div>
+      );
+    }
+    if (this.state.gameplayPhase === 'build') {
       return (
         <div className='gameplay-page'>
           <h3>Playing game {this.props.match.params.gameid}</h3>
@@ -105,15 +124,15 @@ class GameplayPage extends Component {
       );
       //return <RobotJSONObjectForm />;
     }
-    if (this.state.gameplayPhase === 'controlrobot') {
+    if (this.state.gameplayPhase === 'battle') {
       return (
         <div className='gameplay-page'>
-          <h3>Playing game {this.props.match.params.gameid}</h3>
-          <Grid onCellClick={this.handleCellClicked} parts={this.state.parts}></Grid>
+          <h3>Battle!</h3>
+          <Grid onCellClick={ () => {} } parts={this.state.parts}></Grid>          
         </div>
       );
     }
-    return <h1 className="error-message">Invalid gameplay phase: {this.state.gameplayPhase}</h1>
+    return <ErrorPage>No page defined for game state: {this.state.gameplayPhase}</ErrorPage> 
   }
 
   handleCellClicked(x, y) {
@@ -122,7 +141,7 @@ class GameplayPage extends Component {
       throw new Error("Invalid x or y");
     }
 
-    if (this.state.gameplayPhase === "buildrobot") {
+    if (this.state.gameplayPhase === "build") {
       // Checks to see if there is a part in the clicked location. If there is,
       // rotate the part and set 'partHere' to true.
       var partHere = false;

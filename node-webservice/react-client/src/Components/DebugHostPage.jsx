@@ -46,6 +46,10 @@ class DebugHostPage extends Component {
       this.setState({ players: this.state.players.filter(name => name !== data.username) });
     });
 
+    socket.on("gameStateChanged", data => {
+      this.setState({ gameState: data.gameState });
+    });
+
     socket.on("game-message", messageData => {
       const action = messageData.action;
 
@@ -63,7 +67,8 @@ class DebugHostPage extends Component {
 
   startNewGame() {
     this.setState(initialState);
-    socket.emit("newgame", gameID => {
+    socket.emit("newgame", response => {
+      var gameID = response.gameID;
       this.setState({ gameID: gameID, gameState: gameStates[0] });
     });
   }
@@ -95,8 +100,11 @@ class DebugHostPage extends Component {
               key={ gameState }
               onClick={
                 () => {
-                  this.setState({ gameState: gameState });
-                  socket.emit("game-message", { action: "stateChange", gameState: gameState })
+                  socket.emit("updateGameState", { gameState: gameState }, response => {
+                    if (response.error) {
+                      alert("Error updating game state: " + response.error);
+                    }
+                  });
                 }
               }
             >{ gameState }</button>
@@ -152,7 +160,11 @@ class DebugHostPage extends Component {
     const handleSubmit= (e) => {
       e.preventDefault();
       try {
-        socket.emit("game-message", JSON.parse(this.state.messageFormContent));
+        socket.emit("game-message", JSON.parse(this.state.messageFormContent), response => {
+          if (response.error) {
+            alert("Server returned error: " + response.error);
+          }
+        });
       } catch (e) {
         alert("Error sending message: " + e.message);
       }
