@@ -27,7 +27,6 @@ class GameplayPage extends Component {
 
     // join the game by sending the 'joingame' message to the socket API
     socket.emit('joingame', socketMessageData, (err) => {
-      console.log(err);
       if (err) {
         this.setState({ error: err});
       } else {
