@@ -104,12 +104,25 @@ public class SocketConnectionHandler : MonoBehaviour
         socket.Emit("newgame", onGameCreated);
     }
 
+    public void ChangeGameState(string newState, Action<string> onStateChanged = null)
+    {
+        var messageData = new JSONObject();
+        messageData["gameState"] = newState;
+        if (onStateChanged == null)
+        {
+            socket.Emit("updateGameState", messageData.ToString());
+        }
+        else
+        {
+            socket.Emit("updateGameState", messageData.ToString(), onStateChanged);
+        }
+    }
+
     public void EmitGameMessage(JSONObject data, Action<string> onMessageSent = null)
     {
         if (onMessageSent == null)
         {
             socket.Emit("game-message", data.ToString());
-
         }
         else
         {

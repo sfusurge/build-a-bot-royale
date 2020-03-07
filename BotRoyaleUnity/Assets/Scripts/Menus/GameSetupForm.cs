@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using SimpleJSON;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,9 +28,12 @@ public class GameSetupForm : MonoBehaviour
 
     public void OnNewGameButtonClicked()
     {
-        socketIO.StartNewGame(id =>
+        socketIO.StartNewGame(response =>
         {
-            GameIDTextElement.text = "Game ID: <b>" + id + "</b>";
+            var jsonResponse = JSONObject.Parse(response);
+            GameIDTextElement.text = "Game ID: <b>" + jsonResponse["gameID"] + "</b>";
+
+            socketIO.ChangeGameState("build");
         });
     }
 }
