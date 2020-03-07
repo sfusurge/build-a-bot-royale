@@ -54,7 +54,7 @@ class App extends Component {
       <Router>
         <Switch>
           <Route path="/" exact component={ HomePage } />
-          <Route path="/game/:gameid" exact component={ GameplayPage } />
+          <Route path="/game/:gameid/:username" exact component={ GameplayPage } />
           <Route path="/about" exact component={ AboutPage } />
           <Route path="/host" exact component={ HostGamePage } />
           <Route component={ () => <ErrorPage>Page not found</ErrorPage> } />

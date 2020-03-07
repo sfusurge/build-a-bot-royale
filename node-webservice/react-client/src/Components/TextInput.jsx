@@ -29,7 +29,11 @@ class TextInput extends Component {
     }
 
     handleSubmit(event){
-        this.props.onSubmit(this.state.value);
+        this.props.onSubmit( {
+            gameID: this.state.value,
+            username: "default_username" // TODO: add a text field in this form for username
+        });
+        
         event.preventDefault();
     }
 
