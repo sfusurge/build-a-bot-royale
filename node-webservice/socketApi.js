@@ -7,9 +7,14 @@ var GameUtils = require('./js/GameUtils')(io);
 socketApi.io = io;
 
 var currentConnections = 0;
+var totalConnections = 0;
 io.on('connection', function(socket){
     currentConnections += 1;
+    totalConnections += 1;
     console.log("user connected | " + currentConnections);
+
+    // set default username
+    socket.username = "user" + totalConnections;
 
     // test messages to check that socket.io service is working
     var numberOfBeeps = 0;
@@ -26,14 +31,6 @@ io.on('connection', function(socket){
         // join the specified room
         socket.join(gameID);
         currentGame = gameID;
-
-        // emit joined game message
-        socket.to(currentGame).emit(
-            "playerjoined",
-            {
-                players: GameUtils.NumberOfClientsInGame(currentGame) - 1  // -1 because one client is the Unity app, which is not a player
-            }
-        );
     }
 
     // when user creates a new game, generate a game id and join that game
@@ -44,6 +41,9 @@ io.on('connection', function(socket){
             gameID = GameID.GenerateGameID(5);
         }
 
+        // change this clients username to show that its a host
+        socket.username = "game_host_" + gameID;
+
         // join the generated game id
         joinGame(gameID);
         if (onJoinGame != null) {
@@ -51,13 +51,27 @@ io.on('connection', function(socket){
         }
     });
 
-    // when user joins a game, specifying a game ID
-    socket.on('joingame', function (gameID, ack) {
-        if (GameUtils.CanPlayerJoinGame(gameID)) {
+    // when user joins a game, specifying a game ID and username
+    socket.on('joingame', function (data, ack) {
+        var gameID = data.gameID;
+        var username = data.username;
+
+        try {
+            // check that game id and username are valid
+            GameUtils.ValidatePlayerCanJoinGame(gameID, username);
+
+            // set the username for the socket connection
+            socket.username = username;
+
+            // join the game and acknowledge to client
             joinGame(gameID);
             ack(null); // ack with null to say no error
-        } else {
-            ack("Game " + gameID + " hasn't been created");
+            
+            // send message to game clients saying this user connected
+            io.to(currentGame).emit('playerConnect', { username: socket.username });
+        } catch (error) {
+            console.log(error);
+            ack(error.message); // was not able to join game, so ack with the error message
         }
     });
 
@@ -68,6 +82,9 @@ io.on('connection', function(socket){
             {
                 throw "messagedata is of type " + typeof messageData + " but has to be an object";
             }
+
+            // add username to message
+            messageData.username = socket.username;
 
             io.to(currentGame).emit('game-message', messageData);
             if (ack != null) {
@@ -82,7 +99,12 @@ io.on('connection', function(socket){
     // when user disconnects
     socket.on('disconnect', function () {
         currentConnections -= 1;
-       console.log("user disconnected | " + currentConnections);
+        console.log("user disconnected | " + currentConnections);
+
+        // send message to game clients saying this user disconnected
+        if (currentGame && currentGame !== "no-game") {
+            io.to(currentGame).emit('playerDisconnect', { username: socket.username });
+        }
     });
 });
 

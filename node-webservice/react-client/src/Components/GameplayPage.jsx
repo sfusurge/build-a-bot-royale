@@ -75,15 +75,21 @@ class GameplayPage extends Component {
   }
 
   componentDidMount() {
-    // get the game id from the url params
+    // get the game id and username from the url params
     const gameID = this.props.match.params.gameid;
+    const username = this.props.match.params.username;
+
+    const socketMessageData = {
+      gameID: gameID,
+      username: username
+    }
 
     // join the game by sending the 'joingame' message to the socket API
-    socket.emit('joingame', gameID, (err) => {
+    socket.emit('joingame', socketMessageData, (err) => {
       if (err) {
         this.setState({ error: err });
       } else {
-        this.setState({ joinedGameID: gameID });
+        this.setState({ joinedGameID: gameID, username: username });
       }
     });
   }
