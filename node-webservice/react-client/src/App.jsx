@@ -6,6 +6,7 @@ import GameplayPage from './Components/GameplayPage';
 import ErrorPage from './Components/ErrorPage';
 import AboutPage from './Components/AboutPage';
 import HostGamePage from './Components/HostGamePage';
+import DebugHostPage from './Components/DebugHostPage';
 
 import background from './background.jpg';
 import './App.css';
@@ -57,6 +58,7 @@ class App extends Component {
           <Route path="/game/:gameid/:username" exact component={ GameplayPage } />
           <Route path="/about" exact component={ AboutPage } />
           <Route path="/host" exact component={ HostGamePage } />
+          <Route path="/debughost" exact component={ DebugHostPage } />
           <Route component={ () => <ErrorPage>Page not found</ErrorPage> } />
         </Switch>
       </Router>
