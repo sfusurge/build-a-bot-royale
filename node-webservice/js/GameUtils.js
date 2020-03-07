@@ -20,17 +20,17 @@ var GameUtils = (socketIO) => ({
             throw new Error("Invalid game id data");
         }
 
-        // test games are always joinable
-        if (this.TestGameIds.includes(gameID)) {
-            return;
-        }
-
         // dont allow a game to be joined if no other clients are there, meaning there is no host
         if (this.IsAnotherClientInGame(gameID) === false) {
             throw new Error("Game " + gameID + " hasn't been created");
         }
     },
     ValidatePlayerCanJoinGame: function(gameID, username) {
+        // test games are always joinable
+        if (this.TestGameIds.includes(gameID)) {
+            return;
+        }
+
         this.ValidateGameID(gameID);
         this.ValidateUsername(username, gameID);
 

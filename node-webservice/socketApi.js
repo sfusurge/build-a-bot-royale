@@ -31,14 +31,6 @@ io.on('connection', function(socket){
         // join the specified room
         socket.join(gameID);
         currentGame = gameID;
-
-        // emit joined game message
-        socket.to(currentGame).emit(
-            "playerjoined",
-            {
-                players: GameUtils.NumberOfClientsInGame(currentGame) - 1  // -1 because one client is the Unity app, which is not a player
-            }
-        );
     }
 
     // when user creates a new game, generate a game id and join that game
@@ -73,8 +65,12 @@ io.on('connection', function(socket){
 
             // join the game and acknowledge to client
             joinGame(gameID);
-            ack(null); // ack with null to say no error            
+            ack(null); // ack with null to say no error
+            
+            // send message to game clients saying this user connected
+            io.to(currentGame).emit('playerConnect', { username: socket.username });
         } catch (error) {
+            console.log(error);
             ack(error.message); // was not able to join game, so ack with the error message
         }
     });
@@ -86,6 +82,9 @@ io.on('connection', function(socket){
             {
                 throw "messagedata is of type " + typeof messageData + " but has to be an object";
             }
+
+            // add username to message
+            messageData.username = socket.username;
 
             io.to(currentGame).emit('game-message', messageData);
             if (ack != null) {
@@ -100,7 +99,12 @@ io.on('connection', function(socket){
     // when user disconnects
     socket.on('disconnect', function () {
         currentConnections -= 1;
-       console.log("user disconnected | " + currentConnections);
+        console.log("user disconnected | " + currentConnections);
+
+        // send message to game clients saying this user disconnected
+        if (currentGame && currentGame !== "no-game") {
+            io.to(currentGame).emit('playerDisconnect', { username: socket.username });
+        }
     });
 });
 
