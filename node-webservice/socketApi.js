@@ -7,9 +7,14 @@ var GameUtils = require('./js/GameUtils')(io);
 socketApi.io = io;
 
 var currentConnections = 0;
+var totalConnections = 0;
 io.on('connection', function(socket){
     currentConnections += 1;
+    totalConnections += 1;
     console.log("user connected | " + currentConnections);
+
+    // set default username
+    socket.username = "user" + totalConnections;
 
     // test messages to check that socket.io service is working
     var numberOfBeeps = 0;
@@ -44,6 +49,9 @@ io.on('connection', function(socket){
             gameID = GameID.GenerateGameID(5);
         }
 
+        // change this clients username to show that its a host
+        socket.username = "game_host_" + gameID;
+
         // join the generated game id
         joinGame(gameID);
         if (onJoinGame != null) {
@@ -51,13 +59,23 @@ io.on('connection', function(socket){
         }
     });
 
-    // when user joins a game, specifying a game ID
-    socket.on('joingame', function (gameID, ack) {
-        if (GameUtils.CanPlayerJoinGame(gameID)) {
+    // when user joins a game, specifying a game ID and username
+    socket.on('joingame', function (data, ack) {
+        var gameID = data.gameID;
+        var username = data.username;
+
+        try {
+            // check that game id and username are valid
+            GameUtils.ValidatePlayerCanJoinGame(gameID, username);
+
+            // set the username for the socket connection
+            socket.username = username;
+
+            // join the game and acknowledge to client
             joinGame(gameID);
-            ack(null); // ack with null to say no error
-        } else {
-            ack("Game " + gameID + " hasn't been created");
+            ack(null); // ack with null to say no error            
+        } catch (error) {
+            ack(error.message); // was not able to join game, so ack with the error message
         }
     });
 
