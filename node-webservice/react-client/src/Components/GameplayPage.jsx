@@ -106,12 +106,29 @@ class GameplayPage extends Component {
 
   renderGameplayUI() {
     // show different gameplay ui based on the gameplay phase
-    if (this.state.gameplayPhase === "initial" || this.state.gameplayPhase === "lobby") {
+    if (this.state.gameplayPhase === "test-game") {
+      return (
+        <div>
+          <h1>In test game <code>{ this.state.joinedGameID }</code></h1>
+          <p>Change state to:</p>
+          {
+            ["lobby", "build", "battle"].map((gamestate, index) =>
+              <button
+                key={ index }
+                onClick={ () => this.setState({ gameplayPhase: gamestate }) }
+              >{ gamestate }</button>
+            )
+          }
+        </div>
+      );
+    }
+    if (this.state.gameplayPhase === "initial" || this.state.gameplayPhase === "titleScreen" ||this.state.gameplayPhase === "lobby") {
       return (
         <div className='gameplay-page'>  
           <h1>Welcome { this.state.username }</h1>
           <h2>You are connected to game <code>{ this.state.joinedGameID }</code></h2>      
           <h3>Waiting for game to start...</h3>
+          <h4>Game state is currently: { this.state.gameplayPhase }</h4>
         </div>
       );
     }

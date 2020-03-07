@@ -1,5 +1,8 @@
 var GameUtils = (socketIO) => ({
     TestGameIds: ["TEST0", "TEST1", "12345"],
+    IsTestingGame: function(gameID) {
+        return this.TestGameIds.includes(gameID);
+    },
     ValidateUsername: function(username, gameID) {
         if (!username) {
             throw new Error("Invalid username data");
@@ -27,7 +30,7 @@ var GameUtils = (socketIO) => ({
     },
     ValidatePlayerCanJoinGame: function(gameID, username) {
         // test games are always joinable
-        if (this.TestGameIds.includes(gameID)) {
+        if (this.IsTestingGame(gameID)) {
             return;
         }
 

@@ -77,8 +77,13 @@ io.on('connection', function(socket){
 
             // join the game and acknowledge to client
             joinGame(gameID);
-            var room = io.sockets.adapter.rooms[currentGame];
-            ack({ gameState: room.gameState }); // game successfully joined, ack with the current state of the game
+            if (GameUtils.IsTestingGame(gameID)) {
+                var currentGameState = "test-game";
+            } else {
+                var room = io.sockets.adapter.rooms[currentGame];
+                var currentGameState = room.gameState;
+            }
+            ack({ gameState: currentGameState }); // game successfully joined, ack with the current state of the game
             
             // send message to game clients saying this user connected
             io.to(currentGame).emit('playerConnect', { username: socket.username });
