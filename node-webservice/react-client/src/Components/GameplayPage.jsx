@@ -146,7 +146,7 @@ class GameplayPage extends Component {
 
 
   }
-  TwoDIndexOf(arr, target) {
+  PartExistsIn(arr, target) {
     var found = 0;
     arr.forEach(element => {
       if (element[0] === target[0] && element[1] === target[1]) {
@@ -158,7 +158,7 @@ class GameplayPage extends Component {
 
 
   rotate(current, x, y) {
-    const order = ["north", "west", "south", "east", "north", "west", "south", "east"]
+    const order = ["north", "west", "south", "east"]
     var partLocations = [];
     this.state.parts.forEach(element => {
       partLocations.push([element.x, element.y])
@@ -168,24 +168,24 @@ class GameplayPage extends Component {
       throw new Error("invalid direction");
     }
     for (var a = intial + 1; a < intial + 4; a++) {
-      switch (order[a]) {
+      switch (order[a%4]) {
         case "north":
-          if (this.TwoDIndexOf(partLocations,[x,y-1]) === 1) {
+          if (this.PartExistsIn(partLocations,[x,y-1]) === 1) {
             return "north";
           }
           break;
         case "west":
-          if (this.TwoDIndexOf(partLocations,[x+1,y]) === 1) {
+          if (this.PartExistsIn(partLocations,[x+1,y]) === 1) {
             return "west";
           }
           break;
         case "south":
-          if (this.TwoDIndexOf(partLocations,[x,y+1]) === 1) {
+          if (this.PartExistsIn(partLocations,[x,y+1]) === 1) {
             return "south";
           }
           break;
         case "east":
-          if (this.TwoDIndexOf(partLocations,[x-1,y]) === 1) {
+          if (this.PartExistsIn(partLocations,[x-1,y]) === 1) {
             return "east";
           }
           break;
