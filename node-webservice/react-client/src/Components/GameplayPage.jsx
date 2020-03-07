@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import RobotJSONObjectForm from './RobotJSONObjectForm';
 import ErrorPage from './ErrorPage';
+import TestGamePage from './TestGamePage';
 import socket from '../API/socketHandler';
 import Grid from './Grid';
 
@@ -105,23 +106,18 @@ class GameplayPage extends Component {
   }
 
   renderGameplayUI() {
-    // show different gameplay ui based on the gameplay phase
+    // show a page where the gameplayPhase can be changed when joining a test game
     if (this.state.gameplayPhase === "test-game") {
       return (
-        <div>
-          <h1>In test game <code>{ this.state.joinedGameID }</code></h1>
-          <p>Change state to:</p>
-          {
-            ["lobby", "build", "battle"].map((gamestate, index) =>
-              <button
-                key={ index }
-                onClick={ () => this.setState({ gameplayPhase: gamestate }) }
-              >{ gamestate }</button>
-            )
-          }
-        </div>
+        <TestGamePage
+          gameID={ this.state.joinedGameID }
+          gameStates={ ["lobby", "build", "battle", "results"] }
+          onChangeStateClicked={ gameState => this.setState({ gameplayPhase: gameState }) }
+        />
       );
     }
+
+    // show different gameplay ui based on the gameplay phase
     if (this.state.gameplayPhase === "initial" || this.state.gameplayPhase === "titleScreen" ||this.state.gameplayPhase === "lobby") {
       return (
         <div className='gameplay-page'>  
