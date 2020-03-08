@@ -7,9 +7,9 @@ public class BuildRobotFromNetwork : MonoBehaviour
 {
     SocketConnectionHandler socketIO;
 
-    void Start()
+    void Awake()
     {
-        GameStateManager.Instance.RegisterActionToState(GameStateManager.GameStates.DURING_BATTLE, socketConnection);
+        GameStateManager.Instance.RegisterActionToState(GameStateManager.GameStates.BATTLE, socketConnection);
     }
 
     private void socketConnection(){

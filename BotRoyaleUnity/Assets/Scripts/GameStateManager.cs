@@ -5,6 +5,7 @@ using System;
 
 public class GameStateManager : MonoBehaviour
 {
+    [SerializeField] private GameStates InitialGameState = GameStates.NONE;
     private static GameStateManager instance;
     public static GameStateManager Instance{
         get{
@@ -22,12 +23,12 @@ public class GameStateManager : MonoBehaviour
         //receive JSON build
         //displays count down timer for building
         //have the camera circle in before the battle
-        BEFORE_BATTLE,
+        BUILDING,
         //build robot
         //robot fights
         //camera action
         //...
-        DURING_BATTLE,
+        BATTLE,
         //camera action (zooms in?)
         CHAMP_BATTLE,
         //end game scene
@@ -42,18 +43,23 @@ public class GameStateManager : MonoBehaviour
             Destroy(this);
         }
         instance = this;
+
         StateActions = new Dictionary<GameStates, List<Action>>();
+        foreach (GameStates State in Enum.GetValues(typeof(GameStates)))
+        {
+            StateActions.Add(State, new List<Action>());
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        ChangeState(GameStates.BEFORE_BATTLE);
+        ChangeState(GameStates.BUILDING);   
     }
 
     // have a signal from countdown scene to call this function 
     public void BuildTimeUp(){
-        ChangeState(GameStates.DURING_BATTLE);
+        ChangeState(GameStates.BATTLE);
     }
 
     public void EndGame(){
@@ -64,14 +70,19 @@ public class GameStateManager : MonoBehaviour
         if (StateActions.ContainsKey(stateToListenFor) == false){
             StateActions.Add(stateToListenFor, new List<Action>());
         }
-        StateActions[stateToListenFor].Add(onStateChange);   
+        
+        StateActions[stateToListenFor].Add(onStateChange);  
+        Debug.Log("register: " + StateActions[stateToListenFor].Count);
     }
 
    private void ChangeState(GameStates newState){
-        bool isCurrentState = GameState == newState;
+        
+        bool isCurrentState = (GameState == newState);
         GameState = newState;
         if (StateActions.ContainsKey(newState) && isCurrentState == false){
+            Debug.Log("action: " + StateActions[newState].Count);
             foreach (Action action in StateActions[newState]){
+                
                 action.Invoke();
             }
         }
@@ -79,7 +90,7 @@ public class GameStateManager : MonoBehaviour
 
     public void addRobot(GameObject robot){
         robotList.Add(robot);
-        if (GameState == GameStates.DURING_BATTLE){
+        if (GameState == GameStates.BATTLE){
                 if (robotList.Count <= 3){
                 ChangeState(GameStates.CHAMP_BATTLE);
             }
@@ -88,9 +99,12 @@ public class GameStateManager : MonoBehaviour
 
     public void killRobot(GameObject robot){
         robotList.Remove(robot);
-            if (GameState == GameStates.DURING_BATTLE){
+            if (GameState == GameStates.BATTLE){
                 if (robotList.Count <= 3){
-                ChangeState(GameStates.CHAMP_BATTLE);
+                    ChangeState(GameStates.CHAMP_BATTLE);
+                if (robotList.Count <= 1){
+                    ChangeState(GameStates.GAME_OVER);
+                }
             }
         }
     }
