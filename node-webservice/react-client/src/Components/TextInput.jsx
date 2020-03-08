@@ -24,6 +24,15 @@ class TextInput extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount() {
+        // auto-fill the game id if it's included in the query params
+        const queryParams = (new URL(document.location)).searchParams;
+        const gameIDParam = queryParams.get("id");
+        if (gameIDParam) {
+            this.setState({ value: gameIDParam });
+        }
+    }
+
     handleChange(event){
         this.setState({value: event.target.value})
     }

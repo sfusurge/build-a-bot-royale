@@ -63,4 +63,45 @@ public static class StaticNetworkSettings
             }
         }
     }
+
+    public static string ShortURL
+    {
+        get
+        {
+            switch (CurrentServer)
+            {
+                case Servers.LOCAL:
+                    return "localhost:3000";
+                case Servers.PRODUCTION:
+                    return "bit.ly/2TytNCM";
+                default:
+                    throw new System.NotImplementedException("No short url defined for server " + CurrentServer);
+            }
+        }
+    }
+
+    public static string PlayerURL(string gameID = null)
+    {
+        string url;
+
+        // choose the base url based on which server we're connecting to
+        switch (CurrentServer)
+        {
+            case Servers.LOCAL:
+                url = "http://localhost:3000";
+                break;
+            case Servers.PRODUCTION:
+                url = "https://build-a-bot-royale.herokuapp.com";
+                break;
+            default:
+                throw new System.NotImplementedException("No player url defined for server " + CurrentServer);
+        }
+
+        // append the game id query param if set
+        if (gameID != null)
+        {
+            url += ("?id=" + gameID);
+        }
+        return url;
+    }
 }

@@ -30,6 +30,12 @@ public class GameSetupForm : MonoBehaviour
         socketIO.StartNewGame(id =>
         {
             GameIDTextElement.text = "Game ID: <b>" + id + "</b>";
+
+            var JoinGameUI = FindObjectOfType<JoinGameUI>();
+            if (JoinGameUI != null)
+            {
+                JoinGameUI.SetGameID(id);
+            }
         });
     }
 }
