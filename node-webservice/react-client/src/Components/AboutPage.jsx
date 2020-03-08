@@ -38,7 +38,7 @@ const Contributors = props => (
             <li>Thomas</li>
             <li>Shea</li>
             <li>Rustem</li>
-            <li>Katalina</li>
+            <li>Jocelyn</li>
             <li>Jason</li>
             <li>Harry</li>
         </ul>
