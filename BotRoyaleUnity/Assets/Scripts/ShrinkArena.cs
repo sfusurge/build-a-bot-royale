@@ -89,6 +89,16 @@ public class ShrinkArena : MonoBehaviour
         }
         Walls.localScale = new Vector3(Walls.localScale.x, finalWallHeight, Walls.localScale.z);
 
+        while (transform.localScale.x > 1)
+        {
+            transform.localScale -= new Vector3(1f,0,1f) * Time.deltaTime;
+            yield return null;
+        }
+
         // sequence done.
+    }
+
+    public Vector3 GetLocalScale(){
+        return transform.localScale;
     }
 }

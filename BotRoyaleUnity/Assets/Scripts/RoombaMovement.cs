@@ -10,6 +10,7 @@ public class RoombaMovement : MonoBehaviour
 
     public GameObject attack = null;
 
+    public GameObject arena = null;
     public string navigationMode;
 
     private int robotsRemaining;
@@ -36,13 +37,19 @@ public class RoombaMovement : MonoBehaviour
 
     public void Activate()
     {
+        arena = GameObject.Find("Arena");
         isActivated = true;
 
         stuckTimer = Time.time;
         switchTimer = Time.time;
         boostTimer = Time.time;
         SetClosestTarget();
-        SetNavigationMode("target");
+        StartCoroutine("target");
+        if(UnityEngine.Random.value > 0.5f){
+            SetNavigationMode("run");
+        }else{
+            SetNavigationMode("target");
+        }
     }
 
     private void Update()
@@ -71,29 +78,20 @@ public class RoombaMovement : MonoBehaviour
             speed = rigidBody.velocity.magnitude;
             if (speed < 10)
             {
-                if (navigationMode != "reverse")
-                {
-                    strongest = gameObject.GetComponent<PartHandler>().greatestDirectionStrength();
+                float arenaScale = arena.GetComponent<ShrinkArena>().GetLocalScale().x;
+                strongest = gameObject.GetComponent<PartHandler>().greatestDirectionStrength();
+                if(navigationMode == "target"){
                     Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
                     rigidBody.AddForce(direction * (rigidBody.mass * 15));
-                    if (speed > 1)
-                    {
-                        stuckTimer = Time.time;
-                    }
-                    else if (Time.time - stuckTimer > 1)
-                    {
-                        SetNavigationMode("reverse");
-                        stuckTimer = Time.time;
-                    }
-                }
-                else
-                {
-                    rigidBody.AddForce(-transform.forward * 10 * rigidBody.mass);
-                    if (Time.time - stuckTimer > 0.55)
-                    {
-                        SetNavigationMode("target");
-                        stuckTimer = Time.time;
-                    }
+                }else if(navigationMode == "run" && attack != null){
+                    float distanceFromClosest = (attack.transform.position - transform.position).magnitude;
+                    Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
+                    rigidBody.AddForce(-direction * (rigidBody.mass * (30 / (distanceFromClosest) + 5)));
+                    float distanceFromCenter = transform.position.magnitude;
+                    Vector3 centerDirection = -transform.position;
+                    centerDirection.Normalize();
+                    rigidBody.AddForce(centerDirection * (rigidBody.mass * (distanceFromCenter * 20/arenaScale)));
+                    
                 }
             }
         }
@@ -104,9 +102,8 @@ public class RoombaMovement : MonoBehaviour
     {
         while (true)
         {
-            if (attack != null && Time.time - switchTimer < 5)
+            if (attack != null && Time.time - switchTimer < 0.5)
             {
-
                 Vector3 direction = Quaternion.AngleAxis(strongest * 90 + 90, Vector3.up) * (attack.transform.position - transform.position);
                 Quaternion rotation = Quaternion.LookRotation(direction);
                 float angle = Quaternion.Angle(transform.rotation,rotation);
@@ -122,48 +119,8 @@ public class RoombaMovement : MonoBehaviour
         }
     }
 
-    private IEnumerator random()
-    {
-        while (true)
-        {
-            float newDirection = UnityEngine.Random.Range(-180f, 180f);
-            float rotationSpeed = UnityEngine.Random.Range(80f, 150f);
-            float totalRotation = 0;
-            if (newDirection < 0)
-            {
-                while (totalRotation > newDirection)
-                {
-                    var rotationThisFrame = rotationSpeed * Time.deltaTime;
-                    transform.Rotate(Vector3.forward, -rotationThisFrame);
-                    totalRotation -= rotationThisFrame;
-                    yield return null;
-                }
-            }
-            else
-            {
-                while (totalRotation < newDirection)
-                {
-                    var rotationThisFrame = rotationSpeed * Time.deltaTime;
-                    transform.Rotate(Vector3.forward, rotationThisFrame);
-                    totalRotation += rotationThisFrame;
-                    yield return null;
-                }
-            }
-        }
-    }
-
-    private IEnumerator reverse()
-    {
-        while (true)
-        {
-            yield return null;
-        }
-    }
-
     public void SetNavigationMode(string mode)
     {
-        StopAllCoroutines();
-        StartCoroutine(mode);
         navigationMode = mode;
     }
 
