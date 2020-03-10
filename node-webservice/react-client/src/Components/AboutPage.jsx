@@ -1,8 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const myHeader = {
+const aboutPage = {
+    width: '700px',
+    maxWidth: '700px',
+    //minWidth: '50%',
+    marginRight: '30px',
+    marginLeft: '30px',
+}
+
+const p = {
+    display: 'inline_block',
+    textAlign: 'left',
     fontSize: '16pt',
+    margin: '0 auto',
+}
+
+const myHeader = {
+    fontSize: '21pt',
+    marginTop: '21pt',
 }
 
 const listContainer = {
@@ -13,28 +29,39 @@ const listContainer = {
     //background: '#eee',
     margin: '0 auto',
     textAlign: 'right',
-  }
+}
 
-const ul = {
-    display: 'inline_block',
-    textAlign: 'left',
-  }
+// const ul = {
+//     display: 'inline_block',
+//     textAlign: 'left',
+// }
 
 
 const AboutPage = props => (
-    <div className="about-page">
+    <div className="about-page" style={aboutPage}>
         <h1>About</h1>
-        <p>Surge SFU Project Spring 2020</p> 
+        <div style={myHeader}>Surge SFU Project Spring 2020</div> 
+        <GameDescription />
         <div style={myHeader}>Created by:</div> 
         <Contributors />
+        <p><a href="https://www.sfusurge.com/">SFU Surge Website</a></p>
         <Link to="/">Back</Link>
     </div>
 );
 
 
+const GameDescription = props => (
+    <p style={p}>
+        Build-a-Bot Royale is a party game for 2 to 100+ players.
+        Using a Jackbox- or Kahoot-like setup, build a bot to end all bots,
+        and watch it fight off the competition for a Victory Royale!  
+        During the match, control the aggression of your bot to extend your survival.
+    </p>
+)
+
 const Contributors = props => (
     <div style={listContainer}>
-        <ul style={ul}>
+        <ul style={p}>
             <li>Thomas</li>
             <li>Shea</li>
             <li>Rustem</li>
