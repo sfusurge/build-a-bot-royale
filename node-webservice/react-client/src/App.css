@@ -14,7 +14,6 @@
   width: 100vw;
   display: flex;
   justify-content: center;
-  height: calc(30px + 6vmin);
   font-size: calc(10px + 2vmin);
   color: white;
 }
