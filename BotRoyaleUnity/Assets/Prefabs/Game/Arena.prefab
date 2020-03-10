@@ -226,7 +226,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   MinimumScale: 15
-  MinimumWallHeight: 0
+  MinimumWallHeight: 0.01
   Walls: {fileID: 4167131572670396689}
 --- !u!1 &4167131573175071042
 GameObject:
