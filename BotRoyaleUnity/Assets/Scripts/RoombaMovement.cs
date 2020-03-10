@@ -83,7 +83,7 @@ public class RoombaMovement : MonoBehaviour
                 if(navigationMode == "target"){
                     Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
                     rigidBody.AddForce(direction * (rigidBody.mass * 15));
-                }else if(navigationMode == "run"){
+                }else if(navigationMode == "run" && attack != null){
                     float distanceFromClosest = (attack.transform.position - transform.position).magnitude;
                     Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
                     rigidBody.AddForce(-direction * (rigidBody.mass * (30 / (distanceFromClosest) + 5)));
