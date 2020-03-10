@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 const aboutPage = {
     width: '700px',
     maxWidth: '700px',
-    //minWidth: '50%',
     marginRight: '30px',
     marginLeft: '30px',
 }
@@ -25,17 +24,9 @@ const listContainer = {
     display: 'flex',
     alignItems: 'flex_eslkgndsnd',
     width: 'auto',
-    //padding: '2em',
-    //background: '#eee',
     margin: '0 auto',
     textAlign: 'right',
 }
-
-// const ul = {
-//     display: 'inline_block',
-//     textAlign: 'left',
-// }
-
 
 const AboutPage = props => (
     <div className="about-page" style={aboutPage}>
@@ -48,7 +39,6 @@ const AboutPage = props => (
         <Link to="/">Back</Link>
     </div>
 );
-
 
 const GameDescription = props => (
     <p style={p}>
