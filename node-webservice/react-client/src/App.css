@@ -10,13 +10,15 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #1f2123;
   width: 100vw;
   display: flex;
   justify-content: center;
-  height: calc(30px + 6vmin);
+  align-items: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  font-family: 'Major Mono Display', monospace;
+
 }
 
 .App-body{
@@ -24,4 +26,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.App-title{
+  font-family: 'Major Mono Display', monospace;
+  color: lightblue;
+  margin: 5px;
+  max-width: 390px;
+}
+
+.App-header-emoji{
+  font-size: 2em;
 }

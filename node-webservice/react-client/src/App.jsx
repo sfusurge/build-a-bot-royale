@@ -69,9 +69,11 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src='/logo.svg' alt="app logo" style={{margin:'0.5vmin 3vmin', width:'calc(30px + 5vmin)'}}/>
-          <h1 style={{textAlign:'center'}}>Build-a-Bot Royale</h1>
-          <img src='/logo.svg' alt="app logo" style={{margin:'0.5vmin 3vmin', width:'calc(30px + 5vmin)'}}/>
+          <span className="App-header-emoji" role="img" aria-label="image logo">⚡️</span>
+          <h1 className="App-title" style={{textAlign:'center'}}>
+            <span className="App-title-text-bkg">BuilD-a-BoT rOYaLE</span>
+          </h1>
+          <span className="App-header-emoji" role="img" aria-label="image logo">🤖</span>
         </header>
         <div className="App-body" style={backgroundStyle}>
           { this.renderAppBodyContent() }
