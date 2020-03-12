@@ -44,6 +44,8 @@ public class GameStateManager : MonoBehaviour
         }
         instance = this;
 
+        robotList = new List<GameObject>();
+
         StateActions = new Dictionary<GameStates, List<Action>>();
         foreach (GameStates State in Enum.GetValues(typeof(GameStates)))
         {
