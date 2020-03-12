@@ -29,7 +29,7 @@ public class PartHealth : MonoBehaviour
 
     }
 
-    public void SubtractHealth(int damage)
+    public void SubtractHealth(float damage)
     {
         health -= damage;
         if (health <= 0)
