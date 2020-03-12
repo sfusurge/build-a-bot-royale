@@ -17,8 +17,6 @@
   align-items: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  font-family: 'Major Mono Display', monospace;
-
 }
 
 .App-body{
