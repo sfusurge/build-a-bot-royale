@@ -166,14 +166,34 @@ class GameplayPage extends Component {
       //return <RobotJSONObjectForm />;
     }
     if (this.state.gameplayPhase === 'battle') {
+    
       return (
         <div className='gameplay-page'>
           <h3>Battle!</h3>
-          <Grid onCellClick={ () => {} } parts={this.state.parts}></Grid>          
+          <Grid onCellClick={ () => {} } parts={this.state.parts} gameplayPhase={this.gameplayPhase}></Grid>
+          <button onClick = {()=>this.changeBehaviour("target")}> Attack </button>
+          <button> Defend </button>  
+          <button> Stand </button>            
         </div>
       );
     }
     return <ErrorPage>No page defined for game state: {this.state.gameplayPhase}</ErrorPage> 
+  }
+
+  changeBehaviour(behaviour){
+    console.log(behaviour);
+    const username = this.props.match.params.username;
+    const behaviourMessage = {
+      action: "changeBehaviour",
+      username:username,
+      behaviour:behaviour
+    }
+    socket.emit(
+      'game-message',behaviourMessage, response => {
+        if (response.error) {
+          alert("Error processing robot data: " + response.error);
+        }
+    });
   }
 
   handleCellClicked(x, y) {

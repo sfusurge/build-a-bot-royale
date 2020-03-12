@@ -40,12 +40,12 @@ class Grid extends Component {
 
     render() {
         const partsArray = this.partsArrayTo2DArray(this.props.parts);
-        const gridStyle = {
+        const gridStyleBuild = {
             height: "75vmin",
             width: "75vmin",
         }
         return (
-            <div className="Grid-Container" style = {gridStyle}>
+            <div className="Grid-Container" style = {gridStyleBuild}>
                 { partsArray.map(this.renderRow.bind(this)) }
             </div>
         );
