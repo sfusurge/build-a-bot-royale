@@ -12,6 +12,17 @@ public class BuildRobotFromNetwork : MonoBehaviour
         GameStateManager.Instance.RegisterActionToState(GameStateManager.GameStates.BATTLE, socketConnection);
     }
 
+    void Start(){
+        socketIO = FindObjectOfType<SocketConnectionHandler>();
+         socketIO.OnGameMessage("game-message", jsonObject =>
+        {
+            if(jsonObject["action"] == "changeBehaviour"){
+                GameObject robot = GameObject.Find(jsonObject["username"]);
+                robot.GetComponent<RoombaMovement>().SetNavigationMode(jsonObject["behaviour"]);
+            }
+        });
+
+    }
     private void socketConnection(){
         socketIO = FindObjectOfType<SocketConnectionHandler>();
 

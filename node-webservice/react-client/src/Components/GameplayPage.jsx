@@ -172,8 +172,8 @@ class GameplayPage extends Component {
           <h3>Battle!</h3>
           <Grid onCellClick={ () => {} } parts={this.state.parts} gameplayPhase={this.gameplayPhase}></Grid>
           <button onClick = {()=>this.changeBehaviour("target")}> Attack </button>
-          <button> Defend </button>  
-          <button> Stand </button>            
+          <button onClick = {()=>this.changeBehaviour("run")}> Defend </button>  
+          <button onClick = {()=>this.changeBehaviour("stand")}> Stand </button>            
         </div>
       );
     }
