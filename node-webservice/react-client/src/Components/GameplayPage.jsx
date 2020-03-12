@@ -20,10 +20,38 @@ class GameplayPage extends Component {
           "health": 1.0
         },
         {
+          "type": "shield",
+          "x": 1,
+          "y": 3,
+          "direction": "west",
+          "health": 1.0
+        },
+        {
+          "type": "shield",
+          "x": 3,
+          "y": 1,
+          "direction": "east",
+          "health": 1.0
+        },
+        {
+          "type": "shield",
+          "x": 1,
+          "y": 1,
+          "direction": "west",
+          "health": 1.0
+        },
+        {
           "type": "spike",
           "x": 1,
           "y": 2,
           "direction": "west",
+          "health": 1.0
+        },
+        {
+          "type": "shield",
+          "x": 3,
+          "y": 3,
+          "direction": "east",
           "health": 1.0
         },
         {
@@ -199,7 +227,9 @@ class GameplayPage extends Component {
     const order = ["north", "west", "south", "east"]
     var partLocations = [];
     this.state.parts.forEach(element => {
-      partLocations.push([element.x, element.y])
+      if(element.type == "block"){
+        partLocations.push([element.x, element.y])
+      }
     })
     var intial = order.indexOf(current);
     if (intial === -1) {
