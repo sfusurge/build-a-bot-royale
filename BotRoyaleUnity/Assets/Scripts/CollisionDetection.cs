@@ -21,8 +21,15 @@ public class CollisionDetection : MonoBehaviour
                 string thisPartType = thisCollider.tag;
                 string otherPartType = otherCollider.tag;
 
-                float damage = DamageCalculator.DamageToInflictOnCollision(thisPartType, otherPartType);
-                thisCollider.GetComponent<PartHealth>().SubtractHealth(damage);
+                float thisVelocity = GetComponent<Rigidbody>().GetPointVelocity(contact.point).sqrMagnitude;
+                float otherVelocity = otherCollider.GetComponentInParent<Rigidbody>().GetPointVelocity(contact.point).sqrMagnitude;
+
+                // only take damage if this part is moving slower than the other part
+                if (thisVelocity < otherVelocity)
+                {
+                    float damage = DamageCalculator.DamageToInflictOnCollision(thisPartType, otherPartType);
+                    thisCollider.GetComponent<PartHealth>().SubtractHealth(damage);
+                }
             }
         }
     }
