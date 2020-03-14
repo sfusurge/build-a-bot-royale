@@ -9,6 +9,7 @@ TagManager:
   - Spike
   - Wall
   - robot
+  - Shield
   layers:
   - Default
   - TransparentFX

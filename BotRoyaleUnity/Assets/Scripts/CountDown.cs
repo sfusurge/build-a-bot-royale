@@ -14,8 +14,7 @@ public class CountDown : MonoBehaviour
     [SerializeField] private float BuildTime = 0.0f;
     private bool timeUp = true;
 
-    // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         GameStateManager.Instance.RegisterActionToState(StateOn, turnOnScene);
         GameStateManager.Instance.RegisterActionToState(StateOff, turnOffScene);
