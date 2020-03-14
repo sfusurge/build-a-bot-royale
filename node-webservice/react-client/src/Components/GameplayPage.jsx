@@ -20,34 +20,6 @@ class GameplayPage extends Component {
           "health": 1.0
         },
         {
-          "type": "shield",
-          "x": 1,
-          "y": 3,
-          "direction": "west",
-          "health": 1.0
-        },
-        {
-          "type": "shield",
-          "x": 3,
-          "y": 3,
-          "direction": "east",
-          "health": 1.0
-        },
-        {
-          "type": "shield",
-          "x": 1,
-          "y": 1,
-          "direction": "west",
-          "health": 1.0
-        },
-        {
-          "type": "shield",
-          "x": 3,
-          "y": 1,
-          "direction": "east",
-          "health": 1.0
-        },
-        {
           "type": "spike",
           "x": 1,
           "y": 2,
@@ -101,6 +73,7 @@ class GameplayPage extends Component {
 
     this.renderGameplayUI = this.renderGameplayUI.bind(this);
     this.handleCellClicked = this.handleCellClicked.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -161,6 +134,8 @@ class GameplayPage extends Component {
         <div className='gameplay-page'>
           <h3>Playing game {this.props.match.params.gameid}</h3>
           <Grid onCellClick={this.handleCellClicked} parts={this.state.parts}></Grid>
+          <button onClick = {this.handleSubmit}> Submit </button>
+          <RobotJSONObjectForm/>
         </div>
       );
       //return <RobotJSONObjectForm />;
@@ -170,7 +145,7 @@ class GameplayPage extends Component {
       return (
         <div className='gameplay-page'>
           <h3>Battle!</h3>
-          <Grid onCellClick={ () => {} } parts={this.state.parts} gameplayPhase={this.gameplayPhase}></Grid>
+          <Grid onCellClick={ () => {} } parts={this.state.parts} gameplayPhase={this.state.gameplayPhase}></Grid>
           <button onClick = {()=>this.changeBehaviour("target")}> Attack </button>
           <button onClick = {()=>this.changeBehaviour("run")}> Defend </button>  
           <button onClick = {()=>this.changeBehaviour("stand")}> Stand </button>            
@@ -180,12 +155,31 @@ class GameplayPage extends Component {
     return <ErrorPage>No page defined for game state: {this.state.gameplayPhase}</ErrorPage> 
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
+
+    try {
+      socket.emit(
+        'game-message',
+        { action: "submitrobot", parts: this.state.parts, username: this.state.username},
+        response => {
+          if (response.error) {
+            alert("Error processing robot data: " + response.error);
+          }
+        }
+      );
+      //alert("Sent robot data");
+      this.setState({gameplayPhase:"battle"})
+    } catch(e) {
+      alert("Error sending robot data: " + e);
+    }
+  }
+
   changeBehaviour(behaviour){
     console.log(behaviour);
-    const username = this.props.match.params.username;
     const behaviourMessage = {
       action: "changeBehaviour",
-      username:username,
+      username: this.state.username,
       behaviour:behaviour
     }
     socket.emit(

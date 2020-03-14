@@ -14,12 +14,25 @@ public class BuildRobotFromNetwork : MonoBehaviour
 
     void Start(){
         socketIO = FindObjectOfType<SocketConnectionHandler>();
-         socketIO.OnGameMessage("game-message", jsonObject =>
+         socketIO.OnGameMessage("changeBehaviour", jsonObject =>
         {
-            if(jsonObject["action"] == "changeBehaviour"){
-                GameObject robot = GameObject.Find(jsonObject["username"]);
-                robot.GetComponent<RoombaMovement>().SetNavigationMode(jsonObject["behaviour"]);
+            foreach(GameObject robot in GameObject.FindGameObjectsWithTag("robot")){
+                if(robot.name == jsonObject["username"]){
+                    robot.GetComponent<RoombaMovement>().SetNavigationMode(jsonObject["behaviour"]);
+                }
             }
+        });
+
+         socketIO.OnGameMessage("submitrobot", jsonObject =>
+        {
+            Debug.Log("Built");
+            JSONArray partsArray = jsonObject["parts"].AsArray;
+            var username = jsonObject["username"];
+
+            var robot = GetComponent<BuildRobot>().build(partsArray.ToString(), username);
+
+            var randomPosition = Random.onUnitSphere * 3f;
+            robot.transform.position =  new Vector3(randomPosition.x, 1f, randomPosition.z);
         });
 
     }
@@ -28,6 +41,7 @@ public class BuildRobotFromNetwork : MonoBehaviour
 
         socketIO.OnGameMessage("submitrobot", jsonObject =>
         {
+            Debug.Log("Built");
             JSONArray partsArray = jsonObject["parts"].AsArray;
 
             var robot = GetComponent<BuildRobot>().build(partsArray.ToString(), "new-robot");
