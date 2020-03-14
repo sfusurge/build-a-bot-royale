@@ -6,18 +6,17 @@ using System;
 public class PartHealth : MonoBehaviour
 {
     public float maxHealth = 20;
-
     private Color initialColor;
     public float health;
     public Vector2Int relPos { get; private set; } = Vector2Int.zero;
     private string type,direction;
-
     private Rigidbody rb;
-
+    SocketConnectionHandler socketIO;
     private bool subtractedStrength = false;
     // Start is called before the first frame update
     void Start()
     {
+        socketIO = FindObjectOfType<SocketConnectionHandler>();
         health = maxHealth;
         initialColor = GetComponent<Renderer>().material.color;
         rb = transform.parent.gameObject.GetComponent<Rigidbody>();
@@ -46,6 +45,7 @@ public class PartHealth : MonoBehaviour
                     subtractedStrength = true;
                     Destroy(gameObject);
                     GameStateManager.Instance.killRobot(gameObject);
+                    socketIO.EmitCurrentParts(transform.parent.gameObject);
                     rb.mass--;
                 }
             }
@@ -81,4 +81,19 @@ public class PartHealth : MonoBehaviour
             transform.parent.gameObject.GetComponent<PartHandler>().changeDirectionStrength(direction,-3);
         }
     }
+
+    public string GetPartType(){
+        return type;
+    }
+    public string GetPartDirection(){
+        return direction;
+    }
+    public Vector2Int GetRelPos(){
+        return relPos;
+    }
+    
+    public float GetHealth(){
+        return health/maxHealth;
+    }
+
 }

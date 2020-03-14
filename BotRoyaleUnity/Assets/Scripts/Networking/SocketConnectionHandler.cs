@@ -130,6 +130,21 @@ public class SocketConnectionHandler : MonoBehaviour
         }
     }
 
+    public void EmitCurrentParts(GameObject robot){
+        JSONArray parts = new JSONArray();
+        foreach(Transform part in robot.transform){
+            var partHealth = part.gameObject.GetComponent<PartHealth>();
+            JSONObject newPart = new JSONObject();
+            newPart["type"] = partHealth.GetPartType();
+            newPart["x"] = partHealth.GetRelPos().x;
+            newPart["y"] = partHealth.GetRelPos().y;
+            newPart["direction"] = partHealth.GetPartDirection();
+            newPart["health"] = partHealth.GetHealth();
+            parts.Add(newPart);
+        }
+        Debug.Log(parts.ToString());
+    }
+
     public void OnGameMessage(string messageType, Action<JSONObject> onMessageReceived)
     {
         if (GameMessageListeners.ContainsKey(messageType) == false)
