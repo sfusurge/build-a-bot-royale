@@ -10,11 +10,11 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #1f2123;
   width: 100vw;
   display: flex;
   justify-content: center;
-  height: calc(30px + 6vmin);
+  align-items: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -24,4 +24,26 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+
+.App-logo-area{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 100%;
+}
+
+.App-title{
+  font-family: 'Major Mono Display', monospace;
+  color: lightblue;
+  margin: 5px;
+  overflow: visible;
+  white-space: nowrap;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.App-header-emoji{
+  font-size: 2em;
 }
