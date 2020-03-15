@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Assertions;
+using SimpleJSON;
 
 public class GameStateManager : MonoBehaviour
 {
@@ -16,7 +18,10 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
+    public static bool appIsQuitting { get; private set; } = false;
+
     private static List<GameObject> robotList;
+    private SocketConnectionHandler SocketIO;
 
     public enum GameStates{
         NONE,
@@ -51,6 +56,13 @@ public class GameStateManager : MonoBehaviour
         {
             StateActions.Add(State, new List<Action>());
         }
+
+        GameState = InitialGameState;
+
+        Application.quitting += () => appIsQuitting = true;
+
+        SocketIO = FindObjectOfType<SocketConnectionHandler>();
+        Assert.IsNotNull(SocketIO, "Game state manager needs reference to socket handler");
     }
 
     // Start is called before the first frame update
@@ -80,13 +92,31 @@ public class GameStateManager : MonoBehaviour
    private void ChangeState(GameStates newState){
         
         bool isCurrentState = (GameState == newState);
-        GameState = newState;
-        if (StateActions.ContainsKey(newState) && isCurrentState == false){
-            Debug.Log("action: " + StateActions[newState].Count);
-            foreach (Action action in StateActions[newState]){
-                
-                action.Invoke();
-            }
+        if (!isCurrentState)
+        {
+
+            // send new state to server. Only change state in Unity app once server responds
+            SocketIO.ChangeGameState(newState.ToString(), response =>
+            {
+                // check for error in the response
+                var responseJSON = JSONObject.Parse(response);
+                if (responseJSON["error"] != null)
+                {
+                    Debug.LogError("Server error when changing game state: " + responseJSON["error"]);
+                    return;
+                }
+
+                // change game state and call listeners
+                GameState = newState;
+                if (StateActions.ContainsKey(newState))
+                {
+                    Debug.Log("action: " + StateActions[newState].Count);
+                    foreach (Action action in StateActions[newState])
+                    {
+                        action.Invoke();
+                    }
+                }
+            });
         }
     }
 

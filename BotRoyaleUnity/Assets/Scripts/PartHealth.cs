@@ -10,6 +10,8 @@ public class PartHealth : MonoBehaviour
     public float health;
     public Vector2Int relPos { get; private set; } = Vector2Int.zero;
     private string type,direction;
+    [SerializeField] private GameObject DestroyedPartPrefab = default;
+
     private Rigidbody rb;
     SocketConnectionHandler socketIO;
     private bool subtractedStrength = false;
@@ -28,7 +30,7 @@ public class PartHealth : MonoBehaviour
 
     }
 
-    public void SubtractHealth(int damage)
+    public void SubtractHealth(float damage)
     {
         health -= damage;
         if (health <= 0)
@@ -97,4 +99,12 @@ public class PartHealth : MonoBehaviour
         return health/maxHealth;
     }
 
+    private void OnDestroy()
+    {
+        // dont spawn stuff when quitting the app. It will be left behind in the editor
+        if (GameStateManager.appIsQuitting == false)
+        {
+            Instantiate(DestroyedPartPrefab, transform.position, UnityEngine.Random.rotation);
+        }
+    }
 }
