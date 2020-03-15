@@ -9,6 +9,10 @@ public class PartHandler : MonoBehaviour
 
     public int[] directionStrength = new int[4];
 
+    private Vector2Int centerPos;
+
+    SocketConnectionHandler socketIO;
+
 
     //array to calculate all attached parts.
 
@@ -41,6 +45,7 @@ public class PartHandler : MonoBehaviour
                 rb.mass--;
             }
         }
+        socketIO.EmitCurrentParts(gameObject);
     }
 
     private void recursiveAttached(int x, int z)
@@ -62,6 +67,7 @@ public class PartHandler : MonoBehaviour
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+        socketIO = FindObjectOfType<SocketConnectionHandler>();
     }
 
     // Update is called once per frame
@@ -106,5 +112,13 @@ public class PartHandler : MonoBehaviour
             }
         }
         return index;
+    }
+
+    public void SetCenterPos(int x, int y){
+        centerPos = new Vector2Int(x,y);
+    }
+
+    public Vector2Int GetCenterPos(){
+        return centerPos;
     }
 }

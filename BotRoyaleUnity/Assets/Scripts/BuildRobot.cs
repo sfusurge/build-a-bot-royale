@@ -76,6 +76,7 @@ public class BuildRobot : MonoBehaviour
             }
             index++;
         }
+        parent.GetComponent<PartHandler>().SetCenterPos(centerX,centerY);
         index = 0;
         while (json[index] != null)
         {
@@ -116,7 +117,6 @@ public class BuildRobot : MonoBehaviour
                 default:
                     throw new NotImplementedException("Invalid JSON - type");
             }
-            //childPart.name = name;
             childPart.GetComponent<PartHealth>().setRelPos(json[index]["x"] - centerX, json[index]["y"] - centerY, type, direction);
             addDirectionStrength(parent,pos,direction,type);
             setParent(parent, childPart);
@@ -125,7 +125,7 @@ public class BuildRobot : MonoBehaviour
         }
         parent.name = name;
         parent.GetComponent<PartHandler>().setParts();
-        parent.GetComponent<PartHandler>().delUnattachedParts();
+        //parent.GetComponent<PartHandler>().delUnattachedParts();
         GameStateManager.Instance.addRobot(parent);
         return parent;
     }

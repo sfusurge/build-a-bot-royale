@@ -1258,7 +1258,7 @@ PrefabInstance:
     - target: {fileID: 5884782706993335514, guid: 27bad2f471e8e455881d2c609fca8f04,
         type: 3}
       propertyPath: TEST_number_of_robots
-      value: 24
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5884782706993335516, guid: 27bad2f471e8e455881d2c609fca8f04,
         type: 3}

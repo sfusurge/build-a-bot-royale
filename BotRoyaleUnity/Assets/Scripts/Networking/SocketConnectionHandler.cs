@@ -126,23 +126,38 @@ public class SocketConnectionHandler : MonoBehaviour
         }
         else
         {
-            socket.Emit("game-message", data.ToString(), onMessageSent); ;
+            socket.Emit("game-message", data.ToString(), onMessageSent);
         }
     }
 
     public void EmitCurrentParts(GameObject robot){
+        Vector2Int centerPos = robot.GetComponent<PartHandler>().GetCenterPos();
+        JSONObject data = new JSONObject();
+        data["action"] = "currentParts";
+        data["name"] = robot.name;
         JSONArray parts = new JSONArray();
         foreach(Transform part in robot.transform){
             var partHealth = part.gameObject.GetComponent<PartHealth>();
             JSONObject newPart = new JSONObject();
             newPart["type"] = partHealth.GetPartType();
-            newPart["x"] = partHealth.GetRelPos().x;
-            newPart["y"] = partHealth.GetRelPos().y;
+            newPart["x"] = (partHealth.GetRelPos().x + centerPos.x);
+            newPart["y"] = (partHealth.GetRelPos().y + centerPos.y);
             newPart["direction"] = partHealth.GetPartDirection();
             newPart["health"] = partHealth.GetHealth();
             parts.Add(newPart);
         }
-        Debug.Log(parts.ToString());
+        data["parts"] = parts;
+        socket.Emit("game-message", data.ToString());
+        
+    }
+
+    public void EmitEmptyParts(string name){
+        JSONObject data = new JSONObject();
+        data["action"] = "currentParts";
+        data["name"] = name;
+        JSONArray parts = new JSONArray();
+        data["parts"] = parts;
+        socket.Emit("game-message", data.ToString());
     }
 
     public void OnGameMessage(string messageType, Action<JSONObject> onMessageReceived)

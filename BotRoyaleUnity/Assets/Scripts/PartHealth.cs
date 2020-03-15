@@ -36,6 +36,7 @@ public class PartHealth : MonoBehaviour
             if (gameObject.CompareTag("Center"))
             {
                 Destroy(transform.parent.gameObject);
+                socketIO.EmitEmptyParts(transform.parent.gameObject.name);
             }
             else
             {

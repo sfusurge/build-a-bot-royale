@@ -104,6 +104,12 @@ class GameplayPage extends Component {
       const newState = messageData.gameState;
       this.setState({ gameplayPhase: newState });
     });
+
+    socket.on("game-message", messageData => {
+      if(messageData.action == "currentParts" && messageData.name == this.state.username){
+        this.setState({parts: JSON.parse(JSON.stringify(messageData.parts))});
+      }
+    })
   }
 
   renderGameplayUI() {
