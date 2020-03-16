@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RobotList : MonoBehaviour
 {
-    [SerializeField] private Cinemachine.CinemachineTargetGroup cinemachine;
+    [SerializeField] private Cinemachine.CinemachineTargetGroup cinemachine = default;
     private List<Cinemachine.CinemachineTargetGroup.Target> targets = new List<Cinemachine.CinemachineTargetGroup.Target>();
     // private GameObject[] robotObject = null;
     // private List<Transform> robots = new List<Transform>();
