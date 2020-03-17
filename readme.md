@@ -40,3 +40,8 @@ For doing web dev work, it's best to have both the Node.js and React services ru
 * Open the folder /BotRoyaleUnity in Unity
 * Open the scene /Assets/Scenes/BattleScene.unity
 * Press play in the editor
+
+## Running the tests
+To run the Node.js app unit tests:
+* Navigate to /node-webservice
+* Run `npm run test`
