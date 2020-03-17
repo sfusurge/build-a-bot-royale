@@ -13,8 +13,8 @@ describe("newgame", () => {
             socketClient.emit('newgame', resolve);
         });
 
-        expect(newGameResponse).to.not.haveOwnProperty("error");
-        expect(newGameResponse).to.haveOwnProperty('gameID');
+        expect(newGameResponse).to.not.have.property("error");
+        expect(newGameResponse).to.have.property('gameID');
         expect(newGameResponse.gameID).to.be.a('string');
         expect(newGameResponse.gameID.length).to.equal(5);
 

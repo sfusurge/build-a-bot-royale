@@ -6,11 +6,10 @@ const CreateSocketClient = TestUtils.CreateSocketClient;
 const DestroySocketClient = TestUtils.DestroySocketClient;
 const SendSocketMessage = TestUtils.SendSocketMessage;
 
-describe("playerDisconnect", () => {
+describe("game-message", () => {
     var createdGameID;
     var gameHostClient;
     beforeEach(async () => {
-        // create a new game for each joingame test
         gameHostClient = await CreateSocketClient();
         const newGameResponse = await SendSocketMessage(gameHostClient, 'newgame');
         createdGameID = newGameResponse.gameID;

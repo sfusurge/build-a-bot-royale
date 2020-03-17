@@ -10,7 +10,6 @@ describe("updateGameState", () => {
     var createdGameID;
     var gameHostClient;
     beforeEach(async () => {
-        // create a new game for each joingame test
         gameHostClient = await CreateSocketClient();
         const newGameResponse = await SendSocketMessage(gameHostClient, 'newgame');
         createdGameID = newGameResponse.gameID;
