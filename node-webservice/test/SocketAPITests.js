@@ -17,7 +17,7 @@ describe("Socket.io API", () => {
             }, 2000);
         });
         const response = await sendMessage;
-        expect(response.message).to.equal("boop...?");
+        expect(response.message).to.equal("boop");
 
         await DestroySocketClient(socketClient);
     });
