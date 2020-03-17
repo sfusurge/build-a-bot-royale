@@ -19,40 +19,46 @@ describe("playerConnect", () => {
         await DestroySocketClient(gameHostClient);
     });
 
-    it ("host receives playerConnect when player connects", done => {
-        gameHostClient.on('playerConnect', messageData => {
-            expect(messageData).to.have.property("username");
-            expect(messageData.username).to.equal("thisUser");
-            done();
-        });
+    it ("host receives playerConnect when player connects", async function() {
+        const playerClient = await CreateSocketClient();
 
-        (async () => {
-            const playerClient = await CreateSocketClient();
-            await SendSocketMessage(playerClient, 'joingame', { gameID: createdGameID, username: "thisUser" });
-            await DestroySocketClient(playerClient);
-        })();
+        await Promise.all([
+            new Promise(resolve => {
+                gameHostClient.on('playerConnect', messageData => {
+                    expect(messageData).to.have.property("username");
+                    expect(messageData.username).to.equal("thisUser");
+                    resolve();
+                });
+            }),
+            await SendSocketMessage(playerClient, 'joingame', { gameID: createdGameID, username: "thisUser" })
+        ]);
+
+        await DestroySocketClient(playerClient);
     });
 
-    it ("host receives playerConnect when >100 players connect", done => {
-        var numberOfPlayersToConnect = 101;
+    it ("host receives playerConnect when >100 players connect", async function() {
+        const numberOfPlayersToConnect = 101;
+        
+        const players = [];
+        for (let playerIndex = 0; playerIndex < numberOfPlayersToConnect; playerIndex += 1) {
+            players.push(await CreateSocketClient());
+        }
 
-        var playerConnectMessagesSeen = 0;
-        gameHostClient.on('playerConnect', messageData => {
-            playerConnectMessagesSeen += 1;
-            if (playerConnectMessagesSeen >= numberOfPlayersToConnect) {
-                done();
-            }
-        });
+        await Promise.all([
+            new Promise(resolve => {
+                let playerConnectMessagesSeen = 0;
+                gameHostClient.on('playerConnect', messageData => {
+                    playerConnectMessagesSeen += 1;
+                    if (playerConnectMessagesSeen >= numberOfPlayersToConnect) {
+                        resolve();
+                    }
+                });
+            }),
+            ...players.map((player, playerIndex) =>
+                SendSocketMessage(player,'joingame', { gameID: createdGameID, username: "generated_user" + playerIndex })
+            )
+        ]);
 
-        (async () => {
-            const playerSockets = [];
-            for (var playerIndex = 0; playerIndex < numberOfPlayersToConnect; playerIndex += 1) {
-                const playerClient = await CreateSocketClient();
-                playerSockets.push(playerClient);
-                await SendSocketMessage(playerClient, 'joingame', { gameID: createdGameID, username: "generated_user" + playerIndex });
-            }
-
-            playerSockets.forEach(async socket => await DestroySocketClient(socket));
-        })();
+        players.forEach(async player => await DestroySocketClient(player));
     });
 });

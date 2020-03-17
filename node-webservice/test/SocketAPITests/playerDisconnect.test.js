@@ -19,17 +19,19 @@ describe("playerDisconnect", () => {
         await DestroySocketClient(gameHostClient);
     });
 
-    it ("host receives playerDisconnect when player disconnects", done => {
-        gameHostClient.on('playerConnect', messageData => {
-            expect(messageData).to.have.property("username");
-            expect(messageData.username).to.equal("thisUser");
-            done();
-        });
+    it ("host receives playerDisconnect when player disconnects", async function() {
+        const playerClient = await CreateSocketClient();
+        await SendSocketMessage(playerClient, 'joingame', { gameID: createdGameID, username: "thisUser" });
 
-        (async () => {
-            const playerClient = await CreateSocketClient();
-            await SendSocketMessage(playerClient, 'joingame', { gameID: createdGameID, username: "thisUser" });
-            await DestroySocketClient(playerClient);
-        })();
+        await Promise.all([
+            new Promise(resolve => {
+                gameHostClient.on('playerConnect', messageData => {
+                    expect(messageData).to.have.property("username");
+                    expect(messageData.username).to.equal("thisUser");
+                    resolve();
+                });
+            }),
+            DestroySocketClient(playerClient)
+        ]);
     });
 });

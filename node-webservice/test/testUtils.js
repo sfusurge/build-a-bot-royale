@@ -37,6 +37,7 @@ const CreateSocketClient = () => {
 };
   
 const DestroySocketClient = socket => {
+    ValidateSocket(socket);
     return new Promise((resolve, reject) => {
         if (socket.connected) {
             socket.disconnect();
@@ -48,14 +49,20 @@ const DestroySocketClient = socket => {
 };
 
 const SendSocketMessage = (socket, messageName, messageData) => {
+    ValidateSocket(socket);
     return new Promise(resolve => {
         if (messageData) {
             socket.emit(messageName, messageData, resolve);
-
         } else {
             socket.emit(messageName, resolve);
         }
     });
 };
+
+const ValidateSocket = (socket) => {
+    if (typeof socket !== 'object' || !socket.emit) {
+        throw new Error("Invalid socket passed in");
+    }
+}
 
 module.exports = { TEST_PORT, CreateSocketClient, DestroySocketClient, SendSocketMessage }
