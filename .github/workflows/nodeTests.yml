@@ -29,14 +29,15 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-        
-    - name: 🗺️ Naviagate to node-webservice folder
-      run: cd node-webservice
 
     - name: 💽 Clean npm install
-      run: npm ci
+      run: |
+        cd node-webservice
+        npm ci
 
     - name: 👟 Run the tests
-      run: npm test
+      run: |
+        cd node-webservice
+        npm test
       env:
         CI: true
