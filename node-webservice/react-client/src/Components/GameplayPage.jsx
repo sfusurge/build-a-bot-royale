@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button, ButtonGroup } from 'reactstrap';
 import RobotJSONObjectForm from './RobotJSONObjectForm';
 import ErrorPage from './ErrorPage';
 import TestGamePage from './TestGamePage';
@@ -154,7 +155,12 @@ class GameplayPage extends Component {
           <Grid onCellClick={ () => {} } parts={this.state.parts} gameplayPhase={this.state.gameplayPhase}></Grid>
           <button onClick = {()=>this.changeBehaviour("target")}> Attack </button>
           <button onClick = {()=>this.changeBehaviour("run")}> Defend </button>  
-          <button onClick = {()=>this.changeBehaviour("stand")}> Stand </button>            
+          <button onClick = {()=>this.changeBehaviour("stand")}> Stand </button> 
+          <ButtonGroup>
+            <Button color="primary" onClick={() => this.changeBehaviour("target")}>Attack</Button>
+            <Button color="primary" onClick={() => this.changeBehaviour("run")}>Defend</Button>
+            <Button color="primary" onClick={() => this.changeBehaviour("stand")}>Stand</Button>
+          </ButtonGroup>           
         </div>
       );
     }
