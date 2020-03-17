@@ -19,6 +19,7 @@ afterEach(done => {
     });
 });
 
+// provide functions to test files for socket connections
 const CreateSocketClient = () => {
     return new Promise((resolve, reject) => {
         // create socket connection
@@ -35,18 +36,26 @@ const CreateSocketClient = () => {
     });
 };
   
-  const DestroySocketClient = socket => {
+const DestroySocketClient = socket => {
     return new Promise((resolve, reject) => {
-        // check if socket connected
         if (socket.connected) {
-            // disconnect socket
             socket.disconnect();
             resolve(true);
         } else {
-            // not connected
             resolve(false);
         }
     });
-  };
+};
 
-module.exports = { TEST_PORT, CreateSocketClient, DestroySocketClient }
+const SendSocketMessage = (socket, messageName, messageData) => {
+    return new Promise(resolve => {
+        if (messageData) {
+            socket.emit(messageName, messageData, resolve);
+
+        } else {
+            socket.emit(messageName, resolve);
+        }
+    });
+};
+
+module.exports = { TEST_PORT, CreateSocketClient, DestroySocketClient, SendSocketMessage }
