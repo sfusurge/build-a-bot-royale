@@ -5,6 +5,7 @@ import ErrorPage from './ErrorPage';
 import TestGamePage from './TestGamePage';
 import socket from '../API/socketHandler';
 import Grid from './Grid';
+import BehaviourBar from './BehaviourBar'
 
 class GameplayPage extends Component {
   constructor(props) {
@@ -153,14 +154,10 @@ class GameplayPage extends Component {
         <div className='gameplay-page'>
           <h3>Battle!</h3>
           <Grid onCellClick={ () => {} } parts={this.state.parts} gameplayPhase={this.state.gameplayPhase}></Grid>
-          <button onClick = {()=>this.changeBehaviour("target")}> Attack </button>
-          <button onClick = {()=>this.changeBehaviour("run")}> Defend </button>  
-          <button onClick = {()=>this.changeBehaviour("stand")}> Stand </button> 
-          <ButtonGroup>
-            <Button color="primary" onClick={() => this.changeBehaviour("target")}>Attack</Button>
-            <Button color="primary" onClick={() => this.changeBehaviour("run")}>Defend</Button>
-            <Button color="primary" onClick={() => this.changeBehaviour("stand")}>Stand</Button>
-          </ButtonGroup>           
+          <button class = 'myButton' onClick = {()=>this.changeBehaviour("target")}> Attack </button>
+          <button class = 'myButton' onClick = {()=>this.changeBehaviour("run")}> Defend </button>  
+          <button class = 'myButton' onClick= {()=>this.changeBehaviour("stand")}> Stand </button>           
+          <BehaviourBar/>
         </div>
       );
     }
