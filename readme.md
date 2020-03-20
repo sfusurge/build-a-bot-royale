@@ -1,6 +1,7 @@
 # Build-A-Bot Royale
 
 ![Publish Unity game to Itch.io 🎮](https://github.com/sfusurge/build-a-bot-royale/workflows/Publish%20Unity%20game%20to%20Itch.io%20%F0%9F%8E%AE/badge.svg)
+![Run Node.js tests 🧪](https://github.com/sfusurge/build-a-bot-royale/workflows/Run%20Node.js%20tests%20%F0%9F%A7%AA/badge.svg)
 
 Game about building robots and battling them. 
 Players build their robot on their device, then everyone watches the battle on a larger screen.
