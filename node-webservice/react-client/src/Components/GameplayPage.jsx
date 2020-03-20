@@ -78,6 +78,7 @@ class GameplayPage extends Component {
     this.renderGameplayUI = this.renderGameplayUI.bind(this);
     this.handleCellClicked = this.handleCellClicked.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.changeBehaviour = this.changeBehaviour.bind(this);
   }
 
   componentDidMount() {
@@ -155,8 +156,8 @@ class GameplayPage extends Component {
       return (
         <div className='surrounding-square'>
           <Grid onCellClick={() => { }} parts={this.state.parts} gameplayPhase={this.state.gameplayPhase}></Grid>
-          <BehaviourBar clicked={this.changeBehaviour} username={this.state.username} />
-          <div style={{style:"inline-block", "textAlign":"center", width:"30%", margin:"auto"}}><div style={{float:"left"}}>Behaviour: </div><div style={{float:"left"}}>{this.state.behaviour}</div></div>
+          <BehaviourBar clicked={this.changeBehaviour} />
+          <h3>Behaviour: {this.state.behaviour}</h3>
         </div>
       );
     }
@@ -183,13 +184,13 @@ class GameplayPage extends Component {
     }
   }
 
-  changeBehaviour(behaviour, username) {
-    console.log(behaviour);
+  changeBehaviour(behaviour) {
     const behaviourMessage = {
       action: "changeBehaviour",
-      username: username,
-      behaviour: behaviour
+      username: this.state.username,
+      behaviour: behaviour.toLowerCase()
     }
+    this.setState({behaviour: behaviour});
     socket.emit(
       'game-message', behaviourMessage, response => {
         if (response.error) {
