@@ -41,8 +41,10 @@ class Grid extends Component {
     render() {
         const partsArray = this.partsArrayTo2DArray(this.props.parts);
         const gridStyleBuild = {
-            height: "75vmin",
-            width: "75vmin",
+            height: "60vmin",
+            width: "60vmin",
+            margin: "2vmin auto"
+
         }
         return (
             <div className="Grid-Container" style = {gridStyleBuild}>

@@ -6,6 +6,7 @@ import TestGamePage from './TestGamePage';
 import socket from '../API/socketHandler';
 import Grid from './Grid';
 import BehaviourBar from './BehaviourBar'
+import "../App.css"
 
 class GameplayPage extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class GameplayPage extends Component {
     this.state = {
       joinedGameID: null,
       gameplayPhase: "not-set",
+      behaviour: "not-set",
       parts: [
         {
           "type": "block",
@@ -95,7 +97,7 @@ class GameplayPage extends Component {
       } else {
         this.setState({
           joinedGameID: gameID,
-          username: username, 
+          username: username,
           gameplayPhase: response.gameState
         });
       }
@@ -108,8 +110,8 @@ class GameplayPage extends Component {
     });
 
     socket.on("game-message", messageData => {
-      if(messageData.action == "currentParts" && messageData.name == this.state.username){
-        this.setState({parts: JSON.parse(JSON.stringify(messageData.parts))});
+      if (messageData.action == "currentParts" && messageData.name == this.state.username) {
+        this.setState({ parts: JSON.parse(JSON.stringify(messageData.parts)) });
       }
     })
   }
@@ -119,21 +121,21 @@ class GameplayPage extends Component {
     if (this.state.gameplayPhase === "test-game") {
       return (
         <TestGamePage
-          gameID={ this.state.joinedGameID }
-          gameStates={ ["lobby", "build", "battle", "results"] }
-          onChangeStateClicked={ gameState => this.setState({ gameplayPhase: gameState }) }
+          gameID={this.state.joinedGameID}
+          gameStates={["lobby", "build", "battle", "results"]}
+          onChangeStateClicked={gameState => this.setState({ gameplayPhase: gameState })}
         />
       );
     }
 
     // show different gameplay ui based on the gameplay phase
-    if (this.state.gameplayPhase === "initial" || this.state.gameplayPhase === "titleScreen" ||this.state.gameplayPhase === "lobby") {
+    if (this.state.gameplayPhase === "initial" || this.state.gameplayPhase === "titleScreen" || this.state.gameplayPhase === "lobby") {
       return (
-        <div className='gameplay-page'>  
-          <h1>Welcome { this.state.username }</h1>
-          <h2>You are connected to game <code>{ this.state.joinedGameID }</code></h2>      
+        <div className='gameplay-page'>
+          <h1>Welcome {this.state.username}</h1>
+          <h2>You are connected to game <code>{this.state.joinedGameID}</code></h2>
           <h3>Waiting for game to start...</h3>
-          <h4>Game state is currently: { this.state.gameplayPhase }</h4>
+          <h4>Game state is currently: {this.state.gameplayPhase}</h4>
         </div>
       );
     }
@@ -142,26 +144,23 @@ class GameplayPage extends Component {
         <div className='gameplay-page'>
           <h3>Playing game {this.props.match.params.gameid}</h3>
           <Grid onCellClick={this.handleCellClicked} parts={this.state.parts}></Grid>
-          <button onClick = {this.handleSubmit}> Submit </button>
-          <RobotJSONObjectForm/>
+          <button onClick={this.handleSubmit}> Submit </button>
+          <RobotJSONObjectForm />
         </div>
       );
       //return <RobotJSONObjectForm />;
     }
     if (this.state.gameplayPhase === 'battle') {
-    
+
       return (
-        <div className='gameplay-page'>
-          <h3>Battle!</h3>
-          <Grid onCellClick={ () => {} } parts={this.state.parts} gameplayPhase={this.state.gameplayPhase}></Grid>
-          <button class = 'myButton' onClick = {()=>this.changeBehaviour("target")}> Attack </button>
-          <button class = 'myButton' onClick = {()=>this.changeBehaviour("run")}> Defend </button>  
-          <button class = 'myButton' onClick= {()=>this.changeBehaviour("stand")}> Stand </button>           
-          <BehaviourBar/>
+        <div className='surrounding-square'>
+          <Grid onCellClick={() => { }} parts={this.state.parts} gameplayPhase={this.state.gameplayPhase}></Grid>
+          <BehaviourBar clicked={this.changeBehaviour} username={this.state.username} />
+          <div style={{style:"inline-block", "textAlign":"center", width:"30%", margin:"auto"}}><div style={{float:"left"}}>Behaviour: </div><div style={{float:"left"}}>{this.state.behaviour}</div></div>
         </div>
       );
     }
-    return <ErrorPage>No page defined for game state: {this.state.gameplayPhase}</ErrorPage> 
+    return <ErrorPage>No page defined for game state: {this.state.gameplayPhase}</ErrorPage>
   }
 
   handleSubmit(event) {
@@ -170,7 +169,7 @@ class GameplayPage extends Component {
     try {
       socket.emit(
         'game-message',
-        { action: "submitrobot", parts: this.state.parts, username: this.state.username},
+        { action: "submitrobot", parts: this.state.parts, username: this.state.username },
         response => {
           if (response.error) {
             alert("Error processing robot data: " + response.error);
@@ -178,25 +177,25 @@ class GameplayPage extends Component {
         }
       );
       //alert("Sent robot data");
-      this.setState({gameplayPhase:"battle"})
-    } catch(e) {
+      this.setState({ gameplayPhase: "battle" })
+    } catch (e) {
       alert("Error sending robot data: " + e);
     }
   }
 
-  changeBehaviour(behaviour){
+  changeBehaviour(behaviour, username) {
     console.log(behaviour);
     const behaviourMessage = {
       action: "changeBehaviour",
-      username: this.state.username,
-      behaviour:behaviour
+      username: username,
+      behaviour: behaviour
     }
     socket.emit(
-      'game-message',behaviourMessage, response => {
+      'game-message', behaviourMessage, response => {
         if (response.error) {
           alert("Error processing robot data: " + response.error);
         }
-    });
+      });
   }
 
   handleCellClicked(x, y) {
@@ -229,7 +228,7 @@ class GameplayPage extends Component {
           "health": 1.0
         }
         copy.push(newPart);
-        this.setState({ parts: copy});
+        this.setState({ parts: copy });
       }
     }
 
@@ -250,7 +249,7 @@ class GameplayPage extends Component {
     const order = ["north", "west", "south", "east"]
     var partLocations = [];
     this.state.parts.forEach(element => {
-      if(element.type == "block"){
+      if (element.type == "block") {
         partLocations.push([element.x, element.y]);
       }
     })
@@ -259,24 +258,24 @@ class GameplayPage extends Component {
       throw new Error("invalid direction");
     }
     for (var a = intial + 1; a < intial + 4; a++) {
-      switch (order[a%4]) {
+      switch (order[a % 4]) {
         case "north":
-          if (this.PartExistsIn(partLocations,[x,y-1]) === 1) {
+          if (this.PartExistsIn(partLocations, [x, y - 1]) === 1) {
             return "north";
           }
           break;
         case "west":
-          if (this.PartExistsIn(partLocations,[x+1,y]) === 1) {
+          if (this.PartExistsIn(partLocations, [x + 1, y]) === 1) {
             return "west";
           }
           break;
         case "south":
-          if (this.PartExistsIn(partLocations,[x,y+1]) === 1) {
+          if (this.PartExistsIn(partLocations, [x, y + 1]) === 1) {
             return "south";
           }
           break;
         case "east":
-          if (this.PartExistsIn(partLocations,[x-1,y]) === 1) {
+          if (this.PartExistsIn(partLocations, [x - 1, y]) === 1) {
             return "east";
           }
           break;

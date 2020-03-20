@@ -20,8 +20,17 @@
 }
 
 .App-body{
-  height: calc(100vh - calc(30px + 6vmin));
+  width: 100vw;
+  height: calc(100vh - 30px - 6vmin);
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.surrounding-square{
+  width: 65vmin;
+  height: 83vmin;
+  margin: auto;
+  background-color: white;
+  border: rgb(252, 186, 3) 1vmin solid;
 }
