@@ -18,11 +18,15 @@ public class StartingGameStateSetuper : MonoBehaviour
     [SerializeField] private float DelayBeforeSpawning = 1f;
     [SerializeField] private float DelayAfterSpawning = 1f;
 
+    [Header("Game settings")]
+    [SerializeField] private int MinimumNumberOfRobotsInABattle = 2;
+
     [Header("Debug")]
     [SerializeField] private int TEST_number_of_robots = 2;
     [SerializeField] private bool TEST_SetupOnStart = false;
     [SerializeField] private bool TEST_SetupOnQ = false;
 
+    private List<JSONObject> ReceivedRobots;
 
     private void Start()
     {
@@ -30,6 +34,34 @@ public class StartingGameStateSetuper : MonoBehaviour
         {
             StartSampleGame();
         }
+
+        ReceivedRobots = new List<JSONObject>();
+
+        var socketIO = FindObjectOfType<SocketConnectionHandler>();
+
+        socketIO.OnGameMessage("submitrobot", jsonObject =>
+        {
+            ReceivedRobots.Add(jsonObject);
+        });
+
+        GameStateManager.Instance.RegisterActionToState(GameStateManager.GameStates.BUILDING, () => ReceivedRobots.Clear());
+        GameStateManager.Instance.RegisterActionToState(GameStateManager.GameStates.BATTLE, StartTheGameForReal);
+    }
+
+    private void StartTheGameForReal()
+    {
+        // pad out the robots list to have the minimum number
+        if (ReceivedRobots.Count < MinimumNumberOfRobotsInABattle)
+        {
+            var exampleRobots = ExampleRobotBuilder.ExampleRobotsJSON(MinimumNumberOfRobotsInABattle - ReceivedRobots.Count);
+            foreach (var exampleRobot in exampleRobots)
+            {
+                ReceivedRobots.Add(exampleRobot);
+            }
+        }
+
+        // play the game
+        SetupGame(ReceivedRobots, () => { });
     }
 
     private void Update()
@@ -46,13 +78,13 @@ public class StartingGameStateSetuper : MonoBehaviour
         SetupGame(exampleRobots, () => Debug.Log("Setup done"));
     }
 
-    public void SetupGame(List<JSONArray> Robots, Action onDoneSetup)
+    public void SetupGame(List<JSONObject> Robots, Action onDoneSetup)
     {
         StopAllCoroutines();
         StartCoroutine(GameSetupSequence(Robots, onDoneSetup));
     }
 
-    private IEnumerator GameSetupSequence(List<JSONArray> Robots, Action onDone)
+    private IEnumerator GameSetupSequence(List<JSONObject> Robots, Action onDone)
     {
         // delete existing robots
         foreach (RoombaMovement robot in FindObjectsOfType<RoombaMovement>())
@@ -79,11 +111,10 @@ public class StartingGameStateSetuper : MonoBehaviour
 
         float angle = 0f;
         float angleInterval = (Mathf.PI * 2f) / Robots.Count;
-        int robotNumber = 1;
-        foreach (JSONArray robotJSON in Robots)
+        foreach (JSONObject robotJSON in Robots)
         {
             // build robot from json
-            var robot = RobotBuilder.build(robotJSON.ToString(), "user_robot_" + robotNumber);
+            var robot = RobotBuilder.build(robotJSON["parts"].ToString(), "user_robot_" + robotJSON["username"]);
             robot.GetComponent<RoombaMovement>().ActivateOnStart = false;
 
             // place robot in circle on arena
@@ -103,7 +134,6 @@ public class StartingGameStateSetuper : MonoBehaviour
 
             // increment values for next robot
             angle += angleInterval;
-            robotNumber += 1;
 
             // wait so robots appear one at a time
             yield return new WaitForSeconds(SetupSequenceRobotSpawnInterval);

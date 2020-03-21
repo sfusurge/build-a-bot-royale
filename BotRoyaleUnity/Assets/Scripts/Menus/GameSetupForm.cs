@@ -33,7 +33,7 @@ public class GameSetupForm : MonoBehaviour
             var jsonResponse = JSONObject.Parse(response);
             GameIDTextElement.text = "Game ID: <b>" + jsonResponse["gameID"] + "</b>";
 
-            socketIO.ChangeGameState("build");
+            GameStateManager.Instance.ChangeState(GameStateManager.GameStates.LOBBY);
         });
     }
 }

@@ -7,7 +7,7 @@ using SimpleJSON;
 
 public class GameStateManager : MonoBehaviour
 {
-    [SerializeField] private GameStates InitialGameState = GameStates.NONE;
+    [SerializeField] private GameStates InitialGameState = GameStates.TITLE;
     private static GameStateManager instance;
     public static GameStateManager Instance{
         get{
@@ -24,6 +24,7 @@ public class GameStateManager : MonoBehaviour
     private SocketConnectionHandler SocketIO;
 
     public enum GameStates{
+        /*
         NONE,
         //receive JSON build
         //displays count down timer for building
@@ -38,6 +39,12 @@ public class GameStateManager : MonoBehaviour
         CHAMP_BATTLE,
         //end game scene
         GAME_OVER
+        */
+        TITLE,
+        LOBBY,
+        BUILDING,
+        BATTLE,
+        RESULTS
     }
     public GameStates GameState {get; private set;}
 
@@ -77,7 +84,7 @@ public class GameStateManager : MonoBehaviour
     }
 
     public void EndGame(){
-        ChangeState(GameStates.GAME_OVER);
+        ChangeState(GameStates.RESULTS);
     }
 
     public void RegisterActionToState(GameStates stateToListenFor, Action onStateChange){
@@ -89,14 +96,15 @@ public class GameStateManager : MonoBehaviour
         Debug.Log("register: " + StateActions[stateToListenFor].Count);
     }
 
-   private void ChangeState(GameStates newState){
+   public void ChangeState(GameStates newState)
+   {
         
         bool isCurrentState = (GameState == newState);
         if (!isCurrentState)
         {
 
             // send new state to server. Only change state in Unity app once server responds
-            SocketIO.ChangeGameState(newState.ToString(), response =>
+            SocketIO.ChangeGameState(newState, response =>
             {
                 // check for error in the response
                 var responseJSON = JSONObject.Parse(response);
@@ -120,24 +128,27 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
+
     public void addRobot(GameObject robot){
         robotList.Add(robot);
-        if (GameState == GameStates.BATTLE){
+        /*if (GameState == GameStates.BATTLE){
                 if (robotList.Count <= 3){
                 ChangeState(GameStates.CHAMP_BATTLE);
             }
-        }
+        }*/
     }
 
-    public void killRobot(GameObject robot){
+    public void killRobot(GameObject robot)
+    {
         robotList.Remove(robot);
-            if (GameState == GameStates.BATTLE){
+        /*
+           if (GameState == GameStates.BATTLE){
                 if (robotList.Count <= 3){
                     ChangeState(GameStates.CHAMP_BATTLE);
                 if (robotList.Count <= 1){
                     ChangeState(GameStates.GAME_OVER);
                 }
-            }
-        }
+           }
+        }*/
     }
 }

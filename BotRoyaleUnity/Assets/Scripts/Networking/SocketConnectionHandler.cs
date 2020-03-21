@@ -104,10 +104,10 @@ public class SocketConnectionHandler : MonoBehaviour
         socket.Emit("newgame", onGameCreated);
     }
 
-    public void ChangeGameState(string newState, Action<string> onStateChanged = null)
+    public void ChangeGameState(GameStateManager.GameStates newState, Action<string> onStateChanged = null)
     {
         var messageData = new JSONObject();
-        messageData["gameState"] = newState;
+        messageData["gameState"] = StateToString(newState);
         if (onStateChanged == null)
         {
             socket.Emit("updateGameState", messageData.ToString());
@@ -115,6 +115,25 @@ public class SocketConnectionHandler : MonoBehaviour
         else
         {
             socket.Emit("updateGameState", messageData.ToString(), onStateChanged);
+        }
+    }
+
+    private string StateToString(GameStateManager.GameStates gameState)
+    {
+        switch (gameState)
+        {
+            case GameStateManager.GameStates.TITLE:
+                return "initial";
+            case GameStateManager.GameStates.LOBBY:
+                return "lobby";
+            case GameStateManager.GameStates.BUILDING:
+                return "build";
+            case GameStateManager.GameStates.BATTLE:
+                return "battle";
+            case GameStateManager.GameStates.RESULTS:
+                return "results";
+            default:
+                throw new NotImplementedException("No string for state " + gameState);
         }
     }
 

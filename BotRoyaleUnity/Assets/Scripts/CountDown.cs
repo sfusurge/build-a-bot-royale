@@ -7,8 +7,8 @@ using TMPro;
 public class CountDown : MonoBehaviour
 {
     [SerializeField] private List<GameObject> ObjectList = default;
-    [SerializeField] private GameStateManager.GameStates StateOn = GameStateManager.GameStates.NONE;
-    [SerializeField] private GameStateManager.GameStates StateOff = GameStateManager.GameStates.NONE;
+    [SerializeField] private GameStateManager.GameStates StateOn = GameStateManager.GameStates.BUILDING;
+    [SerializeField] private GameStateManager.GameStates StateOff = GameStateManager.GameStates.BATTLE;
 
     [SerializeField] private TextMeshPro time = default;
     [SerializeField] private float BuildTime = 0.0f;

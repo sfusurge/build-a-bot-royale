@@ -5,13 +5,12 @@ using UnityEngine;
 
 public static class ExampleRobotBuilder
 {
-    public static List<JSONArray> ExampleRobotsJSON(int numberOfRobots)
+    public static List<JSONObject> ExampleRobotsJSON(int numberOfRobots)
     {
-        List<JSONArray> sampleRobots = new List<JSONArray>();
+        List<JSONObject> sampleRobots = new List<JSONObject>();
         for (int i = 0; i < numberOfRobots; i++)
         {
             var robotJSON = new JSONArray();
-            Debug.Log(i);
             if (i % 5 == 0)
             {
                 robotJSON.Add(JSONRobotPart(1, 5, "block"));
@@ -135,7 +134,11 @@ public static class ExampleRobotBuilder
 
             }
 
-            sampleRobots.Add(robotJSON);
+            JSONObject robot = new JSONObject();
+            robot["parts"] = robotJSON;
+            robot["username"] = "sample-user";
+
+            sampleRobots.Add(robot);
         }
         return sampleRobots;
     }
