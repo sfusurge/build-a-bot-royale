@@ -92,7 +92,9 @@ public class SocketConnectionHandler : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("A game-message with action " + actionName + " was received, but there are no listeners for this action");
+            if(actionName != "currentParts"){
+                 Debug.LogWarning("A game-message with action " + actionName + " was received, but there are no listeners for this action");
+            }
         }
     }
     
@@ -126,7 +128,7 @@ public class SocketConnectionHandler : MonoBehaviour
         }
         else
         {
-            socket.Emit("game-message", data.ToString(), onMessageSent); ;
+            socket.Emit("game-message", data.ToString(), onMessageSent);
         }
     }
 
@@ -143,6 +145,7 @@ public class SocketConnectionHandler : MonoBehaviour
     {
         socket.On(eventName, onEventAction);
     }
+
 
     #endregion
 }

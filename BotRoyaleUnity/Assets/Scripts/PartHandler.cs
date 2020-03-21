@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SimpleJSON;
 
 public class PartHandler : MonoBehaviour
 {
@@ -9,12 +10,16 @@ public class PartHandler : MonoBehaviour
 
     public int[] directionStrength = new int[4];
 
+    private Vector2Int centerPos;
+
 
     //array to calculate all attached parts.
 
     public bool[,] attachedParts;
 
     private Rigidbody rb;
+
+    private SocketConnectionHandler socketConnectionHandler;
 
     public void setParts()
     {
@@ -39,8 +44,11 @@ public class PartHandler : MonoBehaviour
                 child.gameObject.GetComponent<PartHealth>().subtractDirectionStrength();
                 Destroy(child.gameObject);
                 rb.mass--;
+                partDestroyed(x,z);
             }
         }
+        //Just to make sure - sometimes it shows parts that are not connected.
+        EmitCurrentParts();
     }
 
     private void recursiveAttached(int x, int z)
@@ -62,6 +70,7 @@ public class PartHandler : MonoBehaviour
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+        socketConnectionHandler = FindObjectOfType<SocketConnectionHandler>();
     }
 
     // Update is called once per frame
@@ -72,8 +81,9 @@ public class PartHandler : MonoBehaviour
 
     public void partDestroyed(int x, int z)
     {
-        parts[x + 4, z + 4] = false;
+        parts[x+4, z+4] = false;
         delUnattachedParts();
+        EmitCurrentParts();
     }
 
     public void changeDirectionStrength(string direction, int change)
@@ -106,5 +116,45 @@ public class PartHandler : MonoBehaviour
             }
         }
         return index;
+    }
+
+    public void SetCenterPos(int x, int y)
+    {
+        centerPos = new Vector2Int(x, y);
+    }
+
+    public Vector2Int GetCenterPos()
+    {
+        return centerPos;
+    }
+
+    public void EmitCurrentParts()
+    {
+        JSONObject data = new JSONObject();
+        data["action"] = "currentParts";
+        data["name"] = gameObject.name;
+        JSONArray parts = new JSONArray();
+        foreach (Transform part in gameObject.transform)
+        {
+            var partHealth = part.gameObject.GetComponent<PartHealth>();
+            JSONObject newPart = new JSONObject();
+            newPart["type"] = partHealth.GetPartType();
+            newPart["x"] = (partHealth.GetRelPos().x + centerPos.x);
+            newPart["y"] = (partHealth.GetRelPos().y + centerPos.y);
+            newPart["direction"] = partHealth.GetPartDirection();
+            newPart["health"] = partHealth.GetHealth();
+            parts.Add(newPart);
+        }
+        data["parts"] = parts;
+        socketConnectionHandler.EmitGameMessage(data);
+    }
+    public void EmitEmptyParts()
+    {
+        JSONObject data = new JSONObject();
+        data["action"] = "currentParts";
+        data["name"] = gameObject.name;
+        JSONArray parts = new JSONArray();
+        data["parts"] = parts;
+        socketConnectionHandler.EmitGameMessage(data);
     }
 }
