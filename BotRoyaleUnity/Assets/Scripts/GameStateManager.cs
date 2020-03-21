@@ -14,7 +14,6 @@ public class GameStateManager : MonoBehaviour
             if (instance != null){
                 return instance;
             }
-
             throw new System.InvalidOperationException("Missing instance of GameManager");
         }
     }
