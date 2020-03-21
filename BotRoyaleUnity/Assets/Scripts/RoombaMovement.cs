@@ -25,12 +25,14 @@ public class RoombaMovement : MonoBehaviour
 
     private bool isActivated = false;
     public bool ActivateOnStart = true;
-    SocketConnectionHandler socketIO;
+
+    private PartHandler handler;
+
 
     void Start()
     {
-        socketIO = FindObjectOfType<SocketConnectionHandler>();
         rigidBody = gameObject.GetComponent<Rigidbody>();
+        handler = gameObject.GetComponent<PartHandler>();
         if (ActivateOnStart)
         {
             Activate();
@@ -61,7 +63,7 @@ public class RoombaMovement : MonoBehaviour
             // move in the forward direction
             if (transform.position.y < -5)
             {
-                socketIO.EmitEmptyParts(gameObject.name);
+                handler.EmitEmptyParts();
                 Destroy(gameObject);
             }
             if (Input.GetButtonDown("Jump"))

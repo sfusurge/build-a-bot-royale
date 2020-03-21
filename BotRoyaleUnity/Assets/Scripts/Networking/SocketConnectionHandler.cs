@@ -92,7 +92,9 @@ public class SocketConnectionHandler : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("A game-message with action " + actionName + " was received, but there are no listeners for this action");
+            if(actionName != "currentParts"){
+                 Debug.LogWarning("A game-message with action " + actionName + " was received, but there are no listeners for this action");
+            }
         }
     }
     
@@ -128,27 +130,6 @@ public class SocketConnectionHandler : MonoBehaviour
         {
             socket.Emit("game-message", data.ToString(), onMessageSent);
         }
-    }
-
-    public void EmitCurrentParts(GameObject robot){
-        Vector2Int centerPos = robot.GetComponent<PartHandler>().GetCenterPos();
-        JSONObject data = new JSONObject();
-        data["action"] = "currentParts";
-        data["name"] = robot.name;
-        JSONArray parts = new JSONArray();
-        foreach(Transform part in robot.transform){
-            var partHealth = part.gameObject.GetComponent<PartHealth>();
-            JSONObject newPart = new JSONObject();
-            newPart["type"] = partHealth.GetPartType();
-            newPart["x"] = (partHealth.GetRelPos().x + centerPos.x);
-            newPart["y"] = (partHealth.GetRelPos().y + centerPos.y);
-            newPart["direction"] = partHealth.GetPartDirection();
-            newPart["health"] = partHealth.GetHealth();
-            parts.Add(newPart);
-        }
-        data["parts"] = parts;
-        socket.Emit("game-message", data.ToString());
-        
     }
 
     public void EmitEmptyParts(string name){

@@ -13,12 +13,13 @@ public class PartHealth : MonoBehaviour
     [SerializeField] private GameObject DestroyedPartPrefab = default;
 
     private Rigidbody rb;
-    SocketConnectionHandler socketIO;
+    
+    private PartHandler handler;
     private bool subtractedStrength = false;
     // Start is called before the first frame update
     void Start()
     {
-        socketIO = FindObjectOfType<SocketConnectionHandler>();
+        handler = transform.parent.gameObject.GetComponent<PartHandler>();
         health = maxHealth;
         initialColor = GetComponent<Renderer>().material.color;
         rb = transform.parent.gameObject.GetComponent<Rigidbody>();
@@ -37,12 +38,11 @@ public class PartHealth : MonoBehaviour
         {
             if (gameObject.CompareTag("Center"))
             {
+                handler.EmitEmptyParts();
                 Destroy(transform.parent.gameObject);
-                socketIO.EmitEmptyParts(transform.parent.gameObject.name);
             }
             else
             {
-                transform.parent.gameObject.GetComponent<PartHandler>().partDestroyed(relPos.x, relPos.y);
                 if(!subtractedStrength){
                     subtractDirectionStrength();
                     subtractedStrength = true;
@@ -50,6 +50,7 @@ public class PartHealth : MonoBehaviour
                     GameStateManager.Instance.killRobot(gameObject);
                     rb.mass--;
                 }
+                handler.partDestroyed(relPos.x, relPos.y);
             }
         }
         UpdateColor();

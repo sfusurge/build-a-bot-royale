@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnitySocketIO;
+using UnitySocketIO.Events;
+using SimpleJSON;
 
 public class PartHandler : MonoBehaviour
 {
@@ -11,14 +14,14 @@ public class PartHandler : MonoBehaviour
 
     private Vector2Int centerPos;
 
-    SocketConnectionHandler socketIO;
-
 
     //array to calculate all attached parts.
 
     public bool[,] attachedParts;
 
     private Rigidbody rb;
+
+    private SocketIOController socket;
 
     public void setParts()
     {
@@ -43,9 +46,11 @@ public class PartHandler : MonoBehaviour
                 child.gameObject.GetComponent<PartHealth>().subtractDirectionStrength();
                 Destroy(child.gameObject);
                 rb.mass--;
-                partDestroyed(x, z);
+                partDestroyed(x,z);
             }
         }
+        //Just to make sure - sometimes it shows parts that are not connected.
+        EmitCurrentParts();
     }
 
     private void recursiveAttached(int x, int z)
@@ -67,7 +72,7 @@ public class PartHandler : MonoBehaviour
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
-        socketIO = FindObjectOfType<SocketConnectionHandler>();
+        socket = FindObjectOfType<SocketConnectionHandler>().GetSocket();
     }
 
     // Update is called once per frame
@@ -78,9 +83,9 @@ public class PartHandler : MonoBehaviour
 
     public void partDestroyed(int x, int z)
     {
-        parts[x + 4, z + 4] = false;
+        parts[x+4, z+4] = false;
         delUnattachedParts();
-        socketIO.EmitCurrentParts(gameObject);
+        EmitCurrentParts();
     }
 
     public void changeDirectionStrength(string direction, int change)
@@ -125,14 +130,13 @@ public class PartHandler : MonoBehaviour
         return centerPos;
     }
 
-    public void EmitCurrentParts(GameObject robot)
+    public void EmitCurrentParts()
     {
-        Vector2Int centerPos = robot.GetComponent<PartHandler>().GetCenterPos();
         JSONObject data = new JSONObject();
         data["action"] = "currentParts";
-        data["name"] = robot.name;
+        data["name"] = gameObject.name;
         JSONArray parts = new JSONArray();
-        foreach (Transform part in robot.transform)
+        foreach (Transform part in gameObject.transform)
         {
             var partHealth = part.gameObject.GetComponent<PartHealth>();
             JSONObject newPart = new JSONObject();
@@ -143,6 +147,15 @@ public class PartHandler : MonoBehaviour
             newPart["health"] = partHealth.GetHealth();
             parts.Add(newPart);
         }
+        data["parts"] = parts;
+        socket.Emit("game-message", data.ToString());
+    }
+    public void EmitEmptyParts()
+    {
+        JSONObject data = new JSONObject();
+        data["action"] = "currentParts";
+        data["name"] = gameObject.name;
+        JSONArray parts = new JSONArray();
         data["parts"] = parts;
         socket.Emit("game-message", data.ToString());
     }
