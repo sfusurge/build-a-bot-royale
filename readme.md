@@ -44,6 +44,14 @@ For doing web dev work, it's best to have both the Node.js and React services ru
 * Press play in the editor
 
 ## Running the tests
+### Node.js
 To run the Node.js app unit tests:
 * Navigate to /node-webservice
 * Run `npm run test`
+
+### Unity
+To run the Unity tests:
+* Open /BotRoyaleUnity in Unity
+* In the Unity editor, click Window -> General -> Test Runner
+* In the Test Runner window, select the EditMode tab
+* Click Run All

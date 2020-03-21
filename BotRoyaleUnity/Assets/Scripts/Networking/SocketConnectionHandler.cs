@@ -101,12 +101,12 @@ public class SocketConnectionHandler : MonoBehaviour
     #endregion
 
     #region Public methods
-    public void StartNewGame(Action<string> onGameCreated)
+    public virtual void StartNewGame(Action<string> onGameCreated)
     {
         socket.Emit("newgame", onGameCreated);
     }
 
-    public void ChangeGameState(string newState, Action<string> onStateChanged = null)
+    public virtual void ChangeGameState(string newState, Action<string> onStateChanged = null)
     {
         var messageData = new JSONObject();
         messageData["gameState"] = newState;
@@ -120,7 +120,7 @@ public class SocketConnectionHandler : MonoBehaviour
         }
     }
 
-    public void EmitGameMessage(JSONObject data, Action<string> onMessageSent = null)
+    public virtual void EmitGameMessage(JSONObject data, Action<string> onMessageSent = null)
     {
         if (onMessageSent == null)
         {

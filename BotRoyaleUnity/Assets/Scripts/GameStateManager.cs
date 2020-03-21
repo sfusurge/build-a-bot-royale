@@ -43,7 +43,7 @@ public class GameStateManager : MonoBehaviour
 
     private Dictionary<GameStates, List<Action>> StateActions;
 
-    void Awake(){
+    public void Awake(){
         if (instance != null){
             Destroy(this);
         }
@@ -89,7 +89,7 @@ public class GameStateManager : MonoBehaviour
         Debug.Log("register: " + StateActions[stateToListenFor].Count);
     }
 
-   private void ChangeState(GameStates newState){
+   public void ChangeState(GameStates newState){
         
         bool isCurrentState = (GameState == newState);
         if (!isCurrentState)
