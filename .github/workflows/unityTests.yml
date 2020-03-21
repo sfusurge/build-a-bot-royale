@@ -7,12 +7,6 @@ on:
       - '!BotRoyaleUnity/readme.md'
       - '.github/workflows/unityTests.yml'
 
-  pull_request:
-    paths:
-      - 'BotRoyaleUnity/**'
-      - '!BotRoyaleUnity/readme.md'
-      - '.github/workflows/unityTests.yml'
-
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
