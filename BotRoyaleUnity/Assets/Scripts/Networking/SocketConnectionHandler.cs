@@ -174,5 +174,9 @@ public class SocketConnectionHandler : MonoBehaviour
         socket.On(eventName, onEventAction);
     }
 
+    public SocketIOController GetSocket(){
+        return socket;
+    }
+
     #endregion
 }

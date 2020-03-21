@@ -48,7 +48,6 @@ public class PartHealth : MonoBehaviour
                     subtractedStrength = true;
                     Destroy(gameObject);
                     GameStateManager.Instance.killRobot(gameObject);
-                    socketIO.EmitCurrentParts(transform.parent.gameObject);
                     rb.mass--;
                 }
             }

@@ -111,8 +111,8 @@ class GameplayPage extends Component {
     });
 
     socket.on("game-message", messageData => {
-      if (messageData.action == "currentParts" && messageData.name == this.state.username) {
-        this.setState({ parts: JSON.parse(JSON.stringify(messageData.parts)) });
+      if (messageData.action === "currentParts" && messageData.name === this.state.username) {
+        this.setState({parts: messageData.parts});
       }
     })
   }
@@ -187,7 +187,6 @@ class GameplayPage extends Component {
   changeBehaviour(behaviour) {
     const behaviourMessage = {
       action: "changeBehaviour",
-      username: this.state.username,
       behaviour: behaviour.toLowerCase()
     }
     this.setState({behaviour: behaviour});

@@ -43,9 +43,9 @@ public class PartHandler : MonoBehaviour
                 child.gameObject.GetComponent<PartHealth>().subtractDirectionStrength();
                 Destroy(child.gameObject);
                 rb.mass--;
+                partDestroyed(x, z);
             }
         }
-        socketIO.EmitCurrentParts(gameObject);
     }
 
     private void recursiveAttached(int x, int z)
@@ -80,6 +80,7 @@ public class PartHandler : MonoBehaviour
     {
         parts[x + 4, z + 4] = false;
         delUnattachedParts();
+        socketIO.EmitCurrentParts(gameObject);
     }
 
     public void changeDirectionStrength(string direction, int change)
@@ -114,11 +115,35 @@ public class PartHandler : MonoBehaviour
         return index;
     }
 
-    public void SetCenterPos(int x, int y){
-        centerPos = new Vector2Int(x,y);
+    public void SetCenterPos(int x, int y)
+    {
+        centerPos = new Vector2Int(x, y);
     }
 
-    public Vector2Int GetCenterPos(){
+    public Vector2Int GetCenterPos()
+    {
         return centerPos;
+    }
+
+    public void EmitCurrentParts(GameObject robot)
+    {
+        Vector2Int centerPos = robot.GetComponent<PartHandler>().GetCenterPos();
+        JSONObject data = new JSONObject();
+        data["action"] = "currentParts";
+        data["name"] = robot.name;
+        JSONArray parts = new JSONArray();
+        foreach (Transform part in robot.transform)
+        {
+            var partHealth = part.gameObject.GetComponent<PartHealth>();
+            JSONObject newPart = new JSONObject();
+            newPart["type"] = partHealth.GetPartType();
+            newPart["x"] = (partHealth.GetRelPos().x + centerPos.x);
+            newPart["y"] = (partHealth.GetRelPos().y + centerPos.y);
+            newPart["direction"] = partHealth.GetPartDirection();
+            newPart["health"] = partHealth.GetHealth();
+            parts.Add(newPart);
+        }
+        data["parts"] = parts;
+        socket.Emit("game-message", data.ToString());
     }
 }
