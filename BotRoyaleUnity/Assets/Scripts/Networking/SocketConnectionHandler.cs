@@ -132,15 +132,6 @@ public class SocketConnectionHandler : MonoBehaviour
         }
     }
 
-    public void EmitEmptyParts(string name){
-        JSONObject data = new JSONObject();
-        data["action"] = "currentParts";
-        data["name"] = name;
-        JSONArray parts = new JSONArray();
-        data["parts"] = parts;
-        socket.Emit("game-message", data.ToString());
-    }
-
     public void OnGameMessage(string messageType, Action<JSONObject> onMessageReceived)
     {
         if (GameMessageListeners.ContainsKey(messageType) == false)
@@ -155,9 +146,6 @@ public class SocketConnectionHandler : MonoBehaviour
         socket.On(eventName, onEventAction);
     }
 
-    public SocketIOController GetSocket(){
-        return socket;
-    }
 
     #endregion
 }

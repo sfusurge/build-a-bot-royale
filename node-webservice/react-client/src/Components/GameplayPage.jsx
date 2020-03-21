@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Button, ButtonGroup } from 'reactstrap';
-import RobotJSONObjectForm from './RobotJSONObjectForm';
 import ErrorPage from './ErrorPage';
 import TestGamePage from './TestGamePage';
 import socket from '../API/socketHandler';
@@ -112,7 +110,7 @@ class GameplayPage extends Component {
 
     socket.on("game-message", messageData => {
       if (messageData.action === "currentParts" && messageData.name === this.state.username) {
-        this.setState({parts: messageData.parts});
+        this.setState({ parts: messageData.parts });
       }
     })
   }
@@ -146,7 +144,6 @@ class GameplayPage extends Component {
           <h3>Playing game {this.props.match.params.gameid}</h3>
           <Grid onCellClick={this.handleCellClicked} parts={this.state.parts}></Grid>
           <button onClick={this.handleSubmit}> Submit </button>
-          <RobotJSONObjectForm />
         </div>
       );
       //return <RobotJSONObjectForm />;
@@ -189,11 +186,11 @@ class GameplayPage extends Component {
       action: "changeBehaviour",
       behaviour: behaviour.toLowerCase()
     }
-    this.setState({behaviour: behaviour});
+    this.setState({ behaviour: behaviour });
     socket.emit(
       'game-message', behaviourMessage, response => {
         if (response.error) {
-          alert("Error processing robot data: " + response.error);
+          alert("Error changing robot behaviour: " + response.error);
         }
       });
   }
@@ -249,7 +246,7 @@ class GameplayPage extends Component {
     const order = ["north", "west", "south", "east"]
     var partLocations = [];
     this.state.parts.forEach(element => {
-      if (element.type == "block") {
+      if (element.type === "block") {
         partLocations.push([element.x, element.y]);
       }
     })
@@ -296,11 +293,11 @@ class GameplayPage extends Component {
     return this.renderGameplayUI();
   }
 
-  renderBehaviourText(){
-    if(this.state.behaviour === "not-set"){
+  renderBehaviourText() {
+    if (this.state.behaviour === "not-set") {
       return <h3>Choose A Behaviour...</h3>;
-    }else{
-     return <h3>Behaviour: {this.state.behaviour}</h3>; 
+    } else {
+      return <h3>Behaviour: {this.state.behaviour}</h3>;
     }
   }
 }

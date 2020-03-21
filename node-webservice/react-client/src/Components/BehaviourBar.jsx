@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import '../CSS/BehaviourBar.css'
 
 class BehaviourBar extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (

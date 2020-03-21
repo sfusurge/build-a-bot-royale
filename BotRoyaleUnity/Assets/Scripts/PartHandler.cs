@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnitySocketIO;
-using UnitySocketIO.Events;
 using SimpleJSON;
 
 public class PartHandler : MonoBehaviour
@@ -21,7 +19,7 @@ public class PartHandler : MonoBehaviour
 
     private Rigidbody rb;
 
-    private SocketIOController socket;
+    private SocketConnectionHandler socketConnectionHandler;
 
     public void setParts()
     {
@@ -72,7 +70,7 @@ public class PartHandler : MonoBehaviour
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
-        socket = FindObjectOfType<SocketConnectionHandler>().GetSocket();
+        socketConnectionHandler = FindObjectOfType<SocketConnectionHandler>();
     }
 
     // Update is called once per frame
@@ -148,7 +146,7 @@ public class PartHandler : MonoBehaviour
             parts.Add(newPart);
         }
         data["parts"] = parts;
-        socket.Emit("game-message", data.ToString());
+        socketConnectionHandler.EmitGameMessage(data);
     }
     public void EmitEmptyParts()
     {
@@ -157,6 +155,6 @@ public class PartHandler : MonoBehaviour
         data["name"] = gameObject.name;
         JSONArray parts = new JSONArray();
         data["parts"] = parts;
-        socket.Emit("game-message", data.ToString());
+        socketConnectionHandler.EmitGameMessage(data);
     }
 }
