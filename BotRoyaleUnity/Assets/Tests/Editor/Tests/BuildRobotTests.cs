@@ -160,11 +160,5 @@ namespace Tests
             Assert.That(centerPart.localPosition.x.Equals(0f));
             Assert.That(centerPart.localPosition.z.Equals(0f));
         }
-
-        [Test]
-        public void Test_That_fails()
-        {
-            Assert.IsTrue(false);
-        }
     }
 }
