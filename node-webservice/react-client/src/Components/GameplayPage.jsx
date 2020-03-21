@@ -157,7 +157,7 @@ class GameplayPage extends Component {
         <div className='surrounding-square'>
           <Grid onCellClick={() => { }} parts={this.state.parts} gameplayPhase={this.state.gameplayPhase}></Grid>
           <BehaviourBar clicked={this.changeBehaviour} />
-          <h3>Behaviour: {this.state.behaviour}</h3>
+          {this.renderBehaviourText()}
         </div>
       );
     }
@@ -294,6 +294,14 @@ class GameplayPage extends Component {
       return <h1>Joining game {this.props.match.params.gameid}...</h1>;
     }
     return this.renderGameplayUI();
+  }
+
+  renderBehaviourText(){
+    if(this.state.behaviour === "not-set"){
+      return <h3>Choose A Behaviour...</h3>;
+    }else{
+     return <h3>Behaviour: {this.state.behaviour}</h3>; 
+    }
   }
 }
 
