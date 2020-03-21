@@ -4,12 +4,12 @@ using UnityEngine;
 using SimpleJSON;
 using System.IO;
 using System;
+using UnityEngine.Events;
 
 public class BuildRobot : MonoBehaviour
 {
     public GameObject block, center, spike, robotParent;
     public Boolean buildSampleBots = true;
-
 
     // Start is called before the first frame update
     void Awake()
