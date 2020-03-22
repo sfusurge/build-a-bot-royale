@@ -25,3 +25,18 @@
   justify-content: center;
   align-items: center;
 }
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.input-hidden {
+  position: absolute;
+  left: -9999px;
+}
+
+input[type=radio]:checked + label>img {
+  border: 1px solid #fff;
+  box-shadow: 0 0 3px 3px rgb(0, 255, 21);
+}
