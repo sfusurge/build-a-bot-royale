@@ -65,8 +65,8 @@ class Grid extends Component {
         }
 
         return (   
-                <div className="Grid-Container" style = {gridStyle}>
-               <!-- <div className="Grid-Container" style = {gridStyleBuild}> -->
+                //  <div className="Grid-Container" style = {gridStyle}> </div>
+                <div className="Grid-Container" style = {gridStyleBuild}> 
                     { partsArray.map(this.renderRow.bind(this)) }
                 </div>
 
