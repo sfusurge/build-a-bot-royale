@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import GridCell from "./GridCell";
-import Block from "../Images/block.PNG";
-import Delete from "../Images/delete.PNG";
-
-import Spike from "../Images/spikeNorth.PNG";
 class Grid extends Component {
      currentType = "block";
     partsArrayTo2DArray(partsData) {
@@ -25,38 +21,7 @@ class Grid extends Component {
         return partsArray;
     }
     
-    typeChooser(){
-        return <table>
-            <tr>
-                <input  type="radio"  value="block"  id="block" class="input-hidden"  name="controller"
-                defaultChecked = "checked"  
-                onClick={() => this.props.onChangeType("block") } style={ this.style(Block) }
-                />
-                <label for="block">  
-                    <img style={ this.style(Block) } src={Block} />
-                 </label>           
-            </tr>
-            <tr>
-                <input type="radio"  value="spike" id="spike"  class="input-hidden" name="controller" 
-                onClick={() => this.props.onChangeType("spike") } style={ this.style(Spike) }
-                />
-                <label for="spike">  
-                    <img style={ this.style(Spike) } src={Spike} />
-                </label>    
-            </tr>
-            <tr>
-                 <input type="radio" value="delete" id="empty" class="input-hidden" name="controller" 
-                 onClick={() => this.props.onChangeType("empty") } style={ this.style(Delete) }
-                />
-                <label for="empty">  
-                    <img  style={ this.style(Delete) } src={Delete} />    
-                </label>
-                
-            </tr>
-        </table>
-
-
-    }
+    
 
     renderRow(data, index) {
         return <div key={index} style={{ display: "flex", flexDirection: "row" }}>
@@ -96,16 +61,10 @@ class Grid extends Component {
             height: "75vmin",
             width: "75vmin",
         }
-        return (
-            <div class="flex-container">
+        return (   
                 <div className="Grid-Container" style = {gridStyle}>
                     { partsArray.map(this.renderRow.bind(this)) }
-                 </div>
-           
-                 <div>
-                    {this.typeChooser()}
-                 </div>
-           </div>
+                </div>
         );
     }
 }

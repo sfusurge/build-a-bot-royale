@@ -4,13 +4,14 @@ import ErrorPage from './ErrorPage';
 import TestGamePage from './TestGamePage';
 import socket from '../API/socketHandler';
 import Grid from './Grid';
+import TypeToolbar from './TypeToolbar';
 class GameplayPage extends Component {
   
   constructor(props) {
    
     super(props);
     this.state = {
-      currentType : "spike",
+      currentType : "block",
       joinedGameID: null,
       gameplayPhase: "not-set",
       parts: [
@@ -135,8 +136,10 @@ class GameplayPage extends Component {
       return (
         <div className='gameplay-page'>
           <h3>Playing game {this.props.match.params.gameid}</h3>
-          <Grid onCellClick={this.handleCellClicked} parts={this.state.parts} 
-          onChangeType={ (newType) => this.setState({ currentType: newType}) }></Grid>
+          <div class="flex-container">
+          <Grid  parts={this.state.parts } onCellClick={this.handleCellClicked}></Grid>
+          <TypeToolbar onChangeType={ (newType) => this.setState({ currentType: newType}) }></TypeToolbar>
+          </div>
         </div>
       );
       //return <RobotJSONObjectForm />;
@@ -167,7 +170,7 @@ class GameplayPage extends Component {
       copy.forEach((element,i) => {
       
         if (element.x === x && element.y === y) {
-          if(this.state.currentType == "empty" && !(x==2 && y==2)){
+          if(this.state.currentType == "empty" && !(x===2 && y===2)){
             copy.splice(i, 1); 
           }
           else{
@@ -180,7 +183,7 @@ class GameplayPage extends Component {
       this.setState({ parts: copy })
 
 
-      if (!partHere) {
+      if (!partHere && this.state.currentType!= "empty") {
           var newPart = {
             "type": this.state.currentType,
             "x": x,
@@ -192,7 +195,7 @@ class GameplayPage extends Component {
           newPart.direction = this.rotate(newPart.direction, x, y);
           this.setState({ parts: copy});
 
-        //}
+        
         
       }
 
