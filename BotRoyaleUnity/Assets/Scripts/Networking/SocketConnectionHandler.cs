@@ -92,19 +92,21 @@ public class SocketConnectionHandler : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("A game-message with action " + actionName + " was received, but there are no listeners for this action");
+            if(actionName != "currentParts"){
+                 Debug.LogWarning("A game-message with action " + actionName + " was received, but there are no listeners for this action");
+            }
         }
     }
     
     #endregion
 
     #region Public methods
-    public void StartNewGame(Action<string> onGameCreated)
+    public virtual void StartNewGame(Action<string> onGameCreated)
     {
         socket.Emit("newgame", onGameCreated);
     }
 
-    public void ChangeGameState(string newState, Action<string> onStateChanged = null)
+    public virtual void ChangeGameState(string newState, Action<string> onStateChanged = null)
     {
         var messageData = new JSONObject();
         messageData["gameState"] = newState;
@@ -118,7 +120,7 @@ public class SocketConnectionHandler : MonoBehaviour
         }
     }
 
-    public void EmitGameMessage(JSONObject data, Action<string> onMessageSent = null)
+    public virtual void EmitGameMessage(JSONObject data, Action<string> onMessageSent = null)
     {
         if (onMessageSent == null)
         {
@@ -126,7 +128,7 @@ public class SocketConnectionHandler : MonoBehaviour
         }
         else
         {
-            socket.Emit("game-message", data.ToString(), onMessageSent); ;
+            socket.Emit("game-message", data.ToString(), onMessageSent);
         }
     }
 
@@ -143,6 +145,7 @@ public class SocketConnectionHandler : MonoBehaviour
     {
         socket.On(eventName, onEventAction);
     }
+
 
     #endregion
 }

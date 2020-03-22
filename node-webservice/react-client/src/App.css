@@ -20,11 +20,13 @@
 }
 
 .App-body{
-  height: calc(100vh - calc(30px + 6vmin));
+  width: 100vw;
+  height: calc(100vh - 30px - 6vmin);
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 
 .flex-container {
   display: flex;
@@ -40,3 +42,12 @@ input[type=radio]:checked + label>img {
   border: 1px solid #fff;
   box-shadow: 0 0 3px 3px rgb(0, 255, 21);
 }
+
+.surrounding-square{
+  width: 65vmin;
+  height: 83vmin;
+  margin: auto;
+  background-color: white;
+  border: rgb(252, 186, 3) 1vmin solid;
+}
+

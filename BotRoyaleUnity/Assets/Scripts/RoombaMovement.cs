@@ -26,9 +26,13 @@ public class RoombaMovement : MonoBehaviour
     private bool isActivated = false;
     public bool ActivateOnStart = true;
 
+    private PartHandler handler;
+
+
     void Start()
     {
         rigidBody = gameObject.GetComponent<Rigidbody>();
+        handler = gameObject.GetComponent<PartHandler>();
         if (ActivateOnStart)
         {
             Activate();
@@ -46,9 +50,9 @@ public class RoombaMovement : MonoBehaviour
         SetClosestTarget();
         StartCoroutine("target");
         if(UnityEngine.Random.value > 0.5f){
-            SetNavigationMode("run");
+            SetNavigationMode("defend");
         }else{
-            SetNavigationMode("target");
+            SetNavigationMode("attack");
         }
     }
 
@@ -59,6 +63,7 @@ public class RoombaMovement : MonoBehaviour
             // move in the forward direction
             if (transform.position.y < -5)
             {
+                handler.EmitEmptyParts();
                 Destroy(gameObject);
             }
             if (Input.GetButtonDown("Jump"))
@@ -80,10 +85,10 @@ public class RoombaMovement : MonoBehaviour
             {
                 float arenaScale = arena.GetComponent<ShrinkArena>().GetLocalScale().x;
                 strongest = gameObject.GetComponent<PartHandler>().greatestDirectionStrength();
-                if(navigationMode == "target"){
+                if(navigationMode == "attack"){
                     Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
                     rigidBody.AddForce(direction * (rigidBody.mass * 15));
-                }else if(navigationMode == "run" && attack != null){
+                }else if(navigationMode == "defend" && attack != null){
                     float distanceFromClosest = (attack.transform.position - transform.position).magnitude;
                     Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
                     rigidBody.AddForce(-direction * (rigidBody.mass * (30 / (distanceFromClosest) + 5)));

@@ -12,10 +12,11 @@ public class BuildRobot : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if(buildSampleBots){
-            BuildSampleRobots();
+            GameStateManager.Instance.RegisterActionToState(GameStateManager.GameStates.BATTLE, BuildSampleRobots);
+         
         }
     }
 
@@ -30,6 +31,8 @@ public class BuildRobot : MonoBehaviour
         jsonString = File.ReadAllText("Assets/Scripts/robot3.json");
         GameObject robot3 = build(jsonString, "robot3");
         robot3.transform.position = new Vector3(-4f, 0.5f, -5f);
+        GameObject robot4 = build(jsonString, "robot3");
+        robot4.transform.position = new Vector3(-4f, 0.5f, -5f);
     }
 
     void setParent(GameObject parent, GameObject child)
@@ -73,6 +76,7 @@ public class BuildRobot : MonoBehaviour
             }
             index++;
         }
+        parent.GetComponent<PartHandler>().SetCenterPos(centerX,centerY);
         index = 0;
         while (json[index] != null)
         {
@@ -113,15 +117,16 @@ public class BuildRobot : MonoBehaviour
                 default:
                     throw new NotImplementedException("Invalid JSON - type");
             }
-            childPart.name = name;
             childPart.GetComponent<PartHealth>().setRelPos(json[index]["x"] - centerX, json[index]["y"] - centerY, type, direction);
             addDirectionStrength(parent,pos,direction,type);
             setParent(parent, childPart);
             rb.mass++;
             index++;
         }
+        parent.name = name;
         parent.GetComponent<PartHandler>().setParts();
-        parent.GetComponent<PartHandler>().delUnattachedParts();
+        //parent.GetComponent<PartHandler>().delUnattachedParts();
+        GameStateManager.Instance.addRobot(parent);
         return parent;
     }
 

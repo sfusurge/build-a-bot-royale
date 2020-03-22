@@ -18,9 +18,13 @@ io.on('connection', function(socket){
 
     // test messages to check that socket.io service is working
     var numberOfBeeps = 0;
-    socket.on('beep', function() {
+    socket.on('beep', function(ack) {
         console.log("beeped: " + numberOfBeeps++);
         socket.emit("boop", {});
+        ack({
+            message: "boop",
+            numberOfBeeps: numberOfBeeps
+        });
     });
 
     var currentGame = "no-game";

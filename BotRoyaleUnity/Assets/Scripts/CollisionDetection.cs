@@ -4,39 +4,31 @@ using UnityEngine;
 
 public class CollisionDetection : MonoBehaviour
 {
-    // Start is called before the first frame update
-
-    private float lastDirectionChange;
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    private List<ContactPoint> CachedContactPoints = new List<ContactPoint>();
 
     void OnCollisionEnter(Collision collision)
     {
-        foreach (ContactPoint contact in collision.contacts)
+        collision.GetContacts(CachedContactPoints);
+        foreach (var contact in CachedContactPoints)
         {
-            Collider current = contact.thisCollider;
-            Collider other = contact.otherCollider;
-            if (other.gameObject.GetComponent<PartHealth>() != null)
+            Collider thisCollider = contact.thisCollider;
+            Collider otherCollider = contact.otherCollider;
+
+            // calculate and inflict damage if collided with another robot part
+            if (otherCollider != null && otherCollider.GetComponent<PartHealth>() != null &&
+                thisCollider != null && thisCollider.GetComponent<PartHealth>() != null)
             {
-                if (current.CompareTag("Spike"))
+                string thisPartType = thisCollider.tag;
+                string otherPartType = otherCollider.tag;
+
+                float thisVelocity = GetComponent<Rigidbody>().GetPointVelocity(contact.point).sqrMagnitude;
+                float otherVelocity = otherCollider.GetComponentInParent<Rigidbody>().GetPointVelocity(contact.point).sqrMagnitude;
+
+                // only take damage if this part is moving slower than the other part
+                if (thisVelocity < otherVelocity)
                 {
-                    other.gameObject.GetComponent<PartHealth>().SubtractHealth(3);
-                }
-                else if (current.CompareTag("Block"))
-                {
-                    other.gameObject.GetComponent<PartHealth>().SubtractHealth(1);
-                }
-                else if (current.CompareTag("Center"))
-                {
-                    other.gameObject.GetComponent<PartHealth>().SubtractHealth(1);
+                    float damage = DamageCalculator.DamageToInflictOnCollision(thisPartType, otherPartType);
+                    thisCollider.GetComponent<PartHealth>().SubtractHealth(damage);
                 }
             }
         }
