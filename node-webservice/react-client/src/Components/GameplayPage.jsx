@@ -64,6 +64,34 @@ class GameplayPage extends Component {
           "health": 1.0
         },
         {
+          "type": "shield",
+          "x": 1,
+          "y": 1,
+          "direction": "west",
+          "health": 1.0
+        },
+        {
+          "type": "shield",
+          "x": 1,
+          "y": 3,
+          "direction": "west",
+          "health": 1.0
+        },
+        {
+          "type": "shield",
+          "x": 3,
+          "y": 1,
+          "direction": "east",
+          "health": 1.0
+        },
+        {
+          "type": "shield",
+          "x": 3,
+          "y": 3,
+          "direction": "east",
+          "health": 1.0
+        },
+        {
           "type": "block",
           "x": 3,
           "y": 2,

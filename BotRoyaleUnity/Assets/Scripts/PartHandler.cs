@@ -6,7 +6,7 @@ using SimpleJSON;
 public class PartHandler : MonoBehaviour
 {
     //keeps track of the positions where there are alive parts.
-    public bool[,] parts = new bool[9, 9];
+    public bool[,] robotParts = new bool[9, 9];
 
     public int[] directionStrength = new int[4];
 
@@ -27,7 +27,7 @@ public class PartHandler : MonoBehaviour
         {
             int x = (int)child.position.x;
             int z = (int)child.position.z;
-            parts[x + 4, z + 4] = true;
+            robotParts[x + 4, z + 4] = true;
         }
     }
 
@@ -39,7 +39,7 @@ public class PartHandler : MonoBehaviour
         {
             int x = child.gameObject.GetComponent<PartHealth>().relPos.x;
             int z = child.gameObject.GetComponent<PartHealth>().relPos.y;
-            if (parts[x + 4, z + 4] && !attachedParts[x + 4, z + 4])
+            if (robotParts[x + 4, z + 4] && !attachedParts[x + 4, z + 4])
             {
                 child.gameObject.GetComponent<PartHealth>().subtractDirectionStrength();
                 Destroy(child.gameObject);
@@ -55,7 +55,7 @@ public class PartHandler : MonoBehaviour
     {
         if (x >= 0 && x <= 8 && z >= 0 && z <= 8)
         {
-            if (!attachedParts[x, z] && parts[x, z])
+            if (!attachedParts[x, z] && robotParts[x, z])
             {
                 attachedParts[x, z] = true;
                 recursiveAttached(x + 1, z);
@@ -81,7 +81,7 @@ public class PartHandler : MonoBehaviour
 
     public void partDestroyed(int x, int z)
     {
-        parts[x+4, z+4] = false;
+        robotParts[x+4, z+4] = false;
         delUnattachedParts();
         EmitCurrentParts();
     }
@@ -143,7 +143,9 @@ public class PartHandler : MonoBehaviour
             newPart["y"] = (partHealth.GetRelPos().y + centerPos.y);
             newPart["direction"] = partHealth.GetPartDirection();
             newPart["health"] = partHealth.GetHealth();
-            parts.Add(newPart);
+            if(robotParts[partHealth.GetRelPos().x + 4, partHealth.GetRelPos().y + 4]){
+                parts.Add(newPart);
+            }
         }
         data["parts"] = parts;
         socketConnectionHandler.EmitGameMessage(data);

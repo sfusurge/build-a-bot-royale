@@ -7,7 +7,7 @@ using System;
 
 public class BuildRobot : MonoBehaviour
 {
-    public GameObject block, center, spike, robotParent;
+    public GameObject block, center, spike, shield, robotParent;
     public Boolean buildSampleBots = true;
 
 
@@ -41,7 +41,7 @@ public class BuildRobot : MonoBehaviour
     }
 
     private void addDirectionStrength(GameObject parent, Vector3 pos, string direction, string type){
-        if(type != "spike"){
+        if(type == "block"){
             if(pos.x < 0){
                 parent.GetComponent<PartHandler>().changeDirectionStrength("west",1);
             }
@@ -113,6 +113,9 @@ public class BuildRobot : MonoBehaviour
                     break;
                 case "spike":
                     childPart = Instantiate(spike, pos, rot);
+                    break;
+                case "shield":
+                    childPart = Instantiate(shield, pos, rot);
                     break;
                 default:
                     throw new NotImplementedException("Invalid JSON - type");
