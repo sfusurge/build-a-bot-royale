@@ -1,0 +1,40 @@
+name: React tests 💥
+
+on:
+  push:
+    paths:
+      - 'node-webservice/react-client/**'
+      - '!node-webservice/react-client/readme.md'
+      - '.github/workflows/reactTests.yml'
+
+  pull_request:
+    paths:
+      - 'node-webservice/react-client/**'
+      - '!node-webservice/react-client/readme.md'
+      - '.github/workflows/reactTests.yml'
+
+jobs:
+  buildAndTest:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 👀 Checkout repository
+      uses: actions/checkout@v2
+      with:
+        lfs: true
+
+    - name: 🛠️ Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+
+    - name: 💽 Clean npm install
+      run: |
+        cd node-webservice/react-client
+        npm ci
+    - name: 👟 Run the tests
+      run: |
+        cd node-webservice/react-client
+        npm test
+      env:
+        CI: true
