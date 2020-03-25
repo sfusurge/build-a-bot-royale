@@ -1,11 +1,10 @@
 class MockSocket {
     constructor() {
         this.clientEvents = {};
-
-        this.on = this.on.bind(this);
+        this.clientEmits = [];
     }
 
-    // Noraml Socket client API
+    // Normal Socket client API
     on(eventName, func) {
         if (!this.clientEvents[eventName]) {
             this.clientEvents[eventName] = [];
@@ -13,7 +12,8 @@ class MockSocket {
         this.clientEvents[eventName].push(func);
     }
 
-    emit(eventName, eventData) {
+    emit(eventName, eventData, ack) {
+        this.clientEmits.push({ messageName: eventName, messageData: eventData, ack: ack });
     }
 
     // Extra methods for tests to call
@@ -23,6 +23,10 @@ class MockSocket {
                 eventFunction(eventData);
             });
         }
+    }
+
+    get EmitLog() {
+        return this.clientEmits;
     }
 }
 
