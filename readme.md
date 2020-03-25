@@ -49,6 +49,11 @@ To run the Node.js app unit tests:
 * Navigate to /node-webservice
 * Run `npm run test`
 
+### React
+To run the React tests:
+* Navigate to /node-webservice/react-client
+* Run `npm run test`
+
 ### Unity
 To run the Unity tests:
 * Open /BotRoyaleUnity in Unity
