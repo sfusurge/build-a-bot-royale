@@ -20,6 +20,10 @@ const socketURL = (() => {
     }
 })();
 
-const socket = openSocket(socketURL);
+let socket = openSocket(socketURL);
 
-export default socket;
+const overrideSocket = (val) => {
+    socket = val;
+}
+
+export { socket, overrideSocket };
