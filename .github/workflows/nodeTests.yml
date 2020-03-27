@@ -6,14 +6,14 @@ on:
       - 'node-webservice/**'
       - '!node-webservice/react-client/**'
       - '!node-webservice/react-client/readme.md'
-      - '.github/workflows/testNodeJS.yml'
+      - '.github/workflows/nodeTests.yml'
 
   pull_request:
     paths:
     - 'node-webservice/**'
     - '!node-webservice/react-client/**'
     - '!node-webservice/react-client/readme.md'
-    - '.github/workflows/testNodeJS.yml'
+    - '.github/workflows/nodeTests.yml'
 
 jobs:
   buildAndTest:
