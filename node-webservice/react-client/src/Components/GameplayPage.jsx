@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ErrorPage from './ErrorPage';
 import TestGamePage from './TestGamePage';
-import socket from '../API/socketHandler';
+import { socket } from '../API/socketHandler';
 import Grid from './Grid';
 
 import TypeToolbar from './TypeToolbar';
