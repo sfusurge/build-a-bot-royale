@@ -7,8 +7,8 @@ PhysicMaterial:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Parts
-  dynamicFriction: 0.3
-  staticFriction: 0.3
-  bounciness: 0.5
+  dynamicFriction: 0.2
+  staticFriction: 0.2
+  bounciness: 0.3
   frictionCombine: 0
   bounceCombine: 0

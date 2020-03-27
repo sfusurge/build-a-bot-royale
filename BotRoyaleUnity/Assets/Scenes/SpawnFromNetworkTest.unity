@@ -180,6 +180,7 @@ MonoBehaviour:
   block: {fileID: 8736103249537691212, guid: 31deed506f6563843b3acf56bc7d1029, type: 3}
   center: {fileID: 2004312985709963388, guid: 78bb3452906c6544995439392a5f391d, type: 3}
   spike: {fileID: 1043172287319980891, guid: 52b40627f40d057429388eb2711edde2, type: 3}
+  shield: {fileID: 0}
   robotParent: {fileID: 4527237787506125075, guid: 160acb923a0ec5b4284df509297c983a,
     type: 3}
   buildSampleBots: 0
@@ -432,6 +433,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167131572785694543, guid: 0e11be8abc3e448309543eace11242f9,
+        type: 3}
+      propertyPath: ShrinkSequenceLength
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 4167131573175071042, guid: 0e11be8abc3e448309543eace11242f9,
         type: 3}
@@ -1481,7 +1487,7 @@ PrefabInstance:
     - target: {fileID: 5884782706993335514, guid: 27bad2f471e8e455881d2c609fca8f04,
         type: 3}
       propertyPath: TEST_number_of_robots
-      value: 8
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5884782706993335516, guid: 27bad2f471e8e455881d2c609fca8f04,
         type: 3}
