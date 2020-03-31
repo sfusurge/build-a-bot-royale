@@ -1,8 +1,9 @@
 # Build-A-Bot Royale
 
 ![Publish Unity game to Itch.io 🎮](https://github.com/sfusurge/build-a-bot-royale/workflows/Publish%20Unity%20game%20to%20Itch.io%20%F0%9F%8E%AE/badge.svg)
-![Run Node.js tests 🧪](https://github.com/sfusurge/build-a-bot-royale/workflows/Run%20Node.js%20tests%20%F0%9F%A7%AA/badge.svg)
+![Node.js tests 🧪](https://github.com/sfusurge/build-a-bot-royale/workflows/Node.js%20tests%20%F0%9F%A7%AA/badge.svg)
 ![Unity tests 🥽](https://github.com/sfusurge/build-a-bot-royale/workflows/Unity%20tests%20%F0%9F%A5%BD/badge.svg)
+![React tests 💥](https://github.com/sfusurge/build-a-bot-royale/workflows/React%20tests%20%F0%9F%92%A5/badge.svg)
 
 Game about building robots and battling them. 
 Players build their robot on their device, then everyone watches the battle on a larger screen.
@@ -47,6 +48,11 @@ For doing web dev work, it's best to have both the Node.js and React services ru
 ### Node.js
 To run the Node.js app unit tests:
 * Navigate to /node-webservice
+* Run `npm run test`
+
+### React
+To run the React tests:
+* Navigate to /node-webservice/react-client
 * Run `npm run test`
 
 ### Unity
