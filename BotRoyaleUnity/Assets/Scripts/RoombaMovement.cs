@@ -26,6 +26,8 @@ public class RoombaMovement : MonoBehaviour
     private bool isActivated = false;
     public bool ActivateOnStart = true;
 
+    private Quaternion rotationOffset;
+
     private PartHandler handler;
 
 
@@ -33,6 +35,7 @@ public class RoombaMovement : MonoBehaviour
     {
         rigidBody = gameObject.GetComponent<Rigidbody>();
         handler = gameObject.GetComponent<PartHandler>();
+        rotationOffset = Quaternion.Euler(UnityEngine.Random.Range(-5f,5f), 0f, UnityEngine.Random.Range(-5f,5f));
         if (ActivateOnStart)
         {
             Activate();
@@ -89,7 +92,7 @@ public class RoombaMovement : MonoBehaviour
                     Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
                     direction.Normalize();
                     direction.y = 0;
-                    rigidBody.AddForce(direction * (rigidBody.mass * 10));
+                    rigidBody.AddForce(direction * (rigidBody.mass * 15));
                     if(speed > 2){
                         stuckTimer = Time.time;
                     }
@@ -102,12 +105,12 @@ public class RoombaMovement : MonoBehaviour
                     Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
                     direction.Normalize();
                     direction.y = 0;
-                    rigidBody.AddForce(-direction * (rigidBody.mass * Math.Min((30 / (distanceFromClosest) + 5),10)));
+                    rigidBody.AddForce(-direction * (rigidBody.mass * Math.Min((30 / (distanceFromClosest) + 5),15)));
                     float distanceFromCenter = transform.position.magnitude;
                     Vector3 centerDirection = -transform.position;
                     centerDirection.y = 0;
                     centerDirection.Normalize();
-                    rigidBody.AddForce(centerDirection * (rigidBody.mass * Math.Min((distanceFromCenter * 20/arenaScale),10)));
+                    rigidBody.AddForce(centerDirection * (rigidBody.mass * Math.Min((distanceFromCenter * 20/arenaScale),15)));
                     if(speed > 2){
                         stuckTimer = Time.time;
                     }
@@ -119,12 +122,12 @@ public class RoombaMovement : MonoBehaviour
                     Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
                     direction.Normalize();
                     direction.y = 0;
-                    rigidBody.AddForce(-direction * (rigidBody.mass * 10));
+                    rigidBody.AddForce(-direction * (rigidBody.mass * 15));
                     float distanceFromCenter = transform.position.magnitude;
                     Vector3 centerDirection = -transform.position;
                     centerDirection.y = 0;
                     centerDirection.Normalize();
-                    rigidBody.AddForce(centerDirection * (rigidBody.mass * Math.Min((distanceFromCenter * 20/arenaScale),10)));
+                    rigidBody.AddForce(centerDirection * (rigidBody.mass * Math.Min((distanceFromCenter * 20/arenaScale),15)));
                     if(Time.time - stuckTimer > 0.75){
                         navigationMode = "attack";
                         stuckTimer = Time.time;
@@ -133,7 +136,7 @@ public class RoombaMovement : MonoBehaviour
                     Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
                     direction.Normalize();
                     direction.y = 0;
-                    rigidBody.AddForce(direction * (rigidBody.mass * 10));
+                    rigidBody.AddForce(direction * (rigidBody.mass * 15));
                     if(Time.time - stuckTimer > 0.75){
                         navigationMode = "defend";
                         stuckTimer = Time.time;
@@ -154,7 +157,7 @@ public class RoombaMovement : MonoBehaviour
                 Quaternion rotation = Quaternion.LookRotation(direction);
                 float angle = Quaternion.Angle(transform.rotation,rotation);
                 float rotationSpeed = 30f/(0.1f + (float)Math.Sqrt(Math.Abs(angle)));
-                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, rotation * rotationOffset, rotationSpeed * Time.deltaTime);
             }
             else if (robotsRemaining > 1)
             {
@@ -188,6 +191,7 @@ public class RoombaMovement : MonoBehaviour
             }
         }
         attack = closestBot;
+        rotationOffset = Quaternion.Euler(UnityEngine.Random.Range(-5f,5f), 0f, UnityEngine.Random.Range(-5f,5f));
     }
 
 }

@@ -23,12 +23,12 @@ public static class DamageCalculator
         { MatchupKey("Block", "Block"),   SOMEWHAT_EFFECTIVE },
         { MatchupKey("Block", "Center"),  MODERATE_EFFECTIVE },
         { MatchupKey("Block", "Spike"),   NOT_VERY_EFFECTIVE },
-        { MatchupKey("Block", "Shield"),  BARELY_EFFECTIVE },
+        { MatchupKey("Block", "Shield"),  MODERATE_EFFECTIVE },
 
         { MatchupKey("Center", "Block"),  MODERATE_EFFECTIVE },
         { MatchupKey("Center", "Center"), MODERATE_EFFECTIVE },
         { MatchupKey("Center", "Spike"),  BARELY_EFFECTIVE },
-        { MatchupKey("Center", "Shield"), BARELY_EFFECTIVE },
+        { MatchupKey("Center", "Shield"), MODERATE_EFFECTIVE },
 
         { MatchupKey("Spike", "Block"),   SUPER_EFFECTIVE },
         { MatchupKey("Spike", "Center"),  SUPER_EFFECTIVE },
