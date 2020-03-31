@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 const inputStyle = {
-    width: '25vw',
+    width: 'calc((10px + 2vmin)*5)',
     padding:'0.5vw', 
     fontSize: 'calc(10px + 2vmin)', 
     textAlign:'center',
@@ -9,7 +9,7 @@ const inputStyle = {
 }
 
 const submitStyle = {
-    width:'15vw',
+    width:'calc((10px + 2vmin)*5)',
     fontSize: 'calc(10px + 2vmin)',
     textAlign:'center',
 }
@@ -39,12 +39,10 @@ class TextInput extends Component {
 
     render() { 
         return ( 
-            <div style={{display:'table'}}>
-                <form onSubmit={this.handleSubmit} style={{display:'table-cell', verticalAlign:'middle', width:'30vw'}}>
-                    <input type="text" placeholder="Game Code" style={inputStyle}value={this.state.value} onChange={this.handleChange}/>
-                    <input type="submit" value='Enter' style={submitStyle}/>
-                </form>
-            </div>
+            <form onSubmit={this.handleSubmit} style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+                <input type="text" placeholder="Game Code" style={inputStyle}value={this.state.value} onChange={this.handleChange}/>
+                <input type="submit" value='Enter' style={submitStyle}/>
+            </form>
          );
     }
 }
