@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 const inputStyle = {
-    width: 'calc((10px + 2vmin)*5)',
+    width: 'calc((60px + 14vmin))',
     padding:'0.5vw', 
     fontSize: 'calc(10px + 2vmin)', 
     textAlign:'center',
