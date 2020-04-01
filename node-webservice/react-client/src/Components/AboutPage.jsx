@@ -35,7 +35,7 @@ const AboutPage = props => (
         <GameDescription />
         <div style={myHeader}>Created by:</div> 
         <Contributors />
-        <p><a href="https://www.sfusurge.com/" target="_blank">SFU Surge Website</a></p>
+        <p><a href="https://www.sfusurge.com/" target="_blank" rel="noopener noreferrer">SFU Surge Website</a></p>
         <Link to="/">Back</Link>
     </div>
 );

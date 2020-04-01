@@ -1,0 +1,46 @@
+name: Unity tests 🥽
+
+on:
+  push:
+    paths:
+      - 'BotRoyaleUnity/**'
+      - '!BotRoyaleUnity/readme.md'
+      - '.github/workflows/unityTests.yml'
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+jobs:
+  runTests:
+    name: 👟Run Unity tests
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout
+      - name: 👀 Checkout repository
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+    
+      # Cache
+      - name: 💸 Cache Library folder
+        uses: actions/cache@v1.1.0
+        with:
+          path: BotRoyaleUnity/Library
+          key: Library-test
+            
+      # Test
+      - name: 📋 Run tests
+        uses: webbertakken/unity-test-runner@v1.4
+        id: tests
+        with:
+          projectPath: BotRoyaleUnity
+          unityVersion: 2019.3.1f1
+          testMode: editmode
+          artifactsPath: unity-test-artifacts
+          
+      - name: 📈 Save test results
+        uses: actions/upload-artifact@v1
+        with:
+          name: Test results
+          path: ${{ steps.tests.outputs.artifactsPath }}

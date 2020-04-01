@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import GridCell from "./GridCell";
-
 class Grid extends Component {
-
+     currentType = "block";
     partsArrayTo2DArray(partsData) {
         // build empty 5x5 array
         var partsArray = [];
@@ -21,6 +20,8 @@ class Grid extends Component {
 
         return partsArray;
     }
+    
+    
 
     renderRow(data, index) {
         return <div key={index} style={{ display: "flex", flexDirection: "row" }}>
@@ -34,20 +35,41 @@ class Grid extends Component {
             partType={ data.type }
             partDirection = {data.direction}
             partHealth = {data.health}
-            onClicked={() => this.props.onCellClick(data.x, data.y)}
+            onClicked={() => this.props.onCellClick(data.x, data.y, this.currentType)}
         />
+    }
+
+    style(type1) {
+        return {
+           
+            
+            backgroundImage: `url(${type1})`,
+            backgroundSize: 'calc(10vmin - 2px) calc(10vmin - 2px)',
+            height: "10vmin",
+            width: "10vmin",
+            border: "1px solid black",
+            outline:"none",
+
+            
+            
+        };
     }
 
     render() {
         const partsArray = this.partsArrayTo2DArray(this.props.parts);
-        const gridStyle = {
-            height: "75vmin",
-            width: "75vmin",
+        const gridStyleBuild = {
+            height: "60vmin",
+            width: "60vmin",
+            margin: "2vmin auto"
+
         }
-        return (
-            <div className="Grid-Container" style = {gridStyle}>
-                { partsArray.map(this.renderRow.bind(this)) }
-            </div>
+
+        return (   
+                //  <div className="Grid-Container" style = {gridStyle}> </div>
+                <div className="Grid-Container" style = {gridStyleBuild}> 
+                    { partsArray.map(this.renderRow.bind(this)) }
+                </div>
+
         );
     }
 }

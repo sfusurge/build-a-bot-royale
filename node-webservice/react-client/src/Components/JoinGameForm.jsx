@@ -9,7 +9,7 @@ class JoinGameForm extends Component {
 
   render() {
     return (
-      <div className="join-game-form">
+      <div className="join-game-form" style={{margin: '0 auto'}}>
         <TextInput onSubmit={ this.OnGameIDSubmit.bind(this) }/>
       </div>
     );
