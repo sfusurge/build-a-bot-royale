@@ -15,6 +15,11 @@ public class ResultsController : GamePhaseController
         
     }
 
+    public void OnNextButtonClicked()
+    {
+        GameStateManager.Instance.ChangeState(GameStateManager.GameStates.LOBBY);
+    }
+
     public override void UseCarryOverData(JSONObject InputData)
     {
         // TODO: use the carryover data to display the results in the ui

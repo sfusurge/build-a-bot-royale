@@ -48,12 +48,13 @@ public class BattleController : GamePhaseController
     /// <param name="InputData"></param>
     public override void UseCarryOverData(JSONObject InputData)
     {
-        JSONArray robotsArray = InputData["robots"].AsArray;
+        List<JSONObject> robotsList = new List<JSONObject>();
 
-        List<JSONArray> robotsList = new List<JSONArray>();
-        foreach (var r in robotsArray.Children)
+        int index = 0;
+        while (InputData[index.ToString()] != null)
         {
-            robotsList.Add(r.AsArray);
+            robotsList.Add(InputData[index.ToString()].AsObject);
+            index += 1;
         }
 
         GetComponent<StartingGameStateSetuper>().SetupGame(robotsList, () => {

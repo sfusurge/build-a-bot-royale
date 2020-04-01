@@ -8,14 +8,10 @@ using SimpleJSON;
 public class GameStateManager : MonoBehaviour
 {
     [Header("State controllers")]
-    [SerializeField] private GameObject TitleController = default;
     [SerializeField] private GameObject LobbyController = default;
     [SerializeField] private GameObject BuildController = default;
     [SerializeField] private GameObject BattleController = default;
     [SerializeField] private GameObject ResultsController = default;
-
-    [Header("Config")]
-    [SerializeField] private GameStates InitialGameState = GameStates.NONE;
 
     private static GameStateManager instance;
     public static GameStateManager Instance{
@@ -31,12 +27,11 @@ public class GameStateManager : MonoBehaviour
 
     private GamePhaseController currentStateController;
     private SocketConnectionHandler SocketIO;
-    public GameStates GameState { get; private set; }
+    public GameStates GameState { get; private set; } = GameStates.NONE;
 
     public enum GameStates{
         NONE,
 
-        TITLE,
         LOBBY,
         BUILDING,
         BATTLE,
@@ -49,8 +44,6 @@ public class GameStateManager : MonoBehaviour
         {
             case GameStates.NONE:
                 return "none";
-            case GameStates.TITLE:
-                return "title";
             case GameStates.LOBBY:
                 return "lobby";
             case GameStates.BUILDING:
@@ -70,8 +63,6 @@ public class GameStateManager : MonoBehaviour
         {
             case GameStates.NONE:
                 return null;
-            case GameStates.TITLE:
-                return TitleController;
             case GameStates.LOBBY:
                 return LobbyController;
             case GameStates.BUILDING:
@@ -88,11 +79,6 @@ public class GameStateManager : MonoBehaviour
     private GamePhaseController InstantiateControllerForState(GameStates gameState)
     {
         GameObject controllerPrefab = controllerPrefabForState(gameState);
-        if (controllerPrefab == null)
-        {
-            return null;
-        }
-
         var newController = Instantiate(controllerPrefab);
         var newPhaseController = newController.GetComponent<GamePhaseController>();
         if (newPhaseController == null)
@@ -110,18 +96,10 @@ public class GameStateManager : MonoBehaviour
         }
         instance = this;
 
-        GameState = InitialGameState;
-
         Application.quitting += () => appIsQuitting = true;
 
         SocketIO = FindObjectOfType<SocketConnectionHandler>();
         Assert.IsNotNull(SocketIO, "Game state manager needs reference to socket handler");
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        //ChangeState(GameStates.BUILDING);   
     }
 
     public void ChangeState(GameStates newState)
@@ -145,16 +123,16 @@ public class GameStateManager : MonoBehaviour
                 if (currentStateController != null)
                 {
                     betweenStateControllerData = currentStateController.ReturnDataForNextGamePhase();
-                    Destroy(currentStateController);
+                    Destroy(currentStateController.gameObject);
                 }
 
                 // instantiate a new state controller and pass it the carry-over data
                 GamePhaseController newStateController = InstantiateControllerForState(newState);
                 currentStateController = newStateController;
-                if (currentStateController != null)
-                {
-                    currentStateController.UseCarryOverData(betweenStateControllerData);
-                }
+
+                currentStateController.UseCarryOverData(betweenStateControllerData);
+
+                GameState = newState;
             });
         }
     }

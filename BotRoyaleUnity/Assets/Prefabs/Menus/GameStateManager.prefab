@@ -43,4 +43,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9d49540d03af34794d0a275967b6cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitialGameState: 0
+  TitleController: {fileID: 4539737084565028522, guid: 0ac34d8a2457642fdb3cef186caa9b45,
+    type: 3}
+  LobbyController: {fileID: 8796062016148090799, guid: 6c3af529951b1420699719240bbf5f36,
+    type: 3}
+  BuildController: {fileID: 9021453335896713901, guid: 2268d2d7b5b024b8ead305fba8c96e00,
+    type: 3}
+  BattleController: {fileID: 1154524768521970581, guid: b424308989a77457787f67ce62b2f763,
+    type: 3}
+  ResultsController: {fileID: 1966887174174045658, guid: 5a6c2bd459d4c46c9ae915cbfe770f1b,
+    type: 3}
+  InitialGameState: 1
