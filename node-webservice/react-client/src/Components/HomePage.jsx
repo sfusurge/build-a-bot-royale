@@ -9,7 +9,7 @@ const HomePage = props => (
         <br/>
         <form>
             <button type="submit" formaction="/host" 
-            style={{fontSize: 'calc(10px + 2vmin)', textAlign:'center', padding: '5px 10px'}}>
+            style={{fontSize: 'calc(10px + 2vmin)', padding: '5px 10px'}}>
                 Host a Game
             </button>
         </form>
