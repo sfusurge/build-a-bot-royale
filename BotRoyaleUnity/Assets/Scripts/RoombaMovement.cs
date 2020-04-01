@@ -26,7 +26,7 @@ public class RoombaMovement : MonoBehaviour
     private bool isActivated = false;
     public bool ActivateOnStart = true;
 
-    private Quaternion rotationOffset;
+    public Quaternion rotationOffset;
 
     private PartHandler handler;
 
@@ -35,7 +35,7 @@ public class RoombaMovement : MonoBehaviour
     {
         rigidBody = gameObject.GetComponent<Rigidbody>();
         handler = gameObject.GetComponent<PartHandler>();
-        rotationOffset = Quaternion.Euler(UnityEngine.Random.Range(-5f,5f), 0f, UnityEngine.Random.Range(-5f,5f));
+        rotationOffset = Quaternion.Euler(UnityEngine.Random.Range(-25f,25f), 0f,0f);
         if (ActivateOnStart)
         {
             Activate();
@@ -154,10 +154,10 @@ public class RoombaMovement : MonoBehaviour
             if (attack != null && Time.time - switchTimer < 0.5)
             {
                 Vector3 direction = Quaternion.AngleAxis(strongest * 90 + 90, Vector3.up) * (attack.transform.position - transform.position);
-                Quaternion rotation = Quaternion.LookRotation(direction);
+                Quaternion rotation = Quaternion.LookRotation(direction) * rotationOffset;
                 float angle = Quaternion.Angle(transform.rotation,rotation);
                 float rotationSpeed = 30f/(0.1f + (float)Math.Sqrt(Math.Abs(angle)));
-                transform.rotation = Quaternion.Lerp(transform.rotation, rotation * rotationOffset, rotationSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
             }
             else if (robotsRemaining > 1)
             {
@@ -191,7 +191,7 @@ public class RoombaMovement : MonoBehaviour
             }
         }
         attack = closestBot;
-        rotationOffset = Quaternion.Euler(UnityEngine.Random.Range(-5f,5f), 0f, UnityEngine.Random.Range(-5f,5f));
+        rotationOffset = Quaternion.Euler(UnityEngine.Random.Range(-25f,25f), 0f,0f);
     }
 
 }

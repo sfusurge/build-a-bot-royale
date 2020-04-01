@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 8323160893428288514}
   - component: {fileID: 7566806751593054592}
   - component: {fileID: -5689847120146208464}
-  - component: {fileID: 4816856087976450783}
   m_Layer: 0
   m_Name: ShieldPart
   m_TagString: Shield
@@ -96,7 +95,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 6c82448909ce7944cb64786b48b7b651, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -117,20 +116,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &4816856087976450783
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2841158949271670659}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1001 &2841158947741576283
 PrefabInstance:
   m_ObjectHideFlags: 0
