@@ -32,6 +32,22 @@ public static class StaticNetworkSettings
         }
     }
 
+    public static string ShortURL
+    {
+        get
+        {
+            switch (CurrentServer)
+            {
+                case Servers.LOCAL:
+                    return "localhost:3000";
+                case Servers.PRODUCTION:
+                    return "https://bit.ly/2TytNCM";
+                default:
+                    throw new System.NotImplementedException("No short URL defined for server " + CurrentServer);
+            }
+        }
+    }
+
     public static int ServerPort
     {
         get

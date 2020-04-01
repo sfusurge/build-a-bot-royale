@@ -24,10 +24,10 @@ public class TitleController : MonoBehaviour
     public void OnStartButtonClicked()
     {
         // TODO: need to make sure we're connected to the socket before we can do this
-        SocketIO.StartNewGame(gameID =>
+        SocketIO.StartNewGame(responseString =>
         {
-            // TODO: show this in the UI somewhere on the lobby page and throughout the game too
-            Debug.Log("Started game <b>" + gameID + "</b>");
+            var responseJSON = JSON.Parse(responseString);
+            FindObjectOfType<JoinGameUI>().ShowGameID(responseJSON["gameID"]);
 
             GameStateManager.Instance.ChangeState(GameStateManager.GameStates.LOBBY);
             Destroy(gameObject);
