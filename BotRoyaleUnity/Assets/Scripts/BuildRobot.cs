@@ -14,9 +14,9 @@ public class BuildRobot : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        if(buildSampleBots){
-            GameStateManager.Instance.RegisterActionToState(GameStateManager.GameStates.BATTLE, BuildSampleRobots);
-         
+        if(buildSampleBots)
+        {
+            BuildSampleRobots();
         }
     }
 
@@ -126,7 +126,7 @@ public class BuildRobot : MonoBehaviour
         parent.name = name;
         parent.GetComponent<PartHandler>().setParts();
         //parent.GetComponent<PartHandler>().delUnattachedParts();
-        GameStateManager.Instance.addRobot(parent);
+        //GameStateManager.Instance.addRobot(parent);
         return parent;
     }
 

@@ -1,0 +1,33 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using SimpleJSON;
+using UnityEngine;
+
+public class LobbyController : GamePhaseController
+{
+    public void OnNextButtonClicked()
+    {
+        GameStateManager.Instance.ChangeState(GameStateManager.GameStates.BUILDING);
+    }
+
+    void Start()
+    {
+        
+    }
+
+    void Update()
+    {
+        
+    }
+
+    public override JSONObject ReturnDataForNextGamePhase()
+    {
+        // no data to transfer from lobby page
+        return null;
+    }
+
+    public override void UseCarryOverData(JSONObject InputData)
+    {
+        // no data to use in lobby page
+    }
+}

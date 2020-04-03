@@ -47,7 +47,6 @@ public class PartHealth : MonoBehaviour
                     subtractDirectionStrength();
                     subtractedStrength = true;
                     Destroy(gameObject);
-                    GameStateManager.Instance.killRobot(gameObject);
                     rb.mass--;
                 }
                 handler.partDestroyed(relPos.x, relPos.y);
