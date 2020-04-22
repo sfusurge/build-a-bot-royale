@@ -1,19 +1,17 @@
-name: Node.js tests 🧪
+name: React tests 💥
 
 on:
   push:
     paths:
-      - 'node-webservice/**'
-      - '!node-webservice/react-client/**'
+      - 'node-webservice/react-client/**'
       - '!node-webservice/react-client/readme.md'
-      - '.github/workflows/nodeTests.yml'
+      - '.github/workflows/reactTests.yml'
 
   pull_request:
     paths:
-    - 'node-webservice/**'
-    - '!node-webservice/react-client/**'
-    - '!node-webservice/react-client/readme.md'
-    - '.github/workflows/nodeTests.yml'
+      - 'node-webservice/react-client/**'
+      - '!node-webservice/react-client/readme.md'
+      - '.github/workflows/reactTests.yml'
 
 jobs:
   buildAndTest:
@@ -32,12 +30,11 @@ jobs:
 
     - name: 💽 Clean npm install
       run: |
-        cd node-webservice
+        cd node-webservice/react-client
         npm ci
-
     - name: 👟 Run the tests
       run: |
-        cd node-webservice
+        cd node-webservice/react-client
         npm test
       env:
         CI: true

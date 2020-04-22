@@ -7,8 +7,8 @@ using TMPro;
 public class CountDown : MonoBehaviour
 {
     [SerializeField] private List<GameObject> ObjectList = default;
-    [SerializeField] private GameStateManager.GameStates StateOn = GameStateManager.GameStates.NONE;
-    [SerializeField] private GameStateManager.GameStates StateOff = GameStateManager.GameStates.NONE;
+    //[SerializeField] private GameStateManager.GameStates StateOn = GameStateManager.GameStates.NONE;
+    //[SerializeField] private GameStateManager.GameStates StateOff = GameStateManager.GameStates.NONE;
 
     [SerializeField] private TextMeshPro time = default;
     [SerializeField] private float BuildTime = 0.0f;
@@ -16,9 +16,9 @@ public class CountDown : MonoBehaviour
 
     void Start()
     {
-        GameStateManager.Instance.RegisterActionToState(StateOn, turnOnScene);
-        GameStateManager.Instance.RegisterActionToState(StateOff, turnOffScene);
-        GameStateManager.Instance.RegisterActionToState(StateOn, ()=> timeUp = false);
+        //GameStateManager.Instance.RegisterActionToState(StateOn, turnOnScene);
+        //GameStateManager.Instance.RegisterActionToState(StateOff, turnOffScene);
+        //GameStateManager.Instance.RegisterActionToState(StateOn, ()=> timeUp = false);
     
     }
 
@@ -44,7 +44,7 @@ public class CountDown : MonoBehaviour
             } else{
                 BuildTime = 0;
                 timeUp = true;
-                GameStateManager.Instance.BuildTimeUp();
+                GameStateManager.Instance.ChangeState(GameStateManager.GameStates.BATTLE);
             }
             time.text = BuildTime.ToString("#");
         }

@@ -7,57 +7,94 @@ using SimpleJSON;
 
 public class GameStateManager : MonoBehaviour
 {
-    [SerializeField] private GameStates InitialGameState = GameStates.NONE;
+    [Header("State controllers")]
+    [SerializeField] private GameObject LobbyController = default;
+    [SerializeField] private GameObject BuildController = default;
+    [SerializeField] private GameObject BattleController = default;
+    [SerializeField] private GameObject ResultsController = default;
+
     private static GameStateManager instance;
     public static GameStateManager Instance{
         get{
             if (instance != null){
                 return instance;
             }
-            throw new System.InvalidOperationException("Missing instance of GameManager");
+            throw new InvalidOperationException("Missing instance of GameManager");
         }
     }
 
     public static bool appIsQuitting { get; private set; } = false;
 
-    private static List<GameObject> robotList;
+    private GamePhaseController currentStateController;
     private SocketConnectionHandler SocketIO;
+    public GameStates GameState { get; private set; } = GameStates.NONE;
 
     public enum GameStates{
         NONE,
-        //receive JSON build
-        //displays count down timer for building
-        //have the camera circle in before the battle
+
+        LOBBY,
         BUILDING,
-        //build robot
-        //robot fights
-        //camera action
-        //...
         BATTLE,
-        //camera action (zooms in?)
-        CHAMP_BATTLE,
-        //end game scene
-        GAME_OVER
+        RESULTS
     }
-    public GameStates GameState {get; private set;}
 
-    private Dictionary<GameStates, List<Action>> StateActions;
+    private string GameStateToSocketMessageString(GameStates gameState)
+    {
+        switch (gameState)
+        {
+            case GameStates.NONE:
+                return "none";
+            case GameStates.LOBBY:
+                return "lobby";
+            case GameStates.BUILDING:
+                return "build";
+            case GameStates.BATTLE:
+                return "battle";
+            case GameStates.RESULTS:
+                return "results";
+            default:
+                throw new NotImplementedException("No socket message string for " + gameState);
+        }
+    }
 
-    public void Awake(){
+    private GameObject controllerPrefabForState(GameStates gameState)
+    {
+        switch(gameState)
+        {
+            case GameStates.NONE:
+                return null;
+            case GameStates.LOBBY:
+                return LobbyController;
+            case GameStates.BUILDING:
+                return BuildController;
+            case GameStates.BATTLE:
+                return BattleController;
+            case GameStates.RESULTS:
+                return ResultsController;
+            default:
+                throw new NotImplementedException("No controller prefab for " + gameState);
+        }
+    }
+
+    private GamePhaseController InstantiateControllerForState(GameStates gameState)
+    {
+        GameObject controllerPrefab = controllerPrefabForState(gameState);
+        var newController = Instantiate(controllerPrefab);
+        var newPhaseController = newController.GetComponent<GamePhaseController>();
+        if (newPhaseController == null)
+        {
+            throw new MissingComponentException("State controller prefab must have a GamePhaseController component");
+        }
+        return newPhaseController;
+    }
+
+    public void Awake()
+    {
         if (instance != null){
+            Debug.LogWarning("There can only be one instance of GameStateManager. Deleting this one");
             Destroy(this);
         }
         instance = this;
-
-        robotList = new List<GameObject>();
-
-        StateActions = new Dictionary<GameStates, List<Action>>();
-        foreach (GameStates State in Enum.GetValues(typeof(GameStates)))
-        {
-            StateActions.Add(State, new List<Action>());
-        }
-
-        GameState = InitialGameState;
 
         Application.quitting += () => appIsQuitting = true;
 
@@ -65,38 +102,13 @@ public class GameStateManager : MonoBehaviour
         Assert.IsNotNull(SocketIO, "Game state manager needs reference to socket handler");
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        ChangeState(GameStates.BUILDING);   
-    }
-
-    // have a signal from countdown scene to call this function 
-    public void BuildTimeUp(){
-        ChangeState(GameStates.BATTLE);
-    }
-
-    public void EndGame(){
-        ChangeState(GameStates.GAME_OVER);
-    }
-
-    public void RegisterActionToState(GameStates stateToListenFor, Action onStateChange){
-        if (StateActions.ContainsKey(stateToListenFor) == false){
-            StateActions.Add(stateToListenFor, new List<Action>());
-        }
-        
-        StateActions[stateToListenFor].Add(onStateChange);  
-        Debug.Log("register: " + StateActions[stateToListenFor].Count);
-    }
-
-   public void ChangeState(GameStates newState){
-        
+    public void ChangeState(GameStates newState)
+    {    
         bool isCurrentState = (GameState == newState);
         if (!isCurrentState)
         {
-
             // send new state to server. Only change state in Unity app once server responds
-            SocketIO.ChangeGameState(newState.ToString(), response =>
+            SocketIO.ChangeGameState(GameStateToSocketMessageString(newState), response =>
             {
                 // check for error in the response
                 var responseJSON = JSONObject.Parse(response);
@@ -106,38 +118,22 @@ public class GameStateManager : MonoBehaviour
                     return;
                 }
 
-                // change game state and call listeners
-                GameState = newState;
-                if (StateActions.ContainsKey(newState))
+                // get any carry-over data from the current state controller and delete the controller
+                JSONObject betweenStateControllerData = null;
+                if (currentStateController != null)
                 {
-                    Debug.Log("action: " + StateActions[newState].Count);
-                    foreach (Action action in StateActions[newState])
-                    {
-                        action.Invoke();
-                    }
+                    betweenStateControllerData = currentStateController.ReturnDataForNextGamePhase();
+                    Destroy(currentStateController.gameObject);
                 }
+
+                // instantiate a new state controller and pass it the carry-over data
+                GamePhaseController newStateController = InstantiateControllerForState(newState);
+                currentStateController = newStateController;
+
+                currentStateController.UseCarryOverData(betweenStateControllerData);
+
+                GameState = newState;
             });
-        }
-    }
-
-    public void addRobot(GameObject robot){
-        robotList.Add(robot);
-        if (GameState == GameStates.BATTLE){
-                if (robotList.Count <= 3){
-                ChangeState(GameStates.CHAMP_BATTLE);
-            }
-        }
-    }
-
-    public void killRobot(GameObject robot){
-        robotList.Remove(robot);
-            if (GameState == GameStates.BATTLE){
-                if (robotList.Count <= 3){
-                    ChangeState(GameStates.CHAMP_BATTLE);
-                if (robotList.Count <= 1){
-                    ChangeState(GameStates.GAME_OVER);
-                }
-            }
         }
     }
 }

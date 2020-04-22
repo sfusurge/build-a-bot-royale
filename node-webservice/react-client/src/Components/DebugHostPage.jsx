@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import socket from '../API/socketHandler';
+import {socket } from '../API/socketHandler';
 
 // these should match the names of the gamestates used in the Unity game
 const gameStates = [
