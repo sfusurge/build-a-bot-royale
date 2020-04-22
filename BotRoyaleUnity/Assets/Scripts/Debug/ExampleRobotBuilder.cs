@@ -5,9 +5,9 @@ using UnityEngine;
 
 public static class ExampleRobotBuilder
 {
-    public static List<JSONArray> ExampleRobotsJSON(int numberOfRobots)
+    public static List<JSONObject> ExampleRobotsJSON(int numberOfRobots)
     {
-        List<JSONArray> sampleRobots = new List<JSONArray>();
+        List<JSONObject> sampleRobots = new List<JSONObject>();
         for (int i = 0; i < numberOfRobots; i++)
         {
             var robotJSON = new JSONArray();
@@ -55,6 +55,7 @@ public static class ExampleRobotBuilder
                 robotJSON.Add(JSONRobotPart(4,5,"shield", "north"));
             }
             sampleRobots.Add(robotJSON);
+
         }
         return sampleRobots;
     }

@@ -18,6 +18,9 @@ public class StartingGameStateSetuper : MonoBehaviour
     [SerializeField] private float DelayBeforeSpawning = 1f;
     [SerializeField] private float DelayAfterSpawning = 1f;
 
+    [Header("Settings")]
+    [SerializeField] private int MinNumberOfRobots = 2;
+
     [Header("Debug")]
     [SerializeField] private int TEST_number_of_robots = 2;
     [SerializeField] private bool TEST_SetupOnStart = false;
@@ -46,14 +49,20 @@ public class StartingGameStateSetuper : MonoBehaviour
         SetupGame(exampleRobots, () => Debug.Log("Setup done"));
     }
 
-    public void SetupGame(List<JSONArray> Robots, Action onDoneSetup)
+    public void SetupGame(List<JSONObject> Robots, Action onDoneSetup)
     {
         StopAllCoroutines();
         StartCoroutine(GameSetupSequence(Robots, onDoneSetup));
     }
 
-    private IEnumerator GameSetupSequence(List<JSONArray> Robots, Action onDone)
+    private IEnumerator GameSetupSequence(List<JSONObject> Robots, Action onDone)
     {
+        // pad out robots list if there are too few robots
+        if (Robots.Count < MinNumberOfRobots)
+        {
+            Robots.AddRange(ExampleRobotBuilder.ExampleRobotsJSON(MinNumberOfRobots - Robots.Count));
+        }
+
         // delete existing robots
         foreach (RoombaMovement robot in FindObjectsOfType<RoombaMovement>())
         {
@@ -80,10 +89,14 @@ public class StartingGameStateSetuper : MonoBehaviour
         float angle = 0f;
         float angleInterval = (Mathf.PI * 2f) / Robots.Count;
         int robotNumber = 1;
-        foreach (JSONArray robotJSON in Robots)
+
+        foreach (var robotJSONObject in Robots)
         {
+            JSONArray robotParts = robotJSONObject["parts"].AsArray;
+            string robotName = robotJSONObject["username"];
+
             // build robot from json
-            var robot = RobotBuilder.build(robotJSON.ToString(), "user_robot_" + robotNumber);
+            var robot = RobotBuilder.build(robotParts.ToString(), robotName);
             robot.GetComponent<RoombaMovement>().ActivateOnStart = false;
 
             // place robot in circle on arena

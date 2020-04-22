@@ -15,7 +15,7 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import socket from './API/socketHandler.js';
+import { socket } from './API/socketHandler.js';
 
 const backgroundStyle = {
   backgroundImage:`url(${background})`,
