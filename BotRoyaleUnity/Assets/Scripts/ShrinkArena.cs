@@ -80,6 +80,13 @@ public class ShrinkArena : MonoBehaviour
         // collapse walls
         float elapsedWallCollapseTime = 0f;
         float finalWallHeight = MinimumWallHeight;
+
+        while(Walls.position.y > -2.5f){
+            Walls.position = new Vector3(Walls.position.x, Walls.position.y - Time.deltaTime*0.5f, Walls.position.z);
+            yield return null;
+        }
+
+        /*
         while (elapsedWallCollapseTime < WallCollapseLength)
         {
             float wallHeight = Mathf.LerpUnclamped(initialWallHeight, finalWallHeight, WallCollapseCurve.Evaluate(elapsedWallCollapseTime / WallCollapseLength));
@@ -88,6 +95,7 @@ public class ShrinkArena : MonoBehaviour
             elapsedWallCollapseTime += Time.deltaTime;
         }
         Walls.localScale = new Vector3(Walls.localScale.x, finalWallHeight, Walls.localScale.z);
+        */
 
         while (transform.localScale.x > 1)
         {
