@@ -11,128 +11,48 @@ public static class ExampleRobotBuilder
         for (int i = 0; i < numberOfRobots; i++)
         {
             var robotJSON = new JSONArray();
-            Debug.Log(i);
-            if (i % 5 == 0)
-            {
-                robotJSON.Add(JSONRobotPart(1, 5, "block"));
-                robotJSON.Add(JSONRobotPart(1, 4, "block"));
-                robotJSON.Add(JSONRobotPart(1, 3, "block"));
-                robotJSON.Add(JSONRobotPart(1, 2, "block"));
-                robotJSON.Add(JSONRobotPart(1, 1, "center"));
-
-                robotJSON.Add(JSONRobotPart(5, 5, "block"));
-                robotJSON.Add(JSONRobotPart(5, 4, "block"));
-                robotJSON.Add(JSONRobotPart(5, 3, "block"));
-                robotJSON.Add(JSONRobotPart(5, 2, "block"));
-                robotJSON.Add(JSONRobotPart(5, 1, "block"));
-
-                robotJSON.Add(JSONRobotPart(4, 1, "block"));
-                robotJSON.Add(JSONRobotPart(3, 1, "block"));
-                robotJSON.Add(JSONRobotPart(2, 1, "block"));
-
-                robotJSON.Add(JSONRobotPart(4, 5, "block"));
-                robotJSON.Add(JSONRobotPart(3, 5, "block"));
-                robotJSON.Add(JSONRobotPart(2, 5, "block"));
-            }
-            else if (i % 5 == 1)
-            {
-                robotJSON.Add(JSONRobotPart(1, 5, "center"));
-                robotJSON.Add(JSONRobotPart(1, 4, "block"));
-                robotJSON.Add(JSONRobotPart(1, 3, "block"));
-                robotJSON.Add(JSONRobotPart(1, 2, "block"));
-                robotJSON.Add(JSONRobotPart(1, 1, "block"));
-
-                robotJSON.Add(JSONRobotPart(5, 5, "block"));
-                robotJSON.Add(JSONRobotPart(5, 4, "block"));
-                robotJSON.Add(JSONRobotPart(5, 3, "block"));
-                robotJSON.Add(JSONRobotPart(5, 2, "block"));
-                robotJSON.Add(JSONRobotPart(5, 1, "block"));
-
-                robotJSON.Add(JSONRobotPart(4, 1, "block"));
-                robotJSON.Add(JSONRobotPart(3, 1, "block"));
-                robotJSON.Add(JSONRobotPart(2, 1, "block"));
-
-                robotJSON.Add(JSONRobotPart(4, 5, "block"));
-                robotJSON.Add(JSONRobotPart(3, 5, "block"));
-                robotJSON.Add(JSONRobotPart(2, 5, "block"));
-            }
-            else if (i % 5 == 2)
-            {
-                robotJSON.Add(JSONRobotPart(1, 5, "block"));
-                robotJSON.Add(JSONRobotPart(1, 4, "block"));
-                robotJSON.Add(JSONRobotPart(1, 3, "block"));
-                robotJSON.Add(JSONRobotPart(1, 2, "block"));
-                robotJSON.Add(JSONRobotPart(1, 1, "block"));
-
-                robotJSON.Add(JSONRobotPart(5, 5, "block"));
-                robotJSON.Add(JSONRobotPart(5, 4, "block"));
-                robotJSON.Add(JSONRobotPart(5, 3, "block"));
-                robotJSON.Add(JSONRobotPart(5, 2, "block"));
-                robotJSON.Add(JSONRobotPart(5, 1, "center"));
-
-                robotJSON.Add(JSONRobotPart(4, 1, "block"));
-                robotJSON.Add(JSONRobotPart(3, 1, "block"));
-                robotJSON.Add(JSONRobotPart(2, 1, "block"));
-
-                robotJSON.Add(JSONRobotPart(4, 5, "block"));
-                robotJSON.Add(JSONRobotPart(3, 5, "block"));
-                robotJSON.Add(JSONRobotPart(2, 5, "block"));
-            }
-            else if (i % 5 == 3)
-            {
-                robotJSON.Add(JSONRobotPart(1, 5, "block"));
-                robotJSON.Add(JSONRobotPart(1, 4, "block"));
-                robotJSON.Add(JSONRobotPart(1, 3, "block"));
-                robotJSON.Add(JSONRobotPart(1, 2, "block"));
-                robotJSON.Add(JSONRobotPart(1, 1, "block"));
-
-                robotJSON.Add(JSONRobotPart(5, 5, "center"));
-                robotJSON.Add(JSONRobotPart(5, 4, "block"));
-                robotJSON.Add(JSONRobotPart(5, 3, "block"));
-                robotJSON.Add(JSONRobotPart(5, 2, "block"));
-                robotJSON.Add(JSONRobotPart(5, 1, "block"));
-
-                robotJSON.Add(JSONRobotPart(4, 1, "block"));
-                robotJSON.Add(JSONRobotPart(3, 1, "block"));
-                robotJSON.Add(JSONRobotPart(2, 1, "block"));
-
-                robotJSON.Add(JSONRobotPart(4, 5, "block"));
-                robotJSON.Add(JSONRobotPart(3, 5, "block"));
-                robotJSON.Add(JSONRobotPart(2, 5, "block"));
-            }
-            else if (i % 5 == 4)
-            {
-                robotJSON.Add(JSONRobotPart(3, 3, "center"));
-
-                robotJSON.Add(JSONRobotPart(1, 1, "block"));
-                robotJSON.Add(JSONRobotPart(1, 2, "block"));
-                robotJSON.Add(JSONRobotPart(1, 3, "block"));
-                robotJSON.Add(JSONRobotPart(1, 4, "block"));
-                robotJSON.Add(JSONRobotPart(1, 5, "block"));
-
-                robotJSON.Add(JSONRobotPart(2, 1, "block"));
-                robotJSON.Add(JSONRobotPart(2, 2, "block"));
-                robotJSON.Add(JSONRobotPart(2, 3, "block"));
-                robotJSON.Add(JSONRobotPart(2, 4, "block"));
-                robotJSON.Add(JSONRobotPart(2, 5, "block"));
-
-                robotJSON.Add(JSONRobotPart(3, 1, "block"));
-                robotJSON.Add(JSONRobotPart(3, 2, "block"));
-                robotJSON.Add(JSONRobotPart(3, 4, "block"));
-                robotJSON.Add(JSONRobotPart(3, 5, "block"));
-
-                robotJSON.Add(JSONRobotPart(4, 1, "block"));
-                robotJSON.Add(JSONRobotPart(4, 2, "block"));
-                robotJSON.Add(JSONRobotPart(4, 3, "block"));
-                robotJSON.Add(JSONRobotPart(4, 4, "block"));
-                robotJSON.Add(JSONRobotPart(4, 5, "block"));
-
-                robotJSON.Add(JSONRobotPart(5, 1, "block"));
-                robotJSON.Add(JSONRobotPart(5, 2, "block"));
-                robotJSON.Add(JSONRobotPart(5, 3, "block"));
-                robotJSON.Add(JSONRobotPart(5, 4, "block"));
-                robotJSON.Add(JSONRobotPart(5, 5, "block"));
-
+            if(i % 3 == 0){
+                robotJSON.Add(JSONRobotPart(3,3,"center", "north"));
+                robotJSON.Add(JSONRobotPart(4,3,"block", "north"));
+                robotJSON.Add(JSONRobotPart(2,3,"block", "north"));
+                robotJSON.Add(JSONRobotPart(3,2,"block", "north"));
+                robotJSON.Add(JSONRobotPart(3,4,"block", "north"));
+                robotJSON.Add(JSONRobotPart(5,3,"spike", "east"));
+                robotJSON.Add(JSONRobotPart(1,3,"spike", "west"));
+                robotJSON.Add(JSONRobotPart(3,1,"spike", "south"));
+                robotJSON.Add(JSONRobotPart(3,5,"spike", "north"));
+            }else if(i % 3 == 1){
+                robotJSON.Add(JSONRobotPart(3,3,"center", "north"));
+                robotJSON.Add(JSONRobotPart(4,3,"block", "north"));
+                robotJSON.Add(JSONRobotPart(2,3,"block", "north"));
+                robotJSON.Add(JSONRobotPart(3,2,"block", "north"));
+                robotJSON.Add(JSONRobotPart(3,4,"block", "north"));
+                robotJSON.Add(JSONRobotPart(5,3,"shield", "east"));
+                robotJSON.Add(JSONRobotPart(1,3,"shield", "west"));
+                robotJSON.Add(JSONRobotPart(3,1,"shield", "south"));
+                robotJSON.Add(JSONRobotPart(3,5,"shield", "north"));
+            }else if(i % 3 == 2){
+                robotJSON.Add(JSONRobotPart(3,3,"center", "north"));
+                robotJSON.Add(JSONRobotPart(4,3,"block", "north"));
+                robotJSON.Add(JSONRobotPart(2,3,"block", "north"));
+                robotJSON.Add(JSONRobotPart(3,2,"block", "north"));
+                robotJSON.Add(JSONRobotPart(3,4,"block", "north"));
+                robotJSON.Add(JSONRobotPart(4,4,"block", "north"));
+                robotJSON.Add(JSONRobotPart(2,2,"block", "north"));
+                robotJSON.Add(JSONRobotPart(4,2,"block", "north"));
+                robotJSON.Add(JSONRobotPart(2,4,"block", "north"));
+                robotJSON.Add(JSONRobotPart(5,3,"spike", "east"));
+                robotJSON.Add(JSONRobotPart(1,3,"spike", "west"));
+                robotJSON.Add(JSONRobotPart(3,1,"spike", "south"));
+                robotJSON.Add(JSONRobotPart(3,5,"spike", "north"));
+                robotJSON.Add(JSONRobotPart(5,2,"shield", "east"));
+                robotJSON.Add(JSONRobotPart(5,4,"shield", "east"));
+                robotJSON.Add(JSONRobotPart(1,2,"shield", "west"));
+                robotJSON.Add(JSONRobotPart(1,4,"shield", "west"));
+                robotJSON.Add(JSONRobotPart(2,1,"shield", "south"));
+                robotJSON.Add(JSONRobotPart(4,1,"shield", "south"));
+                robotJSON.Add(JSONRobotPart(2,5,"shield", "north"));
+                robotJSON.Add(JSONRobotPart(4,5,"shield", "north"));
             }
 
             JSONObject robotJSONObject = new JSONObject();
@@ -144,7 +64,7 @@ public static class ExampleRobotBuilder
         return sampleRobots;
     }
 
-    public static JSONObject JSONRobotPart(int x, int y, string type, string direction = "north")
+    public static JSONObject JSONRobotPart(int x, int y, string type, string direction)
     {
         var jsonObj = new JSONObject();
         jsonObj["x"] = x;

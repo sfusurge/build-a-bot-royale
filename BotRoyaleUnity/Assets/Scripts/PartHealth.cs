@@ -66,7 +66,7 @@ public class PartHealth : MonoBehaviour
     }
 
     public void subtractDirectionStrength(){
-        if(type != "spike"){
+        if(type != "spike" && type != "shield"){
             if(relPos.x < 0){
                 transform.parent.gameObject.GetComponent<PartHandler>().changeDirectionStrength("west",-1);
             }
