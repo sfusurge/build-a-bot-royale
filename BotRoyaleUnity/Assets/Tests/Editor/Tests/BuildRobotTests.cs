@@ -33,6 +33,7 @@ namespace Tests
             buildRobot.block = new GameObject("test_block_type", typeof(PartHealth));
             buildRobot.center = new GameObject("test_center_type", typeof(PartHealth));
             buildRobot.spike = new GameObject("test_spike_type", typeof(PartHealth));
+            buildRobot.shield = new GameObject("test_shield_type", typeof(PartHealth));
         }
 
         [Test]
@@ -71,7 +72,7 @@ namespace Tests
         }
 
         [Test]
-        public void BuildingRobotWithThreePartsReturnsObjectWithThreeChildren()
+        public void BuildingRobotWithFourPartsReturnsObjectWithFourChildren()
         {
             string parts = @"[
                 {
@@ -92,12 +93,18 @@ namespace Tests
                     'y': 1,
                     'direction': 'north'
                 },
+                {
+                    'type': 'shield',
+                    'x': 1,
+                    'y': 1,
+                    'direction': 'north'
+                },
 
             ]".Replace("'", "\"");
 
             var result = buildRobot.build(parts, "test-robot");
 
-            Assert.That(result.transform.childCount, Is.EqualTo(3));
+            Assert.That(result.transform.childCount, Is.EqualTo(4));
         }
 
         /* Commented out this test because it fails
