@@ -36,15 +36,16 @@ class Grid extends Component {
             partDirection = {data.direction}
             partHealth = {data.health}
             onClicked={() => this.props.onCellClick(data.x, data.y, this.currentType)}
+            gameplayPhase = {this.props.gameplayPhase}
         />
     }
 
     style(type1) {
         return { 
             backgroundImage: `url(${type1})`,
-            backgroundSize: 'calc(14vmin - 2px) calc(14vmin - 2px)',
-            height: "14vmin",
-            width: "14vmin",
+            backgroundSize: (this.props.gameplayPhase === "build") ? 'calc(14vmin - 2px) calc(14vmin - 2px)' : 'calc(12vmin - 2px) calc(12vmin - 2px)',
+            height: (this.props.gameplayPhase === "build") ? "14vmin" : "12vmin",
+            width: (this.props.gameplayPhase === "build") ? "14vmin" : "12vmin",
             border: "1px solid black",
             outline:"none",
         };
@@ -53,8 +54,8 @@ class Grid extends Component {
     render() {
         const partsArray = this.partsArrayTo2DArray(this.props.parts);
         const gridStyleBuild = {
-            height: "70vmin",
-            width: "70vmin",
+            height: (this.props.gameplayPhase === "build") ? "70vmin" : "60vmin",
+            width: (this.props.gameplayPhase === "build") ? "70vmin" : "60vmin",
             margin: "2vmin"
         }
 

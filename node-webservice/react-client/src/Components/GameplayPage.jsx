@@ -150,7 +150,7 @@ class GameplayPage extends Component {
           <h3>Playing game {this.props.match.params.gameid}</h3>
 
           <div className="build_surrounding_square">
-          <Grid  parts={this.state.parts } onCellClick={this.handleCellClicked}></Grid>
+          <Grid  parts={this.state.parts } onCellClick={this.handleCellClicked} gameplayPhase={this.state.gameplayPhase}></Grid>
           <TypeToolbar onChangeType={ (newType) => this.setState({ currentType: newType}) }></TypeToolbar>
           </div>   
           <button onClick={this.handleSubmit}> Submit </button>
