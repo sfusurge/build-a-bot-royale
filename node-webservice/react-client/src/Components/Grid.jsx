@@ -40,28 +40,22 @@ class Grid extends Component {
     }
 
     style(type1) {
-        return {
-           
-            
+        return { 
             backgroundImage: `url(${type1})`,
-            backgroundSize: 'calc(10vmin - 2px) calc(10vmin - 2px)',
-            height: "10vmin",
-            width: "10vmin",
+            backgroundSize: 'calc(14vmin - 2px) calc(14vmin - 2px)',
+            height: "14vmin",
+            width: "14vmin",
             border: "1px solid black",
             outline:"none",
-
-            
-            
         };
     }
 
     render() {
         const partsArray = this.partsArrayTo2DArray(this.props.parts);
         const gridStyleBuild = {
-            height: "60vmin",
-            width: "60vmin",
-            margin: "2vmin auto"
-
+            height: "70vmin",
+            width: "70vmin",
+            margin: "2vmin"
         }
 
         return (   

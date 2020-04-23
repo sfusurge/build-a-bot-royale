@@ -149,7 +149,7 @@ class GameplayPage extends Component {
         <div className='gameplay-page'>
           <h3>Playing game {this.props.match.params.gameid}</h3>
 
-          <div class="flex-container">
+          <div className="build_surrounding_square">
           <Grid  parts={this.state.parts } onCellClick={this.handleCellClicked}></Grid>
           <TypeToolbar onChangeType={ (newType) => this.setState({ currentType: newType}) }></TypeToolbar>
           </div>   
@@ -221,7 +221,7 @@ class GameplayPage extends Component {
       copy.forEach((element,i) => {
       
         if (element.x === x && element.y === y) {
-          if(this.state.currentType == "empty" && !(x===2 && y===2)){
+          if(this.state.currentType === "empty" && !(x===2 && y===2)){
             copy.splice(i, 1); 
           }
           else{
@@ -234,7 +234,7 @@ class GameplayPage extends Component {
       this.setState({ parts: copy })
 
 
-      if (!partHere && this.state.currentType!= "empty") {
+      if (!partHere && this.state.currentType !== "empty") {
           var newPart = {
             "type": this.state.currentType,
             "x": x,

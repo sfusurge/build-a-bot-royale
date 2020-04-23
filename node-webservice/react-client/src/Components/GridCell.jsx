@@ -52,9 +52,9 @@ class GridCell extends Component {
     style() {
         return {
             backgroundImage: this.imageForType(),
-            backgroundSize: 'calc(13vmin - 2px) calc(13vmin - 2px)',
-            height: "12vmin",
-            width: "12vmin",
+            backgroundSize: 'calc(14vmin - 2px) calc(14vmin - 2px)',
+            height: "14vmin",
+            width: "14vmin",
             border: "1px solid black",
             outline:"none"
         };

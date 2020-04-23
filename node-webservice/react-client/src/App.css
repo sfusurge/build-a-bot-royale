@@ -28,9 +28,14 @@
 }
 
 
-.flex-container {
+.build_surrounding_square {
   display: flex;
   flex-direction: row;
+  width: calc(90vmin+10px);
+  height: 74vmin;
+  margin: auto;
+  background-color: white;
+  border: rgb(252, 186, 3) 1vmin solid;
 }
 
 .input-hidden {
@@ -40,7 +45,7 @@
 
 input[type=radio]:checked + label>img {
   border: 1px solid #fff;
-  box-shadow: 0 0 3px 3px rgb(0, 255, 21);
+  box-shadow: 0 0 3px 3px rgb(252, 186, 3);
 }
 
 .surrounding-square{
