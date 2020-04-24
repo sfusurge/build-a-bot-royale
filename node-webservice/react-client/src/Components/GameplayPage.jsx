@@ -219,30 +219,40 @@ class GameplayPage extends Component {
       var partHere = false;
       var copy = [...this.state.parts];
       copy.forEach((element, i) => {
-
         if (element.x === x && element.y === y) {
           if (this.state.currentType === "empty" && !(x === 2 && y === 2)) {
             copy.splice(i, 1);
           }
           else {
             element.direction = this.rotate(element.direction, x, y);
-
           }
           partHere = true;
         }
       })
       this.setState({ parts: copy })
       if (!partHere && this.state.currentType !== "empty") {
-        var newPart = {
-          "type": this.state.currentType,
-          "x": x,
-          "y": y,
-          "direction": "north",
-          "health": 1.0
+        var partLocations = [];
+        this.state.parts.forEach(element => {
+          if (element.type === "block" || element.type === "center") {
+            partLocations.push([element.x, element.y]);
+          }
+        })
+        var nextToBlock = false;
+        if(this.PartExistsIn(partLocations,[x-1,y]) || this.PartExistsIn(partLocations,[x+1,y]) || this.PartExistsIn(partLocations,[x,y-1]) || this.PartExistsIn(partLocations,[x,y+1])){
+          nextToBlock = true;
         }
-        copy.push(newPart);
-        newPart.direction = this.rotate(newPart.direction, x, y);
-        this.setState({ parts: copy });
+        if(nextToBlock){
+          var newPart = {
+            "type": this.state.currentType,
+            "x": x,
+            "y": y,
+            "direction": "north",
+            "health": 1.0
+          }
+          copy.push(newPart);
+          newPart.direction = this.rotate(newPart.direction, x, y);
+          this.setState({ parts: copy });
+        }
       }
     }
   }
@@ -263,7 +273,7 @@ class GameplayPage extends Component {
     const order = ["north", "west", "south", "east"]
     var partLocations = [];
     this.state.parts.forEach(element => {
-      if (element.type === "block") {
+      if (element.type === "block" || element.type === "center") {
         partLocations.push([element.x, element.y]);
       }
     })
