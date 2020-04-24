@@ -270,11 +270,12 @@ class GameplayPage extends Component {
 
   deleteInvalid(partsCopy){
     var allValidParts = [];
-    for(var a = 0; a < 5; a++){
+    var a;
+    for(a = 0; a < 5; a++){
       allValidParts.push([false, false, false, false, false]);
     }
     var currentParts = [];
-    for(var a = 0; a < 5; a++){
+    for(a = 0; a < 5; a++){
       currentParts.push(["none","none","none","none","none"]);
     }
     partsCopy.forEach(element => {
@@ -282,11 +283,64 @@ class GameplayPage extends Component {
     })
     this.recursiveAttached(2,2,allValidParts,currentParts);
     var i = 0;
+    
+    //delete all unattached parts
     while(i < partsCopy.length){
       if(allValidParts[partsCopy[i].x][partsCopy[i].y] === false){
         partsCopy.splice(i,1);
       }else{
         i++;
+      }
+    }
+
+    var remBlocks = []
+    for(a = 0; a < 5; a++){
+      remBlocks.push([false, false, false, false, false]);
+    }
+    partsCopy.forEach(element => {
+      if(element.type === "block" || element.type === "center"){
+        remBlocks[element.x][element.y] = true;
+      }
+    })
+    partsCopy.forEach(element => {
+      if(element.type === "spike" || element.type === "shield"){
+        console.log(element.direction);
+        element.direction = this.validDirection(remBlocks, element.x, element.y, element.direction);
+      }
+    })
+
+  }
+
+  //basically rotate function, but doesn't use the parts from state, and default is the current direction.
+  validDirection(blocks,x,y,direction){
+    const order = ["north", "west", "south", "east"]
+    var intial = order.indexOf(direction);
+    console.log(intial)
+    for (var a = intial; a < intial + 4; a++) {
+      console.log(order[a%4]);
+      switch(order[a%4]){
+        case "north":
+          if(blocks[x][y-1]){
+            return "north";
+          }
+          break
+        case "east":
+          if(blocks[x-1][y]){
+            return "east";
+          }
+          break
+        case "west":
+          if(blocks[x+1][y]){
+            return "west";
+          }
+          break
+        case "south":
+          if(blocks[x][y+1]){
+            return "south";
+          }
+          break
+        default:
+        throw new Error("invalid direction");  
       }
     }
   }
