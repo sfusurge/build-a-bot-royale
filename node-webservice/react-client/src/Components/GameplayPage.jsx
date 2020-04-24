@@ -222,6 +222,7 @@ class GameplayPage extends Component {
         if (element.x === x && element.y === y) {
           if (this.state.currentType === "empty" && !(x === 2 && y === 2)) {
             copy.splice(i, 1);
+            this.deleteInvalid(copy);
           }
           else {
             element.direction = this.rotate(element.direction, x, y);
@@ -267,6 +268,42 @@ class GameplayPage extends Component {
     return found;
   }
 
+  deleteInvalid(partsCopy){
+    var allValidParts = [];
+    for(var a = 0; a < 5; a++){
+      allValidParts.push([false, false, false, false, false]);
+    }
+    var currentParts = [];
+    for(var a = 0; a < 5; a++){
+      currentParts.push(["none","none","none","none","none"]);
+    }
+    partsCopy.forEach(element => {
+      currentParts[element.x][element.y] = element.type;
+    })
+    this.recursiveAttached(2,2,allValidParts,currentParts);
+    var i = 0;
+    while(i < partsCopy.length){
+      if(allValidParts[partsCopy[i].x][partsCopy[i].y] === false){
+        partsCopy.splice(i,1);
+      }else{
+        i++;
+      }
+    }
+  }
+
+  recursiveAttached(x,y, allValidParts,currentParts){
+    if(x >= 0 && x < 5 && y >= 0 && y < 5){
+      if(allValidParts[x][y] === false){
+        allValidParts[x][y] = true;
+        if(currentParts[x][y] === "block" || currentParts[x][y] === "center"){
+          this.recursiveAttached(x-1,y,allValidParts,currentParts);
+          this.recursiveAttached(x+1,y,allValidParts,currentParts);
+          this.recursiveAttached(x,y-1,allValidParts,currentParts);
+          this.recursiveAttached(x,y+1,allValidParts,currentParts);
+        }
+      }
+    }
+  }
 
 
   rotate(current, x, y) {
