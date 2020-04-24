@@ -10,6 +10,7 @@ import ShieldEast from "../Images/shieldEast.PNG";
 import ShieldSouth from "../Images/shieldSouth.PNG";
 import ShieldWest from "../Images/shieldWest.PNG";
 import Empty from "../Images/empty.PNG";
+import "../App.css"
 
 class GridCell extends Component {
     imageForType() {
@@ -52,18 +53,18 @@ class GridCell extends Component {
     style() {
         return {
             backgroundImage: this.imageForType(),
-            backgroundSize: (this.props.gameplayPhase === "build") ? 'calc(14vmin - 2px) calc(14vmin - 2px)' : 'calc(12vmin - 2px) calc(12vmin - 2px)',
-            height: (this.props.gameplayPhase === "build") ? "14vmin" : "12vmin",
-            width: (this.props.gameplayPhase === "build") ? "14vmin" : "12vmin",
-            border: "1px solid black",
-            outline: "none"
         };
     }
 
     render() {
-        console.log(this.props.gameplayPhase);
+        var properClass;
+        if(this.props.gameplayPhase === "build"){
+            properClass = "cell-style-build";
+        }else{
+            properClass = "cell-style-battle";
+        }
         return (
-            <button onClick={this.props.onClicked} style={this.style()}></button>
+            <button className = {properClass} onClick={this.props.onClicked} style={this.style()}></button>
         );
     }
 }

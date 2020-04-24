@@ -9,13 +9,14 @@ import BehaviourBar from './BehaviourBar'
 import "../App.css"
 
 
+
 class GameplayPage extends Component {
-  
+
   constructor(props) {
-   
+
     super(props);
     this.state = {
-      currentType : "block",
+      currentType: "block",
       joinedGameID: null,
       gameplayPhase: "not-set",
       behaviour: "not-set",
@@ -148,11 +149,10 @@ class GameplayPage extends Component {
       return (
         <div className='gameplay-page'>
           <h3>Playing game {this.props.match.params.gameid}</h3>
-
           <div className="build_surrounding_square">
-          <Grid  parts={this.state.parts } onCellClick={this.handleCellClicked} gameplayPhase={this.state.gameplayPhase}></Grid>
-          <TypeToolbar onChangeType={ (newType) => this.setState({ currentType: newType}) }></TypeToolbar>
-          </div>   
+            <Grid parts={this.state.parts} onCellClick={this.handleCellClicked} gameplayPhase={this.state.gameplayPhase}></Grid>
+            <TypeToolbar onChangeType={(newType) => this.setState({ currentType: newType })}></TypeToolbar>
+          </div>
           <button onClick={this.handleSubmit}> Submit </button>
 
         </div>
@@ -207,7 +207,7 @@ class GameplayPage extends Component {
   }
 
   handleCellClicked(x, y) {
-    
+
     //makes sure cell has valid coordinates
     if (x < 0 || x > 4 || y < 0 || y > 4) {
       throw new Error("Invalid x or y");
@@ -218,47 +218,39 @@ class GameplayPage extends Component {
       // rotate the part and set 'partHere' to true.
       var partHere = false;
       var copy = [...this.state.parts];
-      copy.forEach((element,i) => {
-      
+      copy.forEach((element, i) => {
+
         if (element.x === x && element.y === y) {
-          if(this.state.currentType === "empty" && !(x===2 && y===2)){
-            copy.splice(i, 1); 
+          if (this.state.currentType === "empty" && !(x === 2 && y === 2)) {
+            copy.splice(i, 1);
           }
-          else{
-          element.direction = this.rotate(element.direction, x, y);
-          
-        }
-        partHere = true;
+          else {
+            element.direction = this.rotate(element.direction, x, y);
+
+          }
+          partHere = true;
         }
       })
       this.setState({ parts: copy })
-
-
       if (!partHere && this.state.currentType !== "empty") {
-          var newPart = {
-            "type": this.state.currentType,
-            "x": x,
-            "y": y,
-            "direction": "north",
-            "health": 1.0
-          }
-          copy.push(newPart);
-          newPart.direction = this.rotate(newPart.direction, x, y);
-          this.setState({ parts: copy});
-
-        
-  
+        var newPart = {
+          "type": this.state.currentType,
+          "x": x,
+          "y": y,
+          "direction": "north",
+          "health": 1.0
+        }
+        copy.push(newPart);
+        newPart.direction = this.rotate(newPart.direction, x, y);
+        this.setState({ parts: copy });
       }
-
-      
     }
-
-
   }
+  
   PartExistsIn(arr, target) {
     var found = 0;
     arr.forEach(element => {
-      if (element[0] === target[0] && element[1] === target[1] ) {
+      if (element[0] === target[0] && element[1] === target[1]) {
         found = 1;
       }
     })
