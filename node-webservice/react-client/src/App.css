@@ -45,7 +45,7 @@
 
 input[type=radio]:checked + label>img {
   border: 1px solid #fff;
-  box-shadow: 0 0 3px 3px rgb(252, 186, 3);
+  box-shadow: 0 0 5px 5px rgb(252, 186, 3);
 }
 
 @media all and (min-width: 769px) {

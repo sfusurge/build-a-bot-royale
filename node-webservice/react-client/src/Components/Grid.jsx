@@ -51,10 +51,9 @@ class Grid extends Component {
         }
 
         return (  
-                //  <div className="Grid-Container" style = {gridStyle}> </div>
-                <div className = {properClass} style = {{margin:"2vmin"}}> 
-                    { partsArray.map(this.renderRow.bind(this)) }
-                </div>
+            <div className = {properClass} style = {{margin:"2vmin"}}> 
+                { partsArray.map(this.renderRow.bind(this)) }
+            </div>
 
         );
     }
