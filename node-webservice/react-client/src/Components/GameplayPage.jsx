@@ -6,7 +6,6 @@ import Grid from './Grid';
 
 import TypeToolbar from './TypeToolbar';
 import BehaviourBar from './BehaviourBar'
-import "../App.css"
 
 
 

@@ -10,7 +10,6 @@ import ShieldEast from "../Images/shieldEast.PNG";
 import ShieldSouth from "../Images/shieldSouth.PNG";
 import ShieldWest from "../Images/shieldWest.PNG";
 import Empty from "../Images/empty.PNG";
-import "../App.css"
 
 class GridCell extends Component {
     imageForType() {

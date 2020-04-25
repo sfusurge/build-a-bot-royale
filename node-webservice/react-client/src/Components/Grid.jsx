@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import GridCell from "./GridCell";
-import "../App.css"
+
 class Grid extends Component {
      currentType = "block";
     partsArrayTo2DArray(partsData) {

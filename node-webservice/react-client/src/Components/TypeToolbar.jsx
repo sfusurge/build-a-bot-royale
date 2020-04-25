@@ -3,7 +3,7 @@ import Block from "../Images/block.PNG";
 import Delete from "../Images/delete.PNG";
 import Spike from "../Images/spikeNorth.PNG";
 import Shield from "../Images/shieldNorth.PNG";
-import "../App.css"
+
 class TypeToolbar extends Component {
 
     typeChooser() {
