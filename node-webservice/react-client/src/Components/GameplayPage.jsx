@@ -22,61 +22,12 @@ class GameplayPage extends Component {
       behaviour: "not-set",
       parts: [
         {
-          "type": "block",
-          "x": 2,
-          "y": 3,
-          "direction": "north",
-          "health": 1.0
-        },
-        {
-          "type": "spike",
-          "x": 1,
-          "y": 2,
-          "direction": "west",
-          "health": 1.0
-        },
-        {
-          "type": "spike",
-          "x": 2,
-          "y": 4,
-          "direction": "north",
-          "health": 1.0
-        },
-        {
           "type": "center",
           "x": 2,
           "y": 2,
           "direction": "north",
           "health": 1.0
         },
-        {
-          "type": "block",
-          "x": 2,
-          "y": 1,
-          "direction": "north",
-          "health": 1.0
-        },
-        {
-          "type": "spike",
-          "x": 4,
-          "y": 2,
-          "direction": "east",
-          "health": 1.0
-        },
-        {
-          "type": "spike",
-          "x": 2,
-          "y": 0,
-          "direction": "south",
-          "health": 1.0
-        },
-        {
-          "type": "block",
-          "x": 3,
-          "y": 2,
-          "direction": "north",
-          "health": 1.0
-        }
       ]
     }
 
