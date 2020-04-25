@@ -7,7 +7,7 @@ import ErrorPage from './Components/ErrorPage';
 import AboutPage from './Components/AboutPage';
 import HostGamePage from './Components/HostGamePage';
 import DebugHostPage from './Components/DebugHostPage';
-
+import RobotLogo from "./BotLogo.png"
 import background from './background.jpg';
 import './App.css';
 import {
@@ -69,9 +69,9 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src='/logo.svg' alt="app logo" style={{margin:'0.5vmin 3vmin', width:'calc(30px + 5vmin)'}}/>
-          <h1 style={{textAlign:'center'}}>Build-a-Bot Royale</h1>
-          <img src='/logo.svg' alt="app logo" style={{margin:'0.5vmin 3vmin', width:'calc(30px + 5vmin)'}}/>
+          <img src={RobotLogo} alt="app logo" className="logo"/>
+          <h1 style={{textAlign:'center', margin:'auto 0'}}>Build-a-Bot Royale</h1>
+          <img src= {RobotLogo} alt="app logo" className="logo" style={{transform:"scaleX(-1)"}}/>
         </header>
         <div className="App-body" style={backgroundStyle}>
           { this.renderAppBodyContent() }

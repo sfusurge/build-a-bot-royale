@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import GridCell from "./GridCell";
+
 class Grid extends Component {
      currentType = "block";
     partsArrayTo2DArray(partsData) {
@@ -36,39 +37,23 @@ class Grid extends Component {
             partDirection = {data.direction}
             partHealth = {data.health}
             onClicked={() => this.props.onCellClick(data.x, data.y, this.currentType)}
+            gameplayPhase = {this.props.gameplayPhase}
         />
-    }
-
-    style(type1) {
-        return {
-           
-            
-            backgroundImage: `url(${type1})`,
-            backgroundSize: 'calc(10vmin - 2px) calc(10vmin - 2px)',
-            height: "10vmin",
-            width: "10vmin",
-            border: "1px solid black",
-            outline:"none",
-
-            
-            
-        };
     }
 
     render() {
         const partsArray = this.partsArrayTo2DArray(this.props.parts);
-        const gridStyleBuild = {
-            height: "60vmin",
-            width: "60vmin",
-            margin: "2vmin auto"
-
+        var properClass;
+        if(this.props.gameplayPhase === "build"){
+            properClass = "grid-style-build";
+        }else{
+            properClass = "grid-style-battle";
         }
 
-        return (   
-                //  <div className="Grid-Container" style = {gridStyle}> </div>
-                <div className="Grid-Container" style = {gridStyleBuild}> 
-                    { partsArray.map(this.renderRow.bind(this)) }
-                </div>
+        return (  
+            <div className = {properClass} style = {{margin:"2vmin"}}> 
+                { partsArray.map(this.renderRow.bind(this)) }
+            </div>
 
         );
     }

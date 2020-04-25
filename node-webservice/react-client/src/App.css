@@ -9,30 +9,6 @@
   height: 100vh;
 }
 
-.App-header {
-  background-color: #282c34;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  height: calc(30px + 6vmin);
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-body{
-  width: 100vw;
-  height: calc(100vh - 30px - 6vmin);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-
-.flex-container {
-  display: flex;
-  flex-direction: row;
-}
-
 .input-hidden {
   position: absolute;
   left: -9999px;
@@ -40,14 +16,213 @@
 
 input[type=radio]:checked + label>img {
   border: 1px solid #fff;
-  box-shadow: 0 0 3px 3px rgb(0, 255, 21);
+  box-shadow: 0 0 5px 5px rgb(252, 186, 3);
 }
 
-.surrounding-square{
-  width: 65vmin;
-  height: 83vmin;
-  margin: auto;
-  background-color: white;
-  border: rgb(252, 186, 3) 1vmin solid;
+@media all and (min-width: 500px) {
+  
+  .App-header {
+    background-color: #282c34;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    height: 10vh;
+    font-size: 3vmin;
+    color: white;
+  }
+  
+  .logo{
+    margin: auto 4vmin;
+    width: 11vh;
+    height: 8vh;
+  }
+
+  .App-body{
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  
+  .build_surrounding_square {
+    display: flex;
+    flex-direction: row;
+    width: calc(90vmin+10px);
+    height: 74vmin;
+    margin: auto;
+    background-color: white;
+    border: rgb(252, 186, 3) 1vmin solid;
+  }
+
+  .black-rectangle{
+    background-color: rgb(0,0,0);
+    margin: 2vmin;
+    height: 70vmin;
+    margin-left: 0;
+  }
+
+  .table{
+    margin: 1vmin 2vmin;
+    display: table; 
+  }
+
+  .table-outer-div{
+    display: block;
+  }
+
+  .table-inner-div{
+    display: table-row;
+  }
+  
+  .toolbar-button{
+    background-size: calc(12vmin-2px) calc(12vmin-2px);
+    height: 12vmin;
+    width: 12vmin;
+    margin: calc((22vmin - 40px)/5) 0 0 0;
+    border: 2px solid white;
+    outline: none;
+  }
+
+  .surrounding-square{
+    width: 65vmin;
+    height: 83vmin;
+    margin: auto;
+    background-color: white;
+    border: rgb(252, 186, 3) 1vmin solid;
+  }
+
+  .grid-style-build{
+    height: "70vmin";
+    width: "70vmin";
+    margin: "2vmin";
+  }
+
+  .grid-style-battle{
+    height: 60vmin;
+    width: 60vmin;
+    margin: 2vmin;
+  }
+
+  .cell-style-build{
+    background-size: calc(14vmin - 2px) calc(14vmin - 2px);
+    height: 14vmin;
+    width: 14vmin;
+    border: 1px solid black;
+    outline: none;
+  }
+
+  .cell-style-battle{
+    background-size: calc(12vmin - 2px) calc(12vmin - 2px);
+    height: 12vmin;
+    width: 12vmin;
+    border: 1px solid black;
+    outline: none;
+  }
+}
+
+@media all and (max-width: 499px) {
+  
+  .App-header {
+    background-color: #282c34;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    height: 15vh;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+
+  .logo{
+    margin: auto 2vmin;
+    width: 10vh;
+    height: 8vh;
+  }
+  
+  .App-body{
+    width: 100vw;
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .build_surrounding_square {
+    display: flex;
+    flex-direction: column;
+    width: 89vmin;
+    height: calc(105vmin+10px);
+    margin: auto;
+    background-color: white;
+    border: rgb(252, 186, 3) 1vmin solid;
+  }
+
+  .black-rectangle{
+    background-color: rgb(0,0,0);
+    margin: 2vmin;
+    width: 85vmin;
+    margin-top: 0;
+  }
+
+  .table-outer-div{
+    display: table-row;
+  }
+
+  .table-inner-div{
+    display: table-cell;
+    margin: 1vmin 2vmin;
+  }
+
+  .table{
+    margin: 2vmin 1vmin;
+    display: table; 
+  }
+
+  .toolbar-button{
+    background-size: calc(15vmin-2px) calc(15vmin-2px);
+    height: 15vmin;
+    width: 15vmin;
+    margin: 0 0 0 calc((25vmin - 20px)/5);
+    border: 2px solid white;
+    outline: none;
+  }
+
+  .surrounding-square{
+    width: 90vmin;
+    height: 112vmin;
+    margin: auto;
+    background-color: white;
+    border: rgb(252, 186, 3) 1vmin solid;
+  }
+
+  .grid-style-build{
+    height: 85vmin;
+    width: 85vmin;
+    margin: 2vmin;
+  }
+
+  .grid-style-battle{
+    height: 85vmin;
+    width: 85vmin;
+    margin: 2vmin;
+  }
+
+  .cell-style-build{
+    background-size: calc(17vmin - 2px) calc(17vmin - 2px);
+    height: 17vmin;
+    width: 17vmin;
+    border: 1px solid black;
+    outline: none;
+  }
+
+  .cell-style-battle{
+    background-size: calc(17vmin - 2px) calc(17vmin - 2px);
+    height: 17vmin;
+    width: 17vmin;
+    border: 1px solid black;
+    outline: none;
+  }
 }
 
