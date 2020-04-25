@@ -207,42 +207,47 @@ class GameplayPage extends Component {
   }
 
   handleCellClicked(x, y) {
-
     //makes sure cell has valid coordinates
     if (x < 0 || x > 4 || y < 0 || y > 4) {
       throw new Error("Invalid x or y");
     }
 
     if (this.state.gameplayPhase === "build") {
-      // Checks to see if there is a part in the clicked location. If there is,
-      // rotate the part and set 'partHere' to true.
       var partHere = false;
       var copy = [...this.state.parts];
+      // Checks to see if there is a part in the clicked location. If there is,
+      // rotate the part and set 'partHere' to true.
       copy.forEach((element, i) => {
         if (element.x === x && element.y === y) {
           if (this.state.currentType === "empty" && !(x === 2 && y === 2)) {
+            // After deleting the element in the current position, need to delete all parts
+            // that are now invalid. Delete invalid modifies copy. 
             copy.splice(i, 1);
             this.deleteInvalid(copy);
           }
           else {
-            element.direction = this.rotate(element.direction, x, y);
+            element.direction = this.closestValidDirection(copy, x, y, element.direction, false);
           }
           partHere = true;
         }
       })
       this.setState({ parts: copy })
+
+      // If the cell is empty and a part is selected
       if (!partHere && this.state.currentType !== "empty") {
-        var partLocations = [];
-        this.state.parts.forEach(element => {
-          if (element.type === "block" || element.type === "center") {
-            partLocations.push([element.x, element.y]);
-          }
-        })
-        var nextToBlock = false;
-        if(this.PartExistsIn(partLocations,[x-1,y]) || this.PartExistsIn(partLocations,[x+1,y]) || this.PartExistsIn(partLocations,[x,y-1]) || this.PartExistsIn(partLocations,[x,y+1])){
-          nextToBlock = true;
+        
+        // 'allValidPartLocations' is a 5x5 bool grid, where an entry is true if it is a valid place for a part. 
+        // (next to block or center)
+        var allValidPartLocations = [];
+        for (var a = 0; a < 5; a++) {
+          allValidPartLocations.push([false, false, false, false, false]);
         }
-        if(nextToBlock){
+        
+        // Fills allValidPartLocations to match state.parts 
+        this.buildAttached(allValidPartLocations, this.state.parts)
+
+        // If the clicked cell is a valid location, then put a new part there. 
+        if (allValidPartLocations[x][y]) {
           var newPart = {
             "type": this.state.currentType,
             "x": x,
@@ -251,154 +256,128 @@ class GameplayPage extends Component {
             "health": 1.0
           }
           copy.push(newPart);
-          newPart.direction = this.rotate(newPart.direction, x, y);
+
+          // Sets the direction to a valid direction.
+          newPart.direction = this.closestValidDirection(copy, x, y, newPart.direction, true);
           this.setState({ parts: copy });
         }
       }
     }
   }
-  
-  PartExistsIn(arr, target) {
-    var found = 0;
-    arr.forEach(element => {
-      if (element[0] === target[0] && element[1] === target[1]) {
-        found = 1;
-      }
-    })
-    return found;
-  }
 
-  deleteInvalid(partsCopy){
-    var allValidParts = [];
+  deleteInvalid(partsCopy) {
+    //partsCopy is a copy of this.state.parts with one part deleted (during building gamephase)
+
+    // 'allValidPartLocations' is a 5x5 bool grid, where an entry is true if it is a valid place for a part. 
+    // (next to block or center)
+    var allValidPartLocations = [];
     var a;
-    for(a = 0; a < 5; a++){
-      allValidParts.push([false, false, false, false, false]);
+    for (a = 0; a < 5; a++) {
+      allValidPartLocations.push([false, false, false, false, false]);
     }
-    var currentParts = [];
-    for(a = 0; a < 5; a++){
-      currentParts.push(["none","none","none","none","none"]);
-    }
-    partsCopy.forEach(element => {
-      currentParts[element.x][element.y] = element.type;
-    })
-    this.recursiveAttached(2,2,allValidParts,currentParts);
+
+    this.buildAttached(allValidPartLocations, partsCopy);
+
+    // If there is a part at an invalid location, remove it.
     var i = 0;
-    
-    //delete all unattached parts
-    while(i < partsCopy.length){
-      if(allValidParts[partsCopy[i].x][partsCopy[i].y] === false){
-        partsCopy.splice(i,1);
-      }else{
+    while (i < partsCopy.length) {
+      if (allValidPartLocations[partsCopy[i].x][partsCopy[i].y] === false) {
+        partsCopy.splice(i, 1);
+      } else {
         i++;
       }
     }
 
-    var remBlocks = []
-    for(a = 0; a < 5; a++){
-      remBlocks.push([false, false, false, false, false]);
-    }
+    // Makes sure that all remaining spikes and shields still have a valid direction. If not, rotate the block.
+    // It is guarunteed to have at least one valid direction because all parts not next to a block were already deleted.
     partsCopy.forEach(element => {
-      if(element.type === "block" || element.type === "center"){
-        remBlocks[element.x][element.y] = true;
-      }
-    })
-    partsCopy.forEach(element => {
-      if(element.type === "spike" || element.type === "shield"){
-        console.log(element.direction);
-        element.direction = this.validDirection(remBlocks, element.x, element.y, element.direction);
+      if (element.type === "spike" || element.type === "shield") {
+        element.direction = this.closestValidDirection(partsCopy, element.x, element.y, element.direction, true);
       }
     })
 
   }
 
-  //basically rotate function, but doesn't use the parts from state, and default is the current direction.
-  validDirection(blocks,x,y,direction){
+  // returns the current direction if it is valid, and if not, returns the next valid direction.
+  closestValidDirection(partsArr, x, y, direction, includeStarting) {
+    // 'blocks': a 5x5 bool array where entry is true if there is a block or center in that location.
+    var blocks = []
+    for(var a = 0; a < 5; a++) {
+      blocks.push([false, false, false, false, false]);
+    }
+    partsArr.forEach(element => {
+      if (element.type === "block" || element.type === "center") {
+        blocks[element.x][element.y] = true;
+      }
+    })
+
     const order = ["north", "west", "south", "east"]
     var intial = order.indexOf(direction);
-    console.log(intial)
-    for (var a = intial; a < intial + 4; a++) {
-      console.log(order[a%4]);
-      switch(order[a%4]){
-        case "north":
-          if(blocks[x][y-1]){
-            return "north";
-          }
-          break
-        case "east":
-          if(blocks[x-1][y]){
-            return "east";
-          }
-          break
-        case "west":
-          if(blocks[x+1][y]){
-            return "west";
-          }
-          break
-        case "south":
-          if(blocks[x][y+1]){
-            return "south";
-          }
-          break
-        default:
-        throw new Error("invalid direction");  
-      }
+    if (includeStarting === false) {
+      intial += 1;
     }
-  }
 
-  recursiveAttached(x,y, allValidParts,currentParts){
-    if(x >= 0 && x < 5 && y >= 0 && y < 5){
-      if(allValidParts[x][y] === false){
-        allValidParts[x][y] = true;
-        if(currentParts[x][y] === "block" || currentParts[x][y] === "center"){
-          this.recursiveAttached(x-1,y,allValidParts,currentParts);
-          this.recursiveAttached(x+1,y,allValidParts,currentParts);
-          this.recursiveAttached(x,y-1,allValidParts,currentParts);
-          this.recursiveAttached(x,y+1,allValidParts,currentParts);
-        }
-      }
-    }
-  }
-
-
-  rotate(current, x, y) {
-    const order = ["north", "west", "south", "east"]
-    var partLocations = [];
-    this.state.parts.forEach(element => {
-      if (element.type === "block" || element.type === "center") {
-        partLocations.push([element.x, element.y]);
-      }
-    })
-    var intial = order.indexOf(current);
-    if (intial === -1) {
-      throw new Error("invalid direction");
-    }
-    for (var a = intial + 1; a < intial + 4; a++) {
+    // for every direction, starting with the current direction, return that direction if it is valid.
+    // (if there is a block in the corresponding location.)
+    for (a = intial; a < intial + 4; a++) {
       switch (order[a % 4]) {
         case "north":
-          if (this.PartExistsIn(partLocations, [x, y - 1]) === 1) {
+          if (y > 0 && blocks[x][y - 1]) {
             return "north";
           }
-          break;
-        case "west":
-          if (this.PartExistsIn(partLocations, [x + 1, y]) === 1) {
-            return "west";
-          }
-          break;
-        case "south":
-          if (this.PartExistsIn(partLocations, [x, y + 1]) === 1) {
-            return "south";
-          }
-          break;
+          break
         case "east":
-          if (this.PartExistsIn(partLocations, [x - 1, y]) === 1) {
+          if (x > 0 && blocks[x - 1][y]) {
             return "east";
           }
-          break;
+          break
+        case "west":
+          if (x < 4 && blocks[x + 1][y]) {
+            return "west";
+          }
+          break
+        case "south":
+          if (y < 4 && blocks[x][y + 1]) {
+            return "south";
+          }
+          break
         default:
           throw new Error("invalid direction");
       }
     }
-    return current;
+  }
+
+  buildAttached(allValidPartLocations, partsArr) {
+    // 'currentparts' is an 5x5 string grid, where each entry is the type of the part in that position.
+    // If there is no part in that position, then the entry is "none".
+    var currentParts = [];
+    for (var a = 0; a < 5; a++) {
+      currentParts.push(["none", "none", "none", "none", "none"]);
+    }
+
+    partsArr.forEach(element => {
+      currentParts[element.x][element.y] = element.type;
+    })
+
+    this.recursiveAttached(2, 2, allValidPartLocations, currentParts);
+  }
+
+  recursiveAttached(x, y, allValidParts, currentParts) {
+    //checks to make sure x and y are valid.
+    if (x >= 0 && x < 5 && y >= 0 && y < 5) {
+      //if position hasn't already been marked as valid, then mark it as valid.
+      if (allValidParts[x][y] === false) {
+        allValidParts[x][y] = true;
+        //if there is a block or center in that position, then recursively call the method for the 4 neighbouring cells
+        // in the grid.
+        if (currentParts[x][y] === "block" || currentParts[x][y] === "center") {
+          this.recursiveAttached(x - 1, y, allValidParts, currentParts);
+          this.recursiveAttached(x + 1, y, allValidParts, currentParts);
+          this.recursiveAttached(x, y - 1, allValidParts, currentParts);
+          this.recursiveAttached(x, y + 1, allValidParts, currentParts);
+        }
+      }
+    }
   }
 
   render() {
