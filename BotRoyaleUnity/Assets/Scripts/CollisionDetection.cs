@@ -28,7 +28,11 @@ public class CollisionDetection : MonoBehaviour
                 if (thisVelocity < otherVelocity)
                 {
                     float damage = DamageCalculator.DamageToInflictOnCollision(thisPartType, otherPartType);
-                    thisCollider.GetComponent<PartHealth>().SubtractHealth(damage);
+                    bool killed = thisCollider.GetComponent<PartHealth>().SubtractHealth(damage);
+                    if(killed){
+                        otherCollider.GetComponentInParent<StatsTracker>().IncrementKills();
+                    }
+                    otherCollider.GetComponentInParent<StatsTracker>().AddDamageDealt(damage);
                 }
             }
         }
