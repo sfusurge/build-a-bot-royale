@@ -27,7 +27,8 @@ class GameplayPage extends Component {
           "direction": "north",
           "health": 1.0
         },
-      ]
+      ],
+      boosts: 1
     }
 
     this.renderGameplayUI = this.renderGameplayUI.bind(this);
@@ -68,6 +69,9 @@ class GameplayPage extends Component {
     socket.on("game-message", messageData => {
       if (messageData.action === "currentParts" && messageData.name === this.state.username) {
         this.setState({ parts: messageData.parts });
+      }
+      if (messageData.action === "currentBoosts" && messageData.name === this.state.username) {
+        this.setState({ boosts: messageData.boosts });
       }
     })
   }
@@ -116,6 +120,7 @@ class GameplayPage extends Component {
           <Grid onCellClick={() => { }} parts={this.state.parts} gameplayPhase={this.state.gameplayPhase}></Grid>
           <BehaviourBar clicked={this.changeBehaviour} />
           {this.renderBehaviourText()}
+          <p>{this.state.boosts}</p>
         </div>
       );
     }
