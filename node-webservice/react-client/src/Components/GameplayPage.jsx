@@ -30,7 +30,11 @@ class GameplayPage extends Component {
         },
       ],
       boosts: 1,
-      results: {name:"test"},
+      results: {
+        "topDamage": [{"name": "test1", "damage": 150},{"name": "test2", "damage": 140}],
+        "topPlacements": [],
+        "topKills": []
+      },
       name: ""
     }
 
