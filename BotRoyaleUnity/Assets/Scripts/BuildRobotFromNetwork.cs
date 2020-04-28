@@ -24,7 +24,7 @@ public class BuildRobotFromNetwork : MonoBehaviour
             }
         });
 
-         socketIO.OnGameMessage("submitrobot", jsonObject =>
+        socketIO.OnGameMessage("submitrobot", jsonObject =>
         {
             Debug.Log("Built");
             JSONArray partsArray = jsonObject["parts"].AsArray;

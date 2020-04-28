@@ -19,10 +19,10 @@ public class StartingGameStateSetuper : MonoBehaviour
     [SerializeField] private float DelayAfterSpawning = 1f;
 
     [Header("Settings")]
-    [SerializeField] private int MinNumberOfRobots = 2;
+    [SerializeField] private int MinNumberOfRobots = 5;
 
     [Header("Debug")]
-    [SerializeField] private int TEST_number_of_robots = 2;
+    [SerializeField] private int TEST_number_of_robots = 5;
     [SerializeField] private bool TEST_SetupOnStart = false;
     [SerializeField] private bool TEST_SetupOnQ = false;
 
@@ -58,8 +58,10 @@ public class StartingGameStateSetuper : MonoBehaviour
     private IEnumerator GameSetupSequence(List<JSONObject> Robots, Action onDone)
     {
         // pad out robots list if there are too few robots
+        MinNumberOfRobots = 8;
         if (Robots.Count < MinNumberOfRobots)
         {
+            Debug.Log(MinNumberOfRobots);
             Robots.AddRange(ExampleRobotBuilder.ExampleRobotsJSON(MinNumberOfRobots - Robots.Count));
         }
 

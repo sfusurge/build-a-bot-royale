@@ -15,7 +15,7 @@
         margin: 2vmin;
     }
     .results-data{
-        margin: 0.5vh;
+        margin: 1vh 0.5vw;
     }
     .results-data-table{
         margin: 0.5vh;
@@ -43,7 +43,7 @@
         backdrop-filter: brightness(150%);
     }
     .results-data{
-        margin: 5vh 0.5vw;
+        margin: 7vh 0.5vw;
         font-size: calc(1.6vw);
     }
 

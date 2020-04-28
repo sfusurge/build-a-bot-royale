@@ -91,8 +91,8 @@ class ResultsPage extends Component {
         <div className="results-data-table">
             <h2> KILLS </h2>
             {results["topKills"].length >= 1 && <p className="results-data">1st. {results["topKills"][0]["name"]} : {results["topKills"][0]["kills"]}</p>}
-            {results["topKills"].length >= 2 && <p className="results-data">2nd. {results["topKills"][0]["name"]} : {results["topKills"][0]["kills"]}</p>}
-            {results["topKills"].length >= 3 && <p className="results-data">3rd. {results["topKills"][0]["name"]} : {results["topKills"][0]["kills"]}</p>}
+            {results["topKills"].length >= 2 && <p className="results-data">2nd. {results["topKills"][1]["name"]} : {results["topKills"][1]["kills"]}</p>}
+            {results["topKills"].length >= 3 && <p className="results-data">3rd. {results["topKills"][2]["name"]} : {results["topKills"][2]["kills"]}</p>}
             <h6>--------------------------</h6>
             {playerIndex !== -1 && <p className="results-data" style={{"font-weight" : "bold"}}>{(a+1).toString() + this.getOrdinal(a+1)}. {results["topKills"][a]["name"]}  : {results["topKills"][a]["kills"]}</p>}
         </div>

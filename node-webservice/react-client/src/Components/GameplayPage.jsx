@@ -83,8 +83,6 @@ class GameplayPage extends Component {
       }
       if (messageData.action === "gameStats") {
         this.setState({ results: messageData.results });
-        this.setState({ gameplayPhase: "results" });
-        console.log(this.state.results);
       }
     })
   }
@@ -160,7 +158,7 @@ class GameplayPage extends Component {
         }
       );
       //alert("Sent robot data");
-      this.setState({ gameplayPhase: "battle" })
+      //this.setState({ gameplayPhase: "battle" })
     } catch (e) {
       alert("Error sending robot data: " + e);
     }
