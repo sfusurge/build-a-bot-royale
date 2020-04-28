@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import GridCell from "./GridCell";
 
 class Grid extends Component {
-     currentType = "block";
+    currentType = "block";
     partsArrayTo2DArray(partsData) {
         // build empty 5x5 array
         var partsArray = [];

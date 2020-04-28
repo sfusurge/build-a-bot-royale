@@ -1,0 +1,42 @@
+@media all and (max-width: 799px){
+    .results-table{
+        margin: 1vmin 2vmin;
+        display: table; 
+      }
+    
+      .results-table-outer{
+        display: block;
+      }
+    
+      .results-table-inner{
+        display: table-row;
+      }
+
+      .results-cell{
+          height: 20vh;
+          width: 80vw;
+      }
+}
+
+@media all and (min-width: 800px){
+    .results-table-outer{
+        display: table-row;
+      }
+    
+      .results-table-inner{
+        display: table-cell;
+        margin: 1vmin 2vmin;
+      }
+    
+      .results-table{
+        margin: 2vmin 1vmin;
+        display: table; 
+      }
+
+      .results-cell{
+          height: 70vh;
+          width: 28vw;
+          margin: 2vmin;
+          backdrop-filter: brightness(150%);
+      }
+}

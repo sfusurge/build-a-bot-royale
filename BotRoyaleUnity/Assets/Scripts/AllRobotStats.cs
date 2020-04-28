@@ -67,31 +67,33 @@ public class AllRobotStats : MonoBehaviour
         }
 
         JSONObject data = new JSONObject();
+        JSONObject scoreBoard = new JSONObject();
         JSONArray topKills = new JSONArray();
-        for(var a = 0; a < Math.Min(3,killScoreboard.Count); a++){
+        for(var a = 0; a < killScoreboard.Count; a++){
             JSONObject kills = new JSONObject();
             kills["name"] = killScoreboard[a].Item1;
             kills["kills"] = killScoreboard[a].Item2;
             topKills.Add(kills);
         }
         JSONArray topDamage = new JSONArray();
-        for(var a = 0; a < Math.Min(3,damageScoreboard.Count); a++){
+        for(var a = 0; a < damageScoreboard.Count; a++){
             JSONObject damage = new JSONObject();
             damage["name"] = damageScoreboard[a].Item1;
             damage["damage"] = damageScoreboard[a].Item2;
             topDamage.Add(damage);
         }
         JSONArray topPlacements = new JSONArray();
-        for(var a = 0; a < Math.Min(3,placeScoreboard.Count); a++){
+        for(var a = 0; a < placeScoreboard.Count; a++){
             JSONObject place = new JSONObject();
             place["name"] = placeScoreboard[a].Item1;
             place["place"] = placeScoreboard[a].Item2;
             topPlacements.Add(place);
         }
         data["action"] = "gameStats";
-        data["topKills"] = topKills;
-        data["topDamage"] = topDamage;
-        data["topPlacements"] = topPlacements;
+        scoreBoard["topKills"] = topKills;
+        scoreBoard["topDamage"] = topDamage;
+        scoreBoard["topPlacements"] = topPlacements;
+        data["results"] = scoreBoard;
         socketConnectionHandler.EmitGameMessage(data);
     }
 }

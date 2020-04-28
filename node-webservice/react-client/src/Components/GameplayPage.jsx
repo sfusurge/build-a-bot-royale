@@ -5,7 +5,8 @@ import { socket } from '../API/socketHandler';
 import Grid from './Grid';
 
 import TypeToolbar from './TypeToolbar';
-import BehaviourBar from './BehaviourBar'
+import BehaviourBar from './BehaviourBar';
+import ResultsPage from './ResultsPage';
 
 
 
@@ -28,7 +29,9 @@ class GameplayPage extends Component {
           "health": 1.0
         },
       ],
-      boosts: 1
+      boosts: 1,
+      results: {name:"test"},
+      name: ""
     }
 
     this.renderGameplayUI = this.renderGameplayUI.bind(this);
@@ -46,6 +49,7 @@ class GameplayPage extends Component {
       gameID: gameID,
       username: username
     }
+    this.setState({ name: username });
 
     // join the game by sending the 'joingame' message to the socket API
     socket.emit('joingame', socketMessageData, response => {
@@ -72,6 +76,11 @@ class GameplayPage extends Component {
       }
       if (messageData.action === "currentBoosts" && messageData.name === this.state.username) {
         this.setState({ boosts: messageData.boosts });
+      }
+      if (messageData.action === "gameStats") {
+        this.setState({ results: messageData.results });
+        this.setState({ gameplayPhase: "results" });
+        console.log(this.state.results);
       }
     })
   }
@@ -122,6 +131,12 @@ class GameplayPage extends Component {
           {this.renderBehaviourText()}
           <p>{this.state.boosts}</p>
         </div>
+      );
+    }
+
+    if (this.state.gameplayPhase === 'results') {
+      return (
+        <ResultsPage results={this.state.results} name={this.state.username}></ResultsPage>
       );
     }
     return <ErrorPage>No page defined for game state: {this.state.gameplayPhase}</ErrorPage>
@@ -190,14 +205,14 @@ class GameplayPage extends Component {
 
       // If the cell is empty and a part is selected
       if (!partHere && this.state.currentType !== "empty") {
-        
+
         // 'allValidPartLocations' is a 5x5 bool grid, where an entry is true if it is a valid place for a part. 
         // (next to block or center)
         var allValidPartLocations = [];
         for (var a = 0; a < 5; a++) {
           allValidPartLocations.push([false, false, false, false, false]);
         }
-        
+
         // Fills allValidPartLocations to match state.parts 
         this.buildAttached(allValidPartLocations, this.state.parts)
 
@@ -257,7 +272,7 @@ class GameplayPage extends Component {
   closestValidDirection(partsArr, x, y, direction, includeStarting) {
     // 'blocks': a 5x5 bool array where entry is true if there is a block or center in that location.
     var blocks = []
-    for(var a = 0; a < 5; a++) {
+    for (var a = 0; a < 5; a++) {
       blocks.push([false, false, false, false, false]);
     }
     partsArr.forEach(element => {

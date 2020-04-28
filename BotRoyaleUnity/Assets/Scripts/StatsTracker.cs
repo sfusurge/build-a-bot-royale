@@ -20,12 +20,23 @@ public class StatsTracker : MonoBehaviour
         socketConnectionHandler = FindObjectOfType<SocketConnectionHandler>();
 
         socketConnectionHandler.OnGameMessage("currentBoosts", jsonObject =>{
+            try{
+                if(jsonObject["name"] == gameObject.name){
+                    boostsRemaining = jsonObject["boosts"];
+                }
+            }catch{
+                //The robot died, so can't process no need to do the check.
+            }
+        });
+    }
+
+    void OnDestroy(){
+        socketConnectionHandler.UnsubscribeOnGameMessage("currentBoosts", jsonObject =>{
             if(jsonObject["name"] == gameObject.name){
                 boostsRemaining = jsonObject["boosts"];
             }
         });
     }
-
     public void IncrementKills(){
         kills++;
         boostsRemaining++;
@@ -62,6 +73,7 @@ public class StatsTracker : MonoBehaviour
         data["boosts"] = boostsRemaining;
         socketConnectionHandler.EmitGameMessage(data);
     }
+
 
 
 
