@@ -130,7 +130,9 @@ public class BuildRobot : MonoBehaviour
         }
         parent.name = name;
         parent.GetComponent<PartHandler>().setParts();
-        allRobotStats.IncrementRobotsRemaining();
+        if(allRobotStats != null){
+            allRobotStats.IncrementRobotsRemaining();
+        }
         //parent.GetComponent<PartHandler>().delUnattachedParts();
         //GameStateManager.Instance.addRobot(parent);
         return parent;
