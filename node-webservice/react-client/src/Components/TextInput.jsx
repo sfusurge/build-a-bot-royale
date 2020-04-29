@@ -20,7 +20,9 @@ class TextInput extends Component {
     constructor(props) {
         super(props);
         this.state = { nickname: "", gameID: "" }
+
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.isInputValid = this.isInputValid.bind(this);
     }
 
     handleSubmit(event){
@@ -30,6 +32,10 @@ class TextInput extends Component {
         });
         
         event.preventDefault();
+    }
+
+    isInputValid() {
+        return this.state.gameID.length === 5 && this.state.nickname.length > 1;
     }
 
     render() { 
@@ -49,7 +55,7 @@ class TextInput extends Component {
                     value={ this.state.gameID }
                     onChange={ e => this.setState({ gameID: e.target.value })}
                 />
-                <input type="submit" value='Enter' style={submitStyle}/>
+                <input type="submit" value='Enter' style={submitStyle} disabled={ !this.isInputValid() }/>
             </form>
          );
     }
