@@ -57,7 +57,7 @@ input[type=radio]:checked + label>img {
   }
 
   .black-rectangle{
-    background-color: rgb(0,0,0);
+    background-color: #282c34;
     margin: 2vmin;
     height: 70vmin;
     margin-left: 0;
@@ -160,7 +160,7 @@ input[type=radio]:checked + label>img {
   }
 
   .black-rectangle{
-    background-color: rgb(0,0,0);
+    background-color: #282c34;
     margin: 2vmin;
     width: 85vmin;
     margin-top: 0;

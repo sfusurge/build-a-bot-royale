@@ -25,7 +25,7 @@ public class SocketConnectionHandler : MonoBehaviour
         GameMessageListeners = new Dictionary<string, List<Action<JSONObject>>>();
 
         StartCoroutine(ConnectionSequence());
-	}
+    }
 
     #region Initialization
     private IEnumerator ConnectionSequence()
@@ -72,7 +72,7 @@ public class SocketConnectionHandler : MonoBehaviour
     {
         Debug.Log("[SocketIO] Open received: " + e.name + " " + e.data);
     }
-    
+
     private void HandleGameMessageReceived(SocketIOEvent socketEvent)
     {
         Assert.AreEqual(socketEvent.name, "game-message");
@@ -92,12 +92,13 @@ public class SocketConnectionHandler : MonoBehaviour
         }
         else
         {
-            if(actionName != "currentParts"){
-                 Debug.LogWarning("A game-message with action " + actionName + " was received, but there are no listeners for this action");
+            if (actionName != "currentParts")
+            {
+                Debug.LogWarning("A game-message with action " + actionName + " was received, but there are no listeners for this action");
             }
         }
     }
-    
+
     #endregion
 
     #region Public methods
@@ -139,6 +140,14 @@ public class SocketConnectionHandler : MonoBehaviour
             GameMessageListeners.Add(messageType, new List<Action<JSONObject>>());
         }
         GameMessageListeners[messageType].Add(onMessageReceived);
+    }
+
+    public void UnsubscribeOnGameMessage(string messageType, Action<JSONObject> onMessageReceived)
+    {
+        if (GameMessageListeners.ContainsKey(messageType))
+        {
+            GameMessageListeners[messageType].Remove(onMessageReceived);
+        }
     }
 
     public void OnSocketEvent(string eventName, Action<SocketIOEvent> onEventAction)

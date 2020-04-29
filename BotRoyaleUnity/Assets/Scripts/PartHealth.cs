@@ -12,7 +12,11 @@ public class PartHealth : MonoBehaviour
     private string type,direction;
     [SerializeField] private GameObject DestroyedPartPrefab = default;
 
+    private bool dead;
+
     private Rigidbody rb;
+
+    private AllRobotStats allRobotStats;
     
     private PartHandler handler;
     private bool subtractedStrength = false;
@@ -23,6 +27,8 @@ public class PartHealth : MonoBehaviour
         health = maxHealth;
         initialColor = GetComponent<Renderer>().material.color;
         rb = transform.parent.gameObject.GetComponent<Rigidbody>();
+        allRobotStats = FindObjectOfType<AllRobotStats>();
+        dead = false;
     }
 
     // Update is called once per frame
@@ -31,15 +37,21 @@ public class PartHealth : MonoBehaviour
 
     }
 
-    public void SubtractHealth(float damage)
+    public bool SubtractHealth(float damage)
     {
+        bool killed = false;
         health -= damage;
         if (health <= 0)
         {
             if (gameObject.CompareTag("Center"))
             {
-                handler.EmitEmptyParts();
-                Destroy(transform.parent.gameObject);
+                if(!dead && transform.parent.gameObject != null){
+                    handler.EmitEmptyParts();
+                    allRobotStats.AddToList(transform.parent.gameObject);
+                    Destroy(transform.parent.gameObject);
+                    killed = true;
+                    dead = true;
+                }
             }
             else
             {
@@ -53,6 +65,7 @@ public class PartHealth : MonoBehaviour
             }
         }
         UpdateColor();
+        return killed;
     }
 
     private void UpdateColor(){

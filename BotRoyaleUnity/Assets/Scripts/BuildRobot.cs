@@ -9,11 +9,13 @@ public class BuildRobot : MonoBehaviour
 {
     public GameObject block, center, spike, shield, robotParent;
     public Boolean buildSampleBots = true;
+    private AllRobotStats allRobotStats;
 
 
     // Start is called before the first frame update
     void Awake()
     {
+        allRobotStats = FindObjectOfType<AllRobotStats>();
         if(buildSampleBots)
         {
             BuildSampleRobots();
@@ -128,6 +130,9 @@ public class BuildRobot : MonoBehaviour
         }
         parent.name = name;
         parent.GetComponent<PartHandler>().setParts();
+        if(allRobotStats != null){
+            allRobotStats.IncrementRobotsRemaining();
+        }
         //parent.GetComponent<PartHandler>().delUnattachedParts();
         //GameStateManager.Instance.addRobot(parent);
         return parent;

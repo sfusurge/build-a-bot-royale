@@ -5,7 +5,8 @@ import { socket } from '../API/socketHandler';
 import Grid from './Grid';
 
 import TypeToolbar from './TypeToolbar';
-import BehaviourBar from './BehaviourBar'
+import BehaviourBar from './BehaviourBar';
+import ResultsPage from './ResultsPage';
 
 
 
@@ -27,7 +28,14 @@ class GameplayPage extends Component {
           "direction": "north",
           "health": 1.0
         },
-      ]
+      ],
+      boosts: 1,
+      results: {
+        "topDamage": [{"name": "test1", "damage": 150},{"name": "test2", "damage": 140}],
+        "topPlacements": [],
+        "topKills": []
+      },
+      name: ""
     }
 
     this.renderGameplayUI = this.renderGameplayUI.bind(this);
@@ -45,6 +53,7 @@ class GameplayPage extends Component {
       gameID: gameID,
       username: username
     }
+    this.setState({ name: username });
 
     // join the game by sending the 'joingame' message to the socket API
     socket.emit('joingame', socketMessageData, response => {
@@ -68,6 +77,12 @@ class GameplayPage extends Component {
     socket.on("game-message", messageData => {
       if (messageData.action === "currentParts" && messageData.name === this.state.username) {
         this.setState({ parts: messageData.parts });
+      }
+      if (messageData.action === "currentBoosts" && messageData.name === this.state.username) {
+        this.setState({ boosts: messageData.boosts });
+      }
+      if (messageData.action === "gameStats") {
+        this.setState({ results: messageData.results });
       }
     })
   }
@@ -116,7 +131,14 @@ class GameplayPage extends Component {
           <Grid onCellClick={() => { }} parts={this.state.parts} gameplayPhase={this.state.gameplayPhase}></Grid>
           <BehaviourBar clicked={this.changeBehaviour} />
           {this.renderBehaviourText()}
+          <p>{this.state.boosts}</p>
         </div>
+      );
+    }
+
+    if (this.state.gameplayPhase === 'results') {
+      return (
+        <ResultsPage results={this.state.results} name={this.state.username}></ResultsPage>
       );
     }
     return <ErrorPage>No page defined for game state: {this.state.gameplayPhase}</ErrorPage>
@@ -136,7 +158,7 @@ class GameplayPage extends Component {
         }
       );
       //alert("Sent robot data");
-      this.setState({ gameplayPhase: "battle" })
+      //this.setState({ gameplayPhase: "battle" })
     } catch (e) {
       alert("Error sending robot data: " + e);
     }
@@ -185,14 +207,14 @@ class GameplayPage extends Component {
 
       // If the cell is empty and a part is selected
       if (!partHere && this.state.currentType !== "empty") {
-        
+
         // 'allValidPartLocations' is a 5x5 bool grid, where an entry is true if it is a valid place for a part. 
         // (next to block or center)
         var allValidPartLocations = [];
         for (var a = 0; a < 5; a++) {
           allValidPartLocations.push([false, false, false, false, false]);
         }
-        
+
         // Fills allValidPartLocations to match state.parts 
         this.buildAttached(allValidPartLocations, this.state.parts)
 
@@ -252,7 +274,7 @@ class GameplayPage extends Component {
   closestValidDirection(partsArr, x, y, direction, includeStarting) {
     // 'blocks': a 5x5 bool array where entry is true if there is a block or center in that location.
     var blocks = []
-    for(var a = 0; a < 5; a++) {
+    for (var a = 0; a < 5; a++) {
       blocks.push([false, false, false, false, false]);
     }
     partsArr.forEach(element => {

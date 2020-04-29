@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1927125875853898931}
   - component: {fileID: 1927125875853898932}
   - component: {fileID: 1927125875853898930}
+  - component: {fileID: 7271248321802497959}
   m_Layer: 0
   m_Name: RobotSpawner
   m_TagString: Untagged
@@ -63,3 +64,15 @@ MonoBehaviour:
   robotParent: {fileID: 4527237787506125075, guid: 160acb923a0ec5b4284df509297c983a,
     type: 3}
   buildSampleBots: 0
+--- !u!114 &7271248321802497959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927125875853898933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb02cfc4d3747a4e9194296c3189054, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

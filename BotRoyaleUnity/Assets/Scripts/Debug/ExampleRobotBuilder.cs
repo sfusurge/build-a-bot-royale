@@ -57,7 +57,7 @@ public static class ExampleRobotBuilder
 
             JSONObject robotJSONObject = new JSONObject();
             robotJSONObject["parts"] = robotJSON;
-            robotJSONObject["username"] = "example_robot";
+            robotJSONObject["username"] = "example_robot" + i.ToString();
 
             sampleRobots.Add(robotJSONObject);
         }
