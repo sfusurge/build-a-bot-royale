@@ -16,13 +16,13 @@ public class StatsTracker : MonoBehaviour
     void Start(){
         kills = 0;
         damageDealt = 0;
-        boostsRemaining = 1;
+        boostsRemaining = 3;
         socketConnectionHandler = FindObjectOfType<SocketConnectionHandler>();
 
-        socketConnectionHandler.OnGameMessage("currentBoosts", jsonObject =>{
+        socketConnectionHandler.OnGameMessage("useBoost", jsonObject =>{
             try{
-                if(jsonObject["name"] == gameObject.name){
-                    boostsRemaining = jsonObject["boosts"];
+                if(jsonObject["username"] == gameObject.name){
+                    UseBoost();
                 }
             }catch{
                 //The robot died, so can't process no need to do the check.
@@ -30,13 +30,6 @@ public class StatsTracker : MonoBehaviour
         });
     }
 
-    void OnDestroy(){
-        socketConnectionHandler.UnsubscribeOnGameMessage("currentBoosts", jsonObject =>{
-            if(jsonObject["name"] == gameObject.name){
-                boostsRemaining = jsonObject["boosts"];
-            }
-        });
-    }
     public void IncrementKills(){
         kills++;
         boostsRemaining++;
@@ -59,9 +52,10 @@ public class StatsTracker : MonoBehaviour
     public int GetBoosts(){
         return boostsRemaining;
     }
-    public void useBoost(){
+    public void UseBoost(){
         if(boostsRemaining > 0){
             boostsRemaining--;
+            gameObject.GetComponent<RoombaMovement>().Boost();
             EmitCurrentBoosts();
         }
     }

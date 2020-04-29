@@ -35,13 +35,13 @@ class GameplayPage extends Component {
         "topPlacements": [],
         "topKills": []
       },
-      name: ""
     }
 
     this.renderGameplayUI = this.renderGameplayUI.bind(this);
     this.handleCellClicked = this.handleCellClicked.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.changeBehaviour = this.changeBehaviour.bind(this);
+    this.useBoost = this.useBoost.bind(this);
   }
 
   componentDidMount() {
@@ -53,7 +53,6 @@ class GameplayPage extends Component {
       gameID: gameID,
       username: username
     }
-    this.setState({ name: username });
 
     // join the game by sending the 'joingame' message to the socket API
     socket.emit('joingame', socketMessageData, response => {
@@ -132,6 +131,7 @@ class GameplayPage extends Component {
           <BehaviourBar clicked={this.changeBehaviour} />
           {this.renderBehaviourText()}
           <p>{this.state.boosts}</p>
+          <button onClick={this.useBoost}> Boost </button>
         </div>
       );
     }
@@ -150,7 +150,7 @@ class GameplayPage extends Component {
     try {
       socket.emit(
         'game-message',
-        { action: "submitrobot", parts: this.state.parts, username: this.state.username },
+        { action: "submitrobot", parts: this.state.parts, username: this.state.username},
         response => {
           if (response.error) {
             alert("Error processing robot data: " + response.error);
@@ -161,6 +161,25 @@ class GameplayPage extends Component {
       //this.setState({ gameplayPhase: "battle" })
     } catch (e) {
       alert("Error sending robot data: " + e);
+    }
+  }
+
+  useBoost(event) {
+    event.preventDefault();
+    try {
+      socket.emit(
+        'game-message',
+        { action: "useBoost", username: this.state.username },
+        response => {
+          if (response.error) {
+            alert("Error proccessing useBoose: " + response.error);
+          }
+        }
+      );
+      //alert("Sent robot data");
+      //this.setState({ gameplayPhase: "battle" })
+    } catch (e) {
+      alert("Error sending useBoost: " + e);
     }
   }
 

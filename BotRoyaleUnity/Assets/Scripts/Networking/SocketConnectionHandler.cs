@@ -142,13 +142,6 @@ public class SocketConnectionHandler : MonoBehaviour
         GameMessageListeners[messageType].Add(onMessageReceived);
     }
 
-    public void UnsubscribeOnGameMessage(string messageType, Action<JSONObject> onMessageReceived)
-    {
-        if (GameMessageListeners.ContainsKey(messageType))
-        {
-            GameMessageListeners[messageType].Remove(onMessageReceived);
-        }
-    }
 
     public void OnSocketEvent(string eventName, Action<SocketIOEvent> onEventAction)
     {
