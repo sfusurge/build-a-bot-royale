@@ -124,7 +124,9 @@ input[type=radio]:checked + label>img {
   .boost-button{
     border-radius: 10px;
     padding: 1vmin;
-    border: 0.5vmin solid blue;
+    border: 0.5vmin solid rgb(252, 186, 3);
+    color: white;
+    background-color: rgb(207, 14, 14);
     margin: 1vh auto;
   }
 }
@@ -235,7 +237,9 @@ input[type=radio]:checked + label>img {
   .boost-button{
     border-radius: 10px;
     padding: 2vmin;
-    border: 0.5vmin solid blue;
+    border: 0.5vmin solid rgb(252, 186, 3);
+    color: white;
+    background-color: rgb(207, 14, 14);
     margin: 2vmin auto;
   }
 }
