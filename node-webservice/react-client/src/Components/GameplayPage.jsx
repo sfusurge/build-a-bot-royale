@@ -29,7 +29,7 @@ class GameplayPage extends Component {
           "health": 1.0
         },
       ],
-      boosts: 1,
+      boosts: 3,
       results: {
         "topDamage": [{"name": "test1", "damage": 150},{"name": "test2", "damage": 140}],
         "topPlacements": [],
@@ -128,10 +128,9 @@ class GameplayPage extends Component {
       return (
         <div className='surrounding-square'>
           <Grid onCellClick={() => { }} parts={this.state.parts} gameplayPhase={this.state.gameplayPhase}></Grid>
+          <button onClick={this.useBoost} className="boost-button"> <h3>Boost! ({this.state.boosts} remaining)</h3> </button>
           <BehaviourBar clicked={this.changeBehaviour} />
           {this.renderBehaviourText()}
-          <p>{this.state.boosts}</p>
-          <button onClick={this.useBoost}> Boost </button>
         </div>
       );
     }
