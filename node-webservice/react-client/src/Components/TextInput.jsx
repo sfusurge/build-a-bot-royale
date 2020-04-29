@@ -53,7 +53,7 @@ class TextInput extends Component {
                     placeholder="Game Code"
                     style={ inputStyle }
                     value={ this.state.gameID }
-                    onChange={ e => this.setState({ gameID: e.target.value })}
+                    onChange={ e => this.setState({ gameID: e.target.value.toUpperCase() })}
                 />
                 <input type="submit" value='Enter' style={submitStyle} disabled={ !this.isInputValid() }/>
             </form>
