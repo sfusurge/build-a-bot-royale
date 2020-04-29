@@ -35,7 +35,7 @@ class TextInput extends Component {
     }
 
     isInputValid() {
-        return this.state.gameID.length === 5 && this.state.nickname.length > 1;
+        return this.state.gameID.length === 5 && this.state.nickname.length > 0;
     }
 
     render() { 
