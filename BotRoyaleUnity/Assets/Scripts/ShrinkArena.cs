@@ -109,4 +109,5 @@ public class ShrinkArena : MonoBehaviour
     public Vector3 GetLocalScale(){
         return transform.localScale;
     }
+
 }

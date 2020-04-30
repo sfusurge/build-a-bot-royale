@@ -31,10 +31,11 @@ class GameplayPage extends Component {
       ],
       boosts: 3,
       results: {
-        "topDamage": [{"name": "test1", "damage": 150},{"name": "test2", "damage": 140}],
+        "topDamage": [{ "name": "test1", "damage": 150 }, { "name": "test2", "damage": 140 }],
         "topPlacements": [],
         "topKills": []
       },
+      submitted: false
     }
 
     this.renderGameplayUI = this.renderGameplayUI.bind(this);
@@ -70,12 +71,31 @@ class GameplayPage extends Component {
     // update the component's state when the game changes states
     socket.on("gameStateChanged", messageData => {
       const newState = messageData.gameState;
+      if (newState === "build") {
+        this.setState({
+          parts: [
+            {
+              "type": "center",
+              "x": 2,
+              "y": 2,
+              "direction": "north",
+              "health": 1.0
+            },
+          ]
+        })
+        this.setState({ currentType: "block" });
+        this.setState({submitted:false});
+        this.setState({boosts: 3});
+      }
       this.setState({ gameplayPhase: newState });
     });
 
     socket.on("game-message", messageData => {
       if (messageData.action === "currentParts" && messageData.name === this.state.username) {
         this.setState({ parts: messageData.parts });
+        if(this.state.parts.length === 0){
+          this.setState({gameState: 'dead'});
+        }
       }
       if (messageData.action === "currentBoosts" && messageData.name === this.state.username) {
         this.setState({ boosts: messageData.boosts });
@@ -123,6 +143,14 @@ class GameplayPage extends Component {
       );
       //return <RobotJSONObjectForm />;
     }
+    if(this.state.gameplayPhase === 'afterSubmit'){
+      return (
+        <div className = 'gameplay-page'>
+          <h3>Please Wait For The Game To Start</h3>
+          <h3>Good Luck!</h3>
+        </div>
+      );
+    }
     if (this.state.gameplayPhase === 'battle') {
 
       return (
@@ -131,6 +159,14 @@ class GameplayPage extends Component {
           <button onClick={this.useBoost} className="boost-button"> <h3>Boost! ({this.state.boosts} remaining)</h3> </button>
           <BehaviourBar clicked={this.changeBehaviour} />
           {this.renderBehaviourText()}
+        </div>
+      );
+    }
+    if(this.state.gameplayPhase === 'dead'){
+      return (
+        <div className = 'gameplay-page'>
+          <h3>Your Robot Was Destroyed!</h3>
+          <h3>Results Will Be Available Shortly.</h3>
         </div>
       );
     }
@@ -145,21 +181,23 @@ class GameplayPage extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
-    try {
-      socket.emit(
-        'game-message',
-        { action: "submitrobot", parts: this.state.parts, username: this.state.username},
-        response => {
-          if (response.error) {
-            alert("Error processing robot data: " + response.error);
+    if(this.state.submitted === false){
+      try {
+        socket.emit(
+          'game-message',
+          { action: "submitrobot", parts: this.state.parts, username: this.state.username },
+          response => {
+            if (response.error) {
+              alert("Error processing robot data: " + response.error);
+            }
           }
-        }
-      );
-      //alert("Sent robot data");
-      //this.setState({ gameplayPhase: "battle" })
-    } catch (e) {
-      alert("Error sending robot data: " + e);
+        );
+        this.setState({ gameplayPhase: "afterSubmit" });
+        this.setState({ submitted: true });
+        //alert("Sent robot data");
+      } catch (e) {
+        alert("Error sending robot data: " + e);
+      }
     }
   }
 

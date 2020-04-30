@@ -16,7 +16,7 @@ public class AllRobotStats : MonoBehaviour
 
     private SocketConnectionHandler socketConnectionHandler; 
 
-    void Start(){
+    public void ResetStats(){
         killScoreboard = new List<(string, int)>();
         damageScoreboard = new List<(string, float)>();
         placeScoreboard = new List<(string, int)>();

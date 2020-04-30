@@ -50,7 +50,6 @@ input[type=radio]:checked + label>img {
     display: flex;
     flex-direction: row;
     width: calc(90vmin+10px);
-    height: 74vmin;
     margin: auto;
     background-color: white;
     border: rgb(252, 186, 3) 1vmin solid;
@@ -162,7 +161,6 @@ input[type=radio]:checked + label>img {
     display: flex;
     flex-direction: column;
     width: 89vmin;
-    height: calc(105vmin+10px);
     margin: auto;
     background-color: white;
     border: rgb(252, 186, 3) 1vmin solid;
