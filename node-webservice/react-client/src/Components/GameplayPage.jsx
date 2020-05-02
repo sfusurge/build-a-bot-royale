@@ -210,7 +210,7 @@ class GameplayPage extends Component {
         { action: "useBoost", username: this.state.username },
         response => {
           if (response.error) {
-            alert("Error proccessing useBoose: " + response.error);
+            alert("Error proccessing useBoost: " + response.error);
           }
         }
       );
