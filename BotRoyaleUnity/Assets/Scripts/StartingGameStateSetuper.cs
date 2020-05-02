@@ -64,7 +64,6 @@ public class StartingGameStateSetuper : MonoBehaviour
         MinNumberOfRobots = 8;
         if (Robots.Count < MinNumberOfRobots)
         {
-            Debug.Log(MinNumberOfRobots);
             Robots.AddRange(ExampleRobotBuilder.ExampleRobotsJSON(MinNumberOfRobots - Robots.Count));
         }
 

@@ -92,7 +92,7 @@ public class SocketConnectionHandler : MonoBehaviour
         }
         else
         {
-            if (actionName != "currentParts")
+            if (actionName != "currentParts" && actionName != "currentBoosts" && actionName != "gameStats")
             {
                 Debug.LogWarning("A game-message with action " + actionName + " was received, but there are no listeners for this action");
             }

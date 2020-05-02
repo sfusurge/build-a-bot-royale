@@ -80,13 +80,17 @@ public class RoombaMovement : MonoBehaviour
                     allRobotStats.AddToList(gameObject);
                     Destroy(gameObject);
                     killed = true;
+                    GameObject lastTouched = gameObject.GetComponent<StatsTracker>().GetLastTouched();
+                    if(lastTouched != null){
+                        lastTouched.GetComponent<StatsTracker>().IncrementKills();
+                    }
                 }
             }
         }
     }
 
     public void Boost(){
-        addSpeed(1500);
+        AddSpeed(1500);
     }
 
     void FixedUpdate()
@@ -96,81 +100,73 @@ public class RoombaMovement : MonoBehaviour
             speed = rigidBody.velocity.magnitude;
             if (speed < 10)
             {
-                addSpeed(15);   
+                AddSpeed(15);   
+            }
+            if(navigationMode == "defend" || navigationMode == "reverse"){
+                ForceToCenter(10);
             }
         }
     }
 
-    private void addSpeed(float force){
-        float arenaScale = arena.GetComponent<ShrinkArena>().GetLocalScale().x;
-                strongest = gameObject.GetComponent<PartHandler>().greatestDirectionStrength();
-                if (navigationMode == "attack")
-                {
-                    Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
-                    direction.Normalize();
-                    direction.y = 0;
-                    rigidBody.AddForce(direction * (rigidBody.mass * force));
-                    if (speed > 2)
-                    {
-                        stuckTimer = Time.time;
-                    }
-                    if (Time.time - stuckTimer > 0.75)
-                    {
-                        navigationMode = "reverse";
-                        stuckTimer = Time.time;
-                    }
-                }
-                else if (navigationMode == "defend" && attack != null)
-                {
-                    float distanceFromClosest = (attack.transform.position - transform.position).magnitude;
-                    Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
-                    direction.Normalize();
-                    direction.y = 0;
-                    rigidBody.AddForce(-direction * (rigidBody.mass * Math.Min((30 / (distanceFromClosest) + 5), force)));
-                    float distanceFromCenter = transform.position.magnitude;
-                    Vector3 centerDirection = -transform.position;
-                    centerDirection.Normalize();
-                    centerDirection.y = 0;
-                    rigidBody.AddForce(centerDirection * (rigidBody.mass * Math.Min((distanceFromCenter * 20 / arenaScale), force)));
-                    if (speed > 2)
-                    {
-                        stuckTimer = Time.time;
-                    }
-                    if (Time.time - stuckTimer > 0.75)
-                    {
-                        navigationMode = "forward";
-                        stuckTimer = Time.time;
-                    }
-                }
-                else if (navigationMode == "reverse")
-                {
-                    Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
-                    direction.Normalize();
-                    direction.y = 0;
-                    rigidBody.AddForce(-direction * (rigidBody.mass * force));
-                    float distanceFromCenter = transform.position.magnitude;
-                    Vector3 centerDirection = -transform.position;
-                    centerDirection.y = 0;
-                    centerDirection.Normalize();
-                    rigidBody.AddForce(centerDirection * (rigidBody.mass * Math.Min((distanceFromCenter * 20 / arenaScale), force)));
-                    if (Time.time - stuckTimer > 0.75)
-                    {
-                        navigationMode = "attack";
-                        stuckTimer = Time.time;
-                    }
-                }
-                else if (navigationMode == "forward")
-                {
-                    Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
-                    direction.Normalize();
-                    direction.y = 0;
-                    rigidBody.AddForce(direction * (rigidBody.mass * force));
-                    if (Time.time - stuckTimer > 0.75)
-                    {
-                        navigationMode = "defend";
-                        stuckTimer = Time.time;
-                    }
-                }
+    private void AddSpeed(float force){
+        strongest = gameObject.GetComponent<PartHandler>().greatestDirectionStrength();
+        if (navigationMode == "attack")
+        {
+            Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
+            direction.Normalize();
+            direction.y = 0;
+            rigidBody.AddForce(direction * (rigidBody.mass * force));
+            if (speed > 2)
+            {
+                stuckTimer = Time.time;
+            }
+            if (Time.time - stuckTimer > 0.75)
+            {
+                navigationMode = "reverse";
+                stuckTimer = Time.time;
+            }
+        }
+        else if (navigationMode == "defend" && attack != null)
+        {
+            float distanceFromClosest = (attack.transform.position - transform.position).magnitude;
+            Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
+            direction.Normalize();
+            direction.y = 0;
+            rigidBody.AddForce(-direction * (rigidBody.mass * Math.Min((3 / ((distanceFromClosest) + 5)), 1) * force));
+            if (speed > 2)
+            {
+                stuckTimer = Time.time;
+            }
+            if (Time.time - stuckTimer > 0.75)
+            {
+                navigationMode = "forward";
+                stuckTimer = Time.time;
+            }
+        }
+        else if (navigationMode == "reverse")
+        {
+            Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
+            direction.Normalize();
+            direction.y = 0;
+            rigidBody.AddForce(-direction * (rigidBody.mass * force));
+            if (Time.time - stuckTimer > 0.75)
+            {
+                navigationMode = "attack";
+                stuckTimer = Time.time;
+            }
+        }
+        else if (navigationMode == "forward")
+        {
+            Vector3 direction = Quaternion.AngleAxis(strongest * -90 - 90, Vector3.up) * transform.forward;
+            direction.Normalize();
+            direction.y = 0;
+            rigidBody.AddForce(direction * (rigidBody.mass * force));
+            if (Time.time - stuckTimer > 0.75)
+            {
+                navigationMode = "defend";
+                stuckTimer = Time.time;
+            }
+        }
     }
 
     private IEnumerator target()
@@ -192,6 +188,16 @@ public class RoombaMovement : MonoBehaviour
             }
             yield return null;
         }
+
+    }
+
+    public void ForceToCenter(float force){
+        float arenaScale = arena.GetComponent<ShrinkArena>().GetLocalScale().x;
+        float distanceFromCenter = transform.position.magnitude;
+        Vector3 centerDirection = -transform.position;
+        centerDirection.y = 0;
+        centerDirection.Normalize();
+        rigidBody.AddForce(centerDirection * (rigidBody.mass * Math.Min(((float)Math.Pow(distanceFromCenter,2) / arenaScale), force)));
     }
 
     public void SetNavigationMode(string mode)

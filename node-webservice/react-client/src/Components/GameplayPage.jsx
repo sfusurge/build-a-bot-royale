@@ -92,10 +92,11 @@ class GameplayPage extends Component {
 
     socket.on("game-message", messageData => {
       if (messageData.action === "currentParts" && messageData.name === this.state.username) {
-        this.setState({ parts: messageData.parts });
-        if(this.state.parts.length === 0){
-          this.setState({gameState: 'dead'});
+        if(messageData.parts.length === 0){
+          this.setState({gameplayPhase: 'dead'});
         }
+        this.setState({ parts: messageData.parts });
+      
       }
       if (messageData.action === "currentBoosts" && messageData.name === this.state.username) {
         this.setState({ boosts: messageData.boosts });
@@ -146,7 +147,7 @@ class GameplayPage extends Component {
     if(this.state.gameplayPhase === 'afterSubmit'){
       return (
         <div className = 'gameplay-page'>
-          <h3>Please Wait For The Game To Start</h3>
+          <h3>Please Wait For The Game To Start.</h3>
           <h3>Good Luck!</h3>
         </div>
       );
@@ -166,7 +167,7 @@ class GameplayPage extends Component {
       return (
         <div className = 'gameplay-page'>
           <h3>Your Robot Was Destroyed!</h3>
-          <h3>Results Will Be Available Shortly.</h3>
+          <h3>Results Will Be Available When The Game Ends.</h3>
         </div>
       );
     }

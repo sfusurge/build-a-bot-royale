@@ -6,18 +6,21 @@ using SimpleJSON;
 
 public class StatsTracker : MonoBehaviour
 {
-    public int kills;
+    private int kills;
 
-    public int boostsRemaining;
+    private int boostsRemaining;
 
-    public float damageDealt;
+    private float damageDealt;
     private SocketConnectionHandler socketConnectionHandler;
+
+    private GameObject lastTouched;
 
     void Start(){
         kills = 0;
         damageDealt = 0;
         boostsRemaining = 3;
         socketConnectionHandler = FindObjectOfType<SocketConnectionHandler>();
+        lastTouched = null;
 
         socketConnectionHandler.OnGameMessage("useBoost", jsonObject =>{
             try{
@@ -66,6 +69,14 @@ public class StatsTracker : MonoBehaviour
         data["name"] = gameObject.name;
         data["boosts"] = boostsRemaining;
         socketConnectionHandler.EmitGameMessage(data);
+    }
+
+    public void SetLastTouched(GameObject robot){
+        lastTouched = robot;
+    }
+
+    public GameObject GetLastTouched(){
+        return lastTouched;
     }
 
 

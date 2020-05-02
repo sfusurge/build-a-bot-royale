@@ -56,15 +56,6 @@ public class AllRobotStats : MonoBehaviour
         damageScoreboard.Sort((x,y) => y.Item2.CompareTo(x.Item2));
         placeScoreboard.Sort((x,y) => x.Item2.CompareTo(y.Item2));
 
-        foreach(var k in killScoreboard){
-            Debug.Log(k.ToString());
-        }
-        foreach(var k in damageScoreboard){
-            Debug.Log(k.ToString());
-        }
-        foreach(var k in placeScoreboard){
-            Debug.Log(k.ToString());
-        }
 
         JSONObject data = new JSONObject();
         JSONObject scoreBoard = new JSONObject();

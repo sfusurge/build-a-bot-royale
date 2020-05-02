@@ -21,24 +21,24 @@ public static class DamageCalculator
       //{ MatchupKey("type1", "type2"),   DAMAGE },
 
         { MatchupKey("Block", "Block"),   SOMEWHAT_EFFECTIVE },
-        { MatchupKey("Block", "Center"),  MODERATE_EFFECTIVE },
-        { MatchupKey("Block", "Spike"),   NOT_VERY_EFFECTIVE },
+        { MatchupKey("Block", "Center"),  SOMEWHAT_EFFECTIVE },
+        { MatchupKey("Block", "Spike"),   BARELY_EFFECTIVE },
         { MatchupKey("Block", "Shield"),  MODERATE_EFFECTIVE },
 
-        { MatchupKey("Center", "Block"),  MODERATE_EFFECTIVE },
-        { MatchupKey("Center", "Center"), MODERATE_EFFECTIVE },
+        { MatchupKey("Center", "Block"),  SOMEWHAT_EFFECTIVE },
+        { MatchupKey("Center", "Center"), SOMEWHAT_EFFECTIVE },
         { MatchupKey("Center", "Spike"),  BARELY_EFFECTIVE },
         { MatchupKey("Center", "Shield"), MODERATE_EFFECTIVE },
 
         { MatchupKey("Spike", "Block"),   SUPER_EFFECTIVE },
-        { MatchupKey("Spike", "Center"),  SUPER_EFFECTIVE },
-        { MatchupKey("Spike", "Spike"),   MODERATE_EFFECTIVE },
+        { MatchupKey("Spike", "Center"),  SOMEWHAT_EFFECTIVE },
+        { MatchupKey("Spike", "Spike"),   SOMEWHAT_EFFECTIVE },
         { MatchupKey("Spike", "Shield"),  BARELY_EFFECTIVE },
 
-        { MatchupKey("Shield", "Block"),  MODERATE_EFFECTIVE },
-        { MatchupKey("Shield", "Center"), MODERATE_EFFECTIVE },
-        { MatchupKey("Shield", "Spike"),  BARELY_EFFECTIVE },
-        { MatchupKey("Shield", "Shield"), SOMEWHAT_EFFECTIVE }
+        { MatchupKey("Shield", "Block"),  NOT_VERY_EFFECTIVE },
+        { MatchupKey("Shield", "Center"), NOT_VERY_EFFECTIVE },
+        { MatchupKey("Shield", "Spike"),  SUPER_EFFECTIVE },
+        { MatchupKey("Shield", "Shield"), BARELY_EFFECTIVE }
     };
 
     private static string MatchupKey(string attacker, string defender)
