@@ -50,7 +50,6 @@ input[type=radio]:checked + label>img {
     display: flex;
     flex-direction: row;
     width: calc(90vmin+10px);
-    height: 74vmin;
     margin: auto;
     background-color: white;
     border: rgb(252, 186, 3) 1vmin solid;
@@ -86,7 +85,7 @@ input[type=radio]:checked + label>img {
   }
 
   .surrounding-square{
-    width: 65vmin;
+    width: 60vmin;
     height: 83vmin;
     margin: auto;
     background-color: white;
@@ -94,14 +93,14 @@ input[type=radio]:checked + label>img {
   }
 
   .grid-style-build{
-    height: "70vmin";
-    width: "70vmin";
-    margin: "2vmin";
+    height: 70vmin;
+    width: 70vmin;
+    margin: 2vmin;
   }
 
   .grid-style-battle{
-    height: 60vmin;
-    width: 60vmin;
+    height: 55vmin;
+    width: 55vmin;
     margin: 2vmin;
   }
 
@@ -114,11 +113,20 @@ input[type=radio]:checked + label>img {
   }
 
   .cell-style-battle{
-    background-size: calc(12vmin - 2px) calc(12vmin - 2px);
-    height: 12vmin;
-    width: 12vmin;
+    background-size: calc(11vmin - 2px) calc(11vmin - 2px);
+    height: 11vmin;
+    width: 11vmin;
     border: 1px solid black;
     outline: none;
+  }
+
+  .boost-button{
+    border-radius: 10px;
+    padding: 1vmin;
+    border: 0.5vmin solid rgb(252, 186, 3);
+    color: white;
+    background-color: rgb(207, 14, 14);
+    margin: 1vh auto;
   }
 }
 
@@ -153,7 +161,6 @@ input[type=radio]:checked + label>img {
     display: flex;
     flex-direction: column;
     width: 89vmin;
-    height: calc(105vmin+10px);
     margin: auto;
     background-color: white;
     border: rgb(252, 186, 3) 1vmin solid;
@@ -191,7 +198,7 @@ input[type=radio]:checked + label>img {
 
   .surrounding-square{
     width: 90vmin;
-    height: 112vmin;
+    height: 130vmin;
     margin: auto;
     background-color: white;
     border: rgb(252, 186, 3) 1vmin solid;
@@ -223,6 +230,15 @@ input[type=radio]:checked + label>img {
     width: 17vmin;
     border: 1px solid black;
     outline: none;
+  }
+
+  .boost-button{
+    border-radius: 10px;
+    padding: 2vmin;
+    border: 0.5vmin solid rgb(252, 186, 3);
+    color: white;
+    background-color: rgb(207, 14, 14);
+    margin: 2vmin auto;
   }
 }
 

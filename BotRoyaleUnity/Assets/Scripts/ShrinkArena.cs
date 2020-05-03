@@ -27,13 +27,13 @@ public class ShrinkArena : MonoBehaviour
     [Header("Required references")]
     [SerializeField] private Transform Walls = default;
 
-    private float initialWallHeight;
+    private float startWallHeight = 5f;
+
 
     // Start is called before the first frame update
     void Start()
     {
         Assert.IsNotNull(Walls, "Walls reference is required");
-        initialWallHeight = Walls.localScale.y;
     }
 
     public IEnumerator GrowToSize(float size)
@@ -49,6 +49,7 @@ public class ShrinkArena : MonoBehaviour
             elapsedTime += Time.deltaTime;
         }
         transform.localScale = finalScale;
+        Walls.position = new Vector3(0,0,0);
     }
 
     public void StartShrinkSequence()
@@ -59,8 +60,6 @@ public class ShrinkArena : MonoBehaviour
 
     private IEnumerator ShrinkSequence()
     {
-        // put walls up
-        Walls.localScale = new Vector3(Walls.localScale.x, initialWallHeight, Walls.localScale.z);
 
         // delay before shrink
         yield return new WaitForSeconds(ShrinkSequenceDelay);
@@ -86,16 +85,6 @@ public class ShrinkArena : MonoBehaviour
             yield return null;
         }
 
-        /*
-        while (elapsedWallCollapseTime < WallCollapseLength)
-        {
-            float wallHeight = Mathf.LerpUnclamped(initialWallHeight, finalWallHeight, WallCollapseCurve.Evaluate(elapsedWallCollapseTime / WallCollapseLength));
-            Walls.localScale = new Vector3(Walls.localScale.x, wallHeight, Walls.localScale.z);
-            yield return null;
-            elapsedWallCollapseTime += Time.deltaTime;
-        }
-        Walls.localScale = new Vector3(Walls.localScale.x, finalWallHeight, Walls.localScale.z);
-        */
 
         while (transform.localScale.x > 1)
         {
@@ -109,4 +98,5 @@ public class ShrinkArena : MonoBehaviour
     public Vector3 GetLocalScale(){
         return transform.localScale;
     }
+
 }

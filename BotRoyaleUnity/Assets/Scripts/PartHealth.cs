@@ -49,8 +49,8 @@ public class PartHealth : MonoBehaviour
                     handler.EmitEmptyParts();
                     allRobotStats.AddToList(transform.parent.gameObject);
                     Destroy(transform.parent.gameObject);
-                    killed = true;
                     dead = true;
+                    killed = true;
                 }
             }
             else
@@ -109,6 +109,10 @@ public class PartHealth : MonoBehaviour
     
     public float GetHealth(){
         return health/maxHealth;
+    }
+
+    public float ReturnHealth(){
+        return Math.Max(health,0);
     }
 
     private void OnDestroy()

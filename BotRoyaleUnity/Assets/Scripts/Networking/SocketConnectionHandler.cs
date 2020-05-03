@@ -92,7 +92,7 @@ public class SocketConnectionHandler : MonoBehaviour
         }
         else
         {
-            if (actionName != "currentParts")
+            if (actionName != "currentParts" && actionName != "currentBoosts" && actionName != "gameStats")
             {
                 Debug.LogWarning("A game-message with action " + actionName + " was received, but there are no listeners for this action");
             }
@@ -142,13 +142,6 @@ public class SocketConnectionHandler : MonoBehaviour
         GameMessageListeners[messageType].Add(onMessageReceived);
     }
 
-    public void UnsubscribeOnGameMessage(string messageType, Action<JSONObject> onMessageReceived)
-    {
-        if (GameMessageListeners.ContainsKey(messageType))
-        {
-            GameMessageListeners[messageType].Remove(onMessageReceived);
-        }
-    }
 
     public void OnSocketEvent(string eventName, Action<SocketIOEvent> onEventAction)
     {

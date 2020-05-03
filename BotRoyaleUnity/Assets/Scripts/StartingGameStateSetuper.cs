@@ -57,11 +57,13 @@ public class StartingGameStateSetuper : MonoBehaviour
 
     private IEnumerator GameSetupSequence(List<JSONObject> Robots, Action onDone)
     {
+        //reset stats
+        FindObjectOfType<AllRobotStats>().ResetStats();
+        
         // pad out robots list if there are too few robots
         MinNumberOfRobots = 8;
         if (Robots.Count < MinNumberOfRobots)
         {
-            Debug.Log(MinNumberOfRobots);
             Robots.AddRange(ExampleRobotBuilder.ExampleRobotsJSON(MinNumberOfRobots - Robots.Count));
         }
 
