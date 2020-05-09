@@ -8,12 +8,6 @@ const inputStyle = {
     margin:'1vh'
 }
 
-const submitStyle = {
-    width:'calc((10px + 2vmin)*5)',
-    fontSize: 'calc(10px + 2vmin)',
-    textAlign:'center',
-}
-
 class TextInput extends Component {
     constructor(props) {
         super(props);
@@ -70,7 +64,7 @@ class TextInput extends Component {
                         onChange={ e => this.setState({ gameID: e.target.value.toUpperCase() })}
                     />
                 </div>
-                <input type="submit" value='Enter' style={submitStyle} disabled={ !this.isInputValid() }/>
+                <input type="submit" className="submit-button" value='Enter' disabled={ !this.isInputValid() }/>
             </form>
          );
     }

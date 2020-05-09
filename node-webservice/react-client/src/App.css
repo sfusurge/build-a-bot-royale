@@ -242,3 +242,17 @@ input[type=radio]:checked + label>img {
   }
 }
 
+.join-game-form .field-wrapper {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.submit-button {
+  margin-top: 5px;
+  width: 150px;
+  padding: 10px;
+  font-size: 1.2em;
+  text-align: center;
+}
