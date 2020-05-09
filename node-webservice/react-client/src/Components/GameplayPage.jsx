@@ -138,7 +138,7 @@ class GameplayPage extends Component {
             <Grid parts={this.state.parts} onCellClick={this.handleCellClicked} gameplayPhase={this.state.gameplayPhase}></Grid>
             <TypeToolbar onChangeType={(newType) => this.setState({ currentType: newType })}></TypeToolbar>
           </div>
-          <button onClick={this.handleSubmit}> Submit </button>
+          <button onClick={this.handleSubmit} className="submit-button"> Submit </button>
 
         </div>
       );

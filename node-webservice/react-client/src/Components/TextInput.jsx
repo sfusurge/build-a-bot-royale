@@ -8,14 +8,6 @@ const inputStyle = {
     margin:'1vh'
 }
 
-const submitStyle = {
-    width:'calc((10px + 2vmin)*5)',
-    fontSize: 'calc(10px + 2vmin)',
-    textAlign:'center',
-}
-
-
-
 class TextInput extends Component {
     constructor(props) {
         super(props);
@@ -23,6 +15,15 @@ class TextInput extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.isInputValid = this.isInputValid.bind(this);
+    }
+
+    componentDidMount() {
+        // auto-fill the gameID if specified in url query params
+        const params = new URLSearchParams(window.location.search);
+        const paramGameID = params.get("gameID")
+        if (paramGameID) {
+            this.setState({ gameID: paramGameID });
+        }
     }
 
     handleSubmit(event){
@@ -41,21 +42,29 @@ class TextInput extends Component {
     render() { 
         return ( 
             <form onSubmit={this.handleSubmit} style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
-                <input
-                    type="text"
-                    placeholder="Nickname"
-                    style={ inputStyle }
-                    value={ this.state.nickname }
-                    onChange={ e => this.setState({ nickname: e.target.value })}
-                />            
-                <input
-                    type="text"
-                    placeholder="Game Code"
-                    style={ inputStyle }
-                    value={ this.state.gameID }
-                    onChange={ e => this.setState({ gameID: e.target.value })}
-                />
-                <input type="submit" value='Enter' style={submitStyle} disabled={ !this.isInputValid() }/>
+                <div className="field-wrapper">
+                    <label htmlFor="nickname-field">Nickname</label>
+                    <input
+                        type="text"
+                        id="nickname-field"
+                        placeholder="Nickname"
+                        style={ inputStyle }
+                        value={ this.state.nickname }
+                        onChange={ e => this.setState({ nickname: e.target.value })}
+                    /> 
+                </div>
+                <div className="field-wrapper">                
+                    <label htmlFor="gameid-field">Game Code</label>                           
+                    <input
+                        type="text"
+                        id="gameid-field"
+                        placeholder="Game Code"
+                        style={ inputStyle }
+                        value={ this.state.gameID }
+                        onChange={ e => this.setState({ gameID: e.target.value.toUpperCase() })}
+                    />
+                </div>
+                <input type="submit" className="submit-button" value='Enter' disabled={ !this.isInputValid() }/>
             </form>
          );
     }
