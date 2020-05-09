@@ -30,12 +30,7 @@ public class JoinGameUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        string url =
-            (StaticNetworkSettings.UseSSL ? "https" : "http") +
-            "://" +
-            StaticNetworkSettings.ShortURL +
-            "?gameID=" + gameID
-        ;
+        string url = StaticNetworkSettings.QuickJoinURL(gameID);
 
         if (Application.platform == RuntimePlatform.WebGLPlayer)
         {
