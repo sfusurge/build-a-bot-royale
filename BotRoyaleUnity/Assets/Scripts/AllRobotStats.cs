@@ -14,7 +14,9 @@ public class AllRobotStats : MonoBehaviour
 
     private int robotsRemaining;
 
-    private SocketConnectionHandler socketConnectionHandler; 
+    private SocketConnectionHandler socketConnectionHandler;
+
+    public string FirstPlaceName => placeScoreboard[0].Item1;
 
     public void ResetStats(){
         killScoreboard = new List<(string, int)>();

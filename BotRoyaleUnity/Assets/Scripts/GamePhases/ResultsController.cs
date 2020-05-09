@@ -1,18 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using SimpleJSON;
+using TMPro;
 using UnityEngine;
 
 public class ResultsController : GamePhaseController
 {
+    [SerializeField] private TMP_Text firstPlaceText = default;
+
     void Start()
     {
-        
-    }
-
-    void Update()
-    {
-        
+        var stats = FindObjectOfType<AllRobotStats>();
+        firstPlaceText.text = stats.FirstPlaceName + " won!";
     }
 
     public void OnNextButtonClicked()
@@ -22,7 +21,7 @@ public class ResultsController : GamePhaseController
 
     public override void UseCarryOverData(JSONObject InputData)
     {
-        // TODO: use the carryover data to display the results in the ui
+        // No carry over data
     }
 
     public override JSONObject ReturnDataForNextGamePhase()

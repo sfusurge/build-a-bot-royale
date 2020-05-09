@@ -1023,6 +1023,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TitleController
       objectReference: {fileID: 0}
+    - target: {fileID: 4539737084565028522, guid: 0ac34d8a2457642fdb3cef186caa9b45,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4539737084565028525, guid: 0ac34d8a2457642fdb3cef186caa9b45,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1505,6 +1510,11 @@ PrefabInstance:
     - target: {fileID: 8569348512668484309, guid: e747725e5f96f4f3ebe45f9808b66ed5,
         type: 3}
       propertyPath: m_Pivot.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8569348512668484313, guid: e747725e5f96f4f3ebe45f9808b66ed5,
+        type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

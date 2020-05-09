@@ -30,11 +30,22 @@ public class JoinGameUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Application.OpenURL(
+        string url =
             (StaticNetworkSettings.UseSSL ? "https" : "http") +
             "://" +
             StaticNetworkSettings.ShortURL +
             "?gameID=" + gameID
-        );
+        ;
+
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+#pragma warning disable 0618
+            Application.ExternalEval("window.open(\"" + url + "\")");
+#pragma warning restore 0618
+        }
+        else
+        {
+            Application.OpenURL(url);
+        }
     }
 }
