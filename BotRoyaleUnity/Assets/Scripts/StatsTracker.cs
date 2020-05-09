@@ -6,23 +6,26 @@ using SimpleJSON;
 
 public class StatsTracker : MonoBehaviour
 {
-    public int kills;
+    private int kills;
 
-    public int boostsRemaining;
+    private int boostsRemaining;
 
-    public float damageDealt;
+    private float damageDealt;
     private SocketConnectionHandler socketConnectionHandler;
+
+    private GameObject lastTouched;
 
     void Start(){
         kills = 0;
         damageDealt = 0;
-        boostsRemaining = 1;
+        boostsRemaining = 3;
         socketConnectionHandler = FindObjectOfType<SocketConnectionHandler>();
+        lastTouched = null;
 
-        socketConnectionHandler.OnGameMessage("currentBoosts", jsonObject =>{
+        socketConnectionHandler.OnGameMessage("useBoost", jsonObject =>{
             try{
-                if(jsonObject["name"] == gameObject.name){
-                    boostsRemaining = jsonObject["boosts"];
+                if(jsonObject["username"] == gameObject.name){
+                    UseBoost();
                 }
             }catch{
                 //The robot died, so can't process no need to do the check.
@@ -30,13 +33,6 @@ public class StatsTracker : MonoBehaviour
         });
     }
 
-    void OnDestroy(){
-        socketConnectionHandler.UnsubscribeOnGameMessage("currentBoosts", jsonObject =>{
-            if(jsonObject["name"] == gameObject.name){
-                boostsRemaining = jsonObject["boosts"];
-            }
-        });
-    }
     public void IncrementKills(){
         kills++;
         boostsRemaining++;
@@ -59,9 +55,10 @@ public class StatsTracker : MonoBehaviour
     public int GetBoosts(){
         return boostsRemaining;
     }
-    public void useBoost(){
+    public void UseBoost(){
         if(boostsRemaining > 0){
             boostsRemaining--;
+            gameObject.GetComponent<RoombaMovement>().Boost();
             EmitCurrentBoosts();
         }
     }
@@ -72,6 +69,14 @@ public class StatsTracker : MonoBehaviour
         data["name"] = gameObject.name;
         data["boosts"] = boostsRemaining;
         socketConnectionHandler.EmitGameMessage(data);
+    }
+
+    public void SetLastTouched(GameObject robot){
+        lastTouched = robot;
+    }
+
+    public GameObject GetLastTouched(){
+        return lastTouched;
     }
 
 

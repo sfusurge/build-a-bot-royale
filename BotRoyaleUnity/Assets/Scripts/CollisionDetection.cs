@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,19 +22,27 @@ public class CollisionDetection : MonoBehaviour
                 string thisPartType = thisCollider.tag;
                 string otherPartType = otherCollider.tag;
 
-                float thisVelocity = GetComponent<Rigidbody>().GetPointVelocity(contact.point).sqrMagnitude;
-                float otherVelocity = otherCollider.GetComponentInParent<Rigidbody>().GetPointVelocity(contact.point).sqrMagnitude;
+                Vector3 thisVelocity = GetComponent<Rigidbody>().GetPointVelocity(contact.point);
+                Vector3 otherVelocity = otherCollider.GetComponentInParent<Rigidbody>().GetPointVelocity(contact.point);
+                Vector3 netVelocity = otherVelocity-thisVelocity;
 
-                // only take damage if this part is moving slower than the other part
-                if (thisVelocity < otherVelocity)
-                {
-                    float damage = DamageCalculator.DamageToInflictOnCollision(thisPartType, otherPartType);
-                    bool killed = thisCollider.GetComponent<PartHealth>().SubtractHealth(damage);
-                    if(killed){
-                        otherCollider.GetComponentInParent<StatsTracker>().IncrementKills();
-                    }
-                    otherCollider.GetComponentInParent<StatsTracker>().AddDamageDealt(damage);
+                float damageBalance;
+                // Only take half damage if velocity is greater than other persons velocity.
+                if(thisVelocity.sqrMagnitude < otherVelocity.sqrMagnitude){
+                    damageBalance = 1/150f;
+                }else{
+                    damageBalance = 1/300f;
                 }
+
+                float damage = DamageCalculator.DamageToInflictOnCollision(thisPartType, otherPartType);
+                damage = damage * Math.Max(otherVelocity.magnitude * netVelocity.magnitude * damageBalance , 0.25f);
+                float damageDone = Math.Min(thisCollider.GetComponent<PartHealth>().ReturnHealth(), damage);
+                bool killed = thisCollider.GetComponent<PartHealth>().SubtractHealth(damage);
+                if(killed){
+                    otherCollider.GetComponentInParent<StatsTracker>().IncrementKills();
+                }
+                otherCollider.GetComponentInParent<StatsTracker>().AddDamageDealt(damageDone);
+                thisCollider.GetComponentInParent<StatsTracker>().SetLastTouched(otherCollider.transform.parent.gameObject);
             }
         }
     }
