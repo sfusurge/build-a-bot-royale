@@ -27,6 +27,8 @@ public class BattleController : GamePhaseController
                 }
             }
         });
+
+        FindObjectOfType<JoinGameUI>().GetComponent<CanvasGroup>().alpha = 0f;
     }
 
     private void Update()

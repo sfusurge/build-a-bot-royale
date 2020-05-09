@@ -19,13 +19,14 @@ public class StartingGameStateSetuper : MonoBehaviour
     [SerializeField] private float DelayAfterSpawning = 1f;
 
     [Header("Settings")]
-    [SerializeField] private int MinNumberOfRobots = 5;
+    [SerializeField] private int AddCPUPlayers = 5;
 
     [Header("Debug")]
     [SerializeField] private int TEST_number_of_robots = 5;
     [SerializeField] private bool TEST_SetupOnStart = false;
     [SerializeField] private bool TEST_SetupOnQ = false;
 
+    public static int OverrideAddCPUPlayers = -1;
 
     private void Start()
     {
@@ -61,10 +62,13 @@ public class StartingGameStateSetuper : MonoBehaviour
         FindObjectOfType<AllRobotStats>().ResetStats();
         
         // pad out robots list if there are too few robots
-        MinNumberOfRobots = 8;
-        if (Robots.Count < MinNumberOfRobots)
+        if (OverrideAddCPUPlayers >= 0)
         {
-            Robots.AddRange(ExampleRobotBuilder.ExampleRobotsJSON(MinNumberOfRobots - Robots.Count));
+            AddCPUPlayers = OverrideAddCPUPlayers;
+        }
+        if (Robots.Count < AddCPUPlayers)
+        {
+            Robots.AddRange(ExampleRobotBuilder.ExampleRobotsJSON(AddCPUPlayers));
         }
 
         // delete existing robots
