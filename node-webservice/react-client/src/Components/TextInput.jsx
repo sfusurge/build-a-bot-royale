@@ -54,7 +54,7 @@ class TextInput extends Component {
                     /> 
                 </div>
                 <div className="field-wrapper">                
-                    <label htmlFor="gameid-field">Game ID</label>                           
+                    <label htmlFor="gameid-field">Game Code</label>                           
                     <input
                         type="text"
                         id="gameid-field"

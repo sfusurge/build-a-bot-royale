@@ -68,11 +68,13 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={RobotLogo} alt="app logo" className="logo"/>
-          <h1 style={{textAlign:'center', margin:'auto 0'}}>Build-a-Bot Royale</h1>
-          <img src= {RobotLogo} alt="app logo" className="logo" style={{transform:"scaleX(-1)"}}/>
-        </header>
+        <a href="/" style={{ textDecoration: "none" }}>
+          <header className="App-header">
+            <img src={RobotLogo} alt="app logo" className="logo"/>
+            <h1 style={{textAlign:'center', margin:'auto 0'}}>Build-a-Bot Royale</h1>
+            <img src= {RobotLogo} alt="app logo" className="logo" style={{transform:"scaleX(-1)"}}/>
+          </header>
+        </a>
         <div className="App-body" style={backgroundStyle}>
           { this.renderAppBodyContent() }
         </div>
