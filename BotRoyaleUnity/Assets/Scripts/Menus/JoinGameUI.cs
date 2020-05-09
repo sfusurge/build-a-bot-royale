@@ -39,7 +39,9 @@ public class JoinGameUI : MonoBehaviour, IPointerClickHandler
 
         if (Application.platform == RuntimePlatform.WebGLPlayer)
         {
+#pragma warning disable 0618
             Application.ExternalEval("window.open(\"" + url + "\")");
+#pragma warning restore 0618
         }
         else
         {

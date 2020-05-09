@@ -16,8 +16,6 @@ public class ShrinkArena : MonoBehaviour
     [SerializeField] private float ShrinkSequenceLength = 45f;
     [SerializeField] private AnimationCurve ShrinkCurve = AnimationCurve.Linear(0f, 0f, 1f, 1f);
 
-    [Tooltip("Time it takes for walls to collapse after arena is min size")]
-    [SerializeField] private float WallCollapseLength = 5f;
     [SerializeField] private AnimationCurve WallCollapseCurve = AnimationCurve.Linear(0f, 0f, 1f, 1f);
 
     [Header("Ending sizes")]
@@ -26,9 +24,6 @@ public class ShrinkArena : MonoBehaviour
 
     [Header("Required references")]
     [SerializeField] private Transform Walls = default;
-
-    private float startWallHeight = 5f;
-
 
     // Start is called before the first frame update
     void Start()
@@ -77,7 +72,6 @@ public class ShrinkArena : MonoBehaviour
         transform.localScale = finalScale;
 
         // collapse walls
-        float elapsedWallCollapseTime = 0f;
         float finalWallHeight = MinimumWallHeight;
 
         while(Walls.position.y > -2.5f){
