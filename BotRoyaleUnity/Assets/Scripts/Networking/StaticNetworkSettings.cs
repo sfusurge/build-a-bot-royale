@@ -83,7 +83,7 @@ public static class StaticNetworkSettings
     public static string QuickJoinURL(string gameID)
     {
         string protocol = (UseSSL ? "https" : "http");
-        string domain = (CurrentServer != Servers.LOCAL ? "localhost:3000" : "build-a-bot-royale.herokuapp.com");
+        string domain = (CurrentServer == Servers.LOCAL ? "localhost:3000" : "build-a-bot-royale.herokuapp.com");
         return protocol +
             "://" +
             domain +
