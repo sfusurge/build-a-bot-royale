@@ -8,7 +8,7 @@ import AboutPage from './Components/AboutPage';
 import HostGamePage from './Components/HostGamePage';
 import DebugHostPage from './Components/DebugHostPage';
 import RobotLogo from "./BotLogo.png"
-import background from './background.jpg';
+import background from './GameBackground.PNG';
 import './App.css';
 import {
   BrowserRouter as Router,
