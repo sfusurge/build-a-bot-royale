@@ -17,13 +17,6 @@ import {
 } from "react-router-dom";
 import { socket } from './API/socketHandler.js';
 
-const backgroundStyle = {
-  backgroundImage:`url(${background})`,
-  flex: 1,
-  resizeMode: 'cover', 
-  backgroundPosition:"center",
-}
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -75,7 +68,7 @@ class App extends Component {
             <img src= {RobotLogo} alt="app logo" className="logo" style={{transform:"scaleX(-1)"}}/>
           </header>
         </a>
-        <div className="App-body" style={backgroundStyle}>
+        <div className="App-body">
           { this.renderAppBodyContent() }
         </div>
       </div>

@@ -14,6 +14,10 @@
   left: -9999px;
 }
 
+.home-page{
+  background-color: red;
+}
+
 input[type=radio]:checked + label>img {
   border: 1px solid #fff;
   box-shadow: 0 0 5px 5px rgb(252, 186, 3);
@@ -43,6 +47,20 @@ input[type=radio]:checked + label>img {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .App-body:before {
+    content:"";
+    position:absolute;
+    width:100vw;
+    height:90vh;
+    z-index:-1;
+    opacity:0.6;
+    background-color: rgba(38,87,142,188);
+    background-image: url("GameBackground.PNG");
+    object-fit: cover;
+    background-repeat: no-repeat;
+    background-position: center;
   }
   
   
@@ -155,6 +173,20 @@ input[type=radio]:checked + label>img {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .App-body:before {
+    content:"";
+    position:absolute;
+    width:100vw;
+    height:85vh;
+    z-index:-1;
+    opacity:0.6;
+    background-color: rgba(38,87,142,188);
+    background-image: url("GameBackground.PNG");
+    object-fit: cover;
+    background-repeat: no-repeat;
+    background-position: center;
   }
   
   .build_surrounding_square {
