@@ -14,14 +14,19 @@
   left: -9999px;
 }
 
-.home-page{
-  background-color: red;
-}
-
 input[type=radio]:checked + label>img {
   border: 1px solid #fff;
   box-shadow: 0 0 5px 5px rgb(252, 186, 3);
 }
+
+.Text-input{
+  border: 0.5vmin solid rgb(252, 186, 3);
+  color: white;
+  background-color: rgb(207, 14, 14);
+  box-shadow: none;
+}
+
+
 
 @media all and (min-width: 500px) {
   
@@ -55,7 +60,7 @@ input[type=radio]:checked + label>img {
     width:100vw;
     height:90vh;
     z-index:-1;
-    opacity:0.6;
+    opacity:0.65;
     background-color: rgba(38,87,142,188);
     background-image: url("GameBackground.PNG");
     object-fit: cover;
@@ -106,6 +111,14 @@ input[type=radio]:checked + label>img {
     width: 60vmin;
     height: 83vmin;
     margin: auto;
+    background-color: white;
+    border: rgb(252, 186, 3) 1vmin solid;
+  }
+
+  .home-square{
+    padding: 5vmin;
+    margin: auto;
+    color: #282c34;
     background-color: white;
     border: rgb(252, 186, 3) 1vmin solid;
   }
@@ -236,6 +249,14 @@ input[type=radio]:checked + label>img {
     border: rgb(252, 186, 3) 1vmin solid;
   }
 
+  .home-square{
+    padding: 5vmin;
+    margin: auto;
+    color: #282c34;
+    background-color: white;
+    border: rgb(252, 186, 3) 1vmin solid;
+  }
+
   .grid-style-build{
     height: 85vmin;
     width: 85vmin;
@@ -283,8 +304,8 @@ input[type=radio]:checked + label>img {
 
 .submit-button {
   margin-top: 5px;
-  width: 150px;
-  padding: 10px;
+  width: calc((60px + 14vmin));
+  padding: 1vmin;
   font-size: 1.2em;
   text-align: center;
 }

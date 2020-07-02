@@ -3,8 +3,8 @@ import JoinGameForm from './JoinGameForm';
 import { Link } from 'react-router-dom';
 
 const HomePage = props => (
-    <div className="home-page">
-        <h1>Join a game</h1>
+    <div className="home-square">
+        <h1>Join a game!</h1>
         <JoinGameForm {...props}/>
         <br/>
         <Link to="/host">Host a game</Link><br/>
