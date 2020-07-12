@@ -26,6 +26,16 @@ input[type=radio]:checked + label>img {
   box-shadow: none;
 }
 
+.state-message{
+  margin: auto;
+  padding: 5vmin;
+  max-width: 65vw;
+  background-color: #282c34;
+  border: rgb(252, 186, 3) 1vmin solid;
+  color:white;
+  font-weight: bold;
+  font-size: x-large;
+}
 
 
 @media all and (min-width: 500px) {
@@ -44,6 +54,12 @@ input[type=radio]:checked + label>img {
     margin: auto 4vmin;
     width: 11vh;
     height: 8vh;
+  }
+  
+  .about-logo{
+    width: 28vh;
+    height: 28vh;
+    margin: auto;
   }
 
   .App-body{
@@ -76,6 +92,34 @@ input[type=radio]:checked + label>img {
     margin: auto;
     background-color: white;
     border: rgb(252, 186, 3) 1vmin solid;
+  }
+
+  .host-game-page{
+    margin: auto;
+    padding: 2vmin;
+    background-color: white;
+    border: rgb(252, 186, 3) 1vmin solid;
+  }
+
+  .state-message{
+    margin: auto;
+    padding: 5vmin;
+    background-color: #282c34;
+    border: rgb(252, 186, 3) 1vmin solid;
+    color:white;
+  }
+  
+  .host-game-page iframe{
+    height: 72vh;
+    width: 100vh;
+  }
+
+  .about-page{
+    margin: auto;
+    padding: 2vmin;
+    background-color: white;
+    border: rgb(252, 186, 3) 1vmin solid;
+    color:#282c34;
   }
 
   .black-rectangle{
@@ -170,7 +214,7 @@ input[type=radio]:checked + label>img {
     justify-content: center;
     text-align: center;
     height: 15vh;
-    font-size: calc(10px + 2vmin);
+    font-size: calc(8px + 2vmin);
     color: white;
   }
 
@@ -178,6 +222,12 @@ input[type=radio]:checked + label>img {
     margin: auto 2vmin;
     width: 10vh;
     height: 8vh;
+  }
+
+  .about-logo{
+    width: 28vw;
+    height: 28vw;
+    margin: auto;
   }
   
   .App-body{
@@ -209,6 +259,27 @@ input[type=radio]:checked + label>img {
     margin: auto;
     background-color: white;
     border: rgb(252, 186, 3) 1vmin solid;
+  }
+
+  .host-game-page{
+    margin: auto;
+    padding: 2vmin;
+    background-color: white;
+    border: rgb(252, 186, 3) 1vmin solid;
+    color: #282c34;
+  }
+  
+  .host-game-page iframe{
+    height: 85vw;
+    width: 85vw;
+  }
+
+  .about-page{
+    margin: auto;
+    padding: 2vmin;
+    background-color: white;
+    border: rgb(252, 186, 3) 1vmin solid;
+    color:#282c34;
   }
 
   .black-rectangle{

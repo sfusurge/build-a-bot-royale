@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import RobotLogo from "../BotLogo.png"
+import SurgeLogo from "../logo.png"
 
 const aboutPage = {
     width: '700px',
@@ -10,20 +12,19 @@ const aboutPage = {
 
 const p = {
     display: 'inline_block',
-    textAlign: 'left',
-    fontSize: '16pt',
+    textAlign: 'center',
+    fontSize: '2.5vmin',
     margin: '0 auto',
 }
 
 const myHeader = {
-    fontSize: '21pt',
-    marginTop: '21pt',
+    fontSize: '4vmin',
+    marginTop: '4vmin',
 }
 
 const listContainer = {
     display: 'flex',
     alignItems: 'flex_eslkgndsnd',
-    width: 'auto',
     margin: '0 auto',
     textAlign: 'right',
 }
@@ -31,20 +32,26 @@ const listContainer = {
 const AboutPage = props => (
     <div className="about-page" style={aboutPage}>
         <h1>About</h1>
-        <div style={myHeader}>Surge SFU Project Spring 2020</div> 
+        <div style={myHeader}>Surge SFU Project Spring 2020</div>
         <GameDescription />
-        <div style={myHeader}>Created by:</div> 
-        <Contributors />
-        <p><a href="https://www.sfusurge.com/" target="_blank" rel="noopener noreferrer">SFU Surge Website</a></p>
-        <Link to="/">Back</Link>
+        <div className="logos-and-contibutors" style={{ display: 'flex', justifyContent: 'center' }}>
+            <img src={RobotLogo} alt="app logo" className="about-logo" />
+            <div>
+                <div style={myHeader}>Created by:</div>
+                <Contributors />
+                <p><a href="https://www.sfusurge.com/" target="_blank" rel="noopener noreferrer">SFU Surge Website</a></p>
+                <Link to="/">Back</Link>
+            </div>
+            <img src={SurgeLogo} alt="app logo" className="about-logo" />
+        </div>
     </div>
 );
 
 const GameDescription = props => (
     <p style={p}>
-        Build-a-Bot Royale is a party game for 2 to 100+ players.
+        Build-a-Bot Royale is a party game for 2 to 20+ players.
         Using a Jackbox- or Kahoot-like setup, build a bot to end all bots,
-        and watch it fight off the competition for a Victory Royale!  
+        and watch it fight off the competition for a Victory Royale!
         During the match, control the aggression of your bot to extend your survival.
     </p>
 )

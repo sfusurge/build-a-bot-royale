@@ -123,10 +123,10 @@ class GameplayPage extends Component {
     if (this.state.gameplayPhase === "initial" || this.state.gameplayPhase === "titleScreen" || this.state.gameplayPhase === "lobby") {
       return (
         <div className='gameplay-page'>
-          <h1>Welcome {this.state.username}</h1>
-          <h2>You are connected to game <code>{this.state.joinedGameID}</code></h2>
-          <h3>Waiting for game to start...</h3>
-          <h4>Game state is currently: {this.state.gameplayPhase}</h4>
+          <div className = 'state-message'>
+            <p>Welcome {this.state.username}!</p>
+            <p>Waiting for game <code>{this.state.joinedGameID}</code> to start...</p>
+          </div>
         </div>
       );
     }
@@ -147,8 +147,10 @@ class GameplayPage extends Component {
     if(this.state.gameplayPhase === 'afterSubmit'){
       return (
         <div className = 'gameplay-page'>
-          <h3>Please Wait For The Game To Start.</h3>
-          <h3>Good Luck!</h3>
+          <div className = 'state-message'>
+            <p>Please Wait For The Game To Start.</p>
+            <p>Good Luck!</p>
+          </div>
         </div>
       );
     }
@@ -166,8 +168,10 @@ class GameplayPage extends Component {
     if(this.state.gameplayPhase === 'dead'){
       return (
         <div className = 'gameplay-page'>
-          <h3>Your Robot Was Destroyed!</h3>
-          <h3>Results Will Be Available When The Game Ends.</h3>
+          <div className = 'state-message'>
+            <p>Your Robot Was Destroyed!</p>
+            <p>Results Will Be Available When The Game Ends.</p>
+          </div>
         </div>
       );
     }

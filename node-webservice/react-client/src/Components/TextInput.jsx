@@ -49,7 +49,8 @@ class TextInput extends Component {
                         id="nickname-field"
                         style={ inputStyle }
                         value={ this.state.nickname }
-                        class="Text-input"
+                        className="Text-input"
+                        autoComplete="off"
                         onChange={ e => this.setState({ nickname: e.target.value })}
                     /> 
                 </div>
@@ -60,7 +61,8 @@ class TextInput extends Component {
                         id="gameid-field"
                         style={ inputStyle }
                         value={ this.state.gameID }
-                        class="Text-input"
+                        className="Text-input"
+                        autoComplete="off"
                         onChange={ e => this.setState({ gameID: e.target.value.toUpperCase() })}
                     />
                 </div>
