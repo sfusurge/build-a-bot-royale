@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 
 const inputStyle = {
     width: 'calc((60px + 14vmin))',
-    padding:'0.5vw', 
-    fontSize: 'calc(10px + 2vmin)', 
+    padding:'5px', 
+    fontSize: '1.2em', 
     textAlign:'center',
-    margin:'1vh'
+    margin:'1vh',
 }
 
 class TextInput extends Component {
@@ -47,9 +47,10 @@ class TextInput extends Component {
                     <input
                         type="text"
                         id="nickname-field"
-                        placeholder="Nickname"
                         style={ inputStyle }
                         value={ this.state.nickname }
+                        className="Text-input"
+                        autoComplete="off"
                         onChange={ e => this.setState({ nickname: e.target.value })}
                     /> 
                 </div>
@@ -58,13 +59,14 @@ class TextInput extends Component {
                     <input
                         type="text"
                         id="gameid-field"
-                        placeholder="Game Code"
                         style={ inputStyle }
                         value={ this.state.gameID }
+                        className="Text-input"
+                        autoComplete="off"
                         onChange={ e => this.setState({ gameID: e.target.value.toUpperCase() })}
                     />
                 </div>
-                <input type="submit" className="submit-button" value='Enter' disabled={ !this.isInputValid() }/>
+                <input type="submit" className="submit-button" style={{margin:'2vh 0 0 0'}} value='Enter' disabled={ !this.isInputValid() }/>
             </form>
          );
     }

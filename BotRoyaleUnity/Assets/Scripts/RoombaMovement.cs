@@ -57,14 +57,7 @@ public class RoombaMovement : MonoBehaviour
         boostTimer = Time.time;
         SetClosestTarget();
         StartCoroutine("target");
-        if (UnityEngine.Random.value > 0.5f)
-        {
-            SetNavigationMode("defend");
-        }
-        else
-        {
-            SetNavigationMode("attack");
-        }
+        SetNavigationMode("attack");
     }
 
     private void Update()

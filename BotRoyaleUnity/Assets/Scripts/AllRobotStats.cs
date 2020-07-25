@@ -16,7 +16,7 @@ public class AllRobotStats : MonoBehaviour
 
     private SocketConnectionHandler socketConnectionHandler;
 
-    public string FirstPlaceName => placeScoreboard[0].Item1;
+    public string FirstPlaceName => placeScoreboard[placeScoreboard.Count-1].Item1;
 
     public void ResetStats(){
         killScoreboard = new List<(string, int)>();

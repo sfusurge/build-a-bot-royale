@@ -19,6 +19,25 @@ input[type=radio]:checked + label>img {
   box-shadow: 0 0 5px 5px rgb(252, 186, 3);
 }
 
+.Text-input{
+  border: 0.5vmin solid rgb(252, 186, 3);
+  color: white;
+  background-color: rgb(207, 14, 14);
+  box-shadow: none;
+}
+
+.state-message{
+  margin: auto;
+  padding: 5vmin;
+  max-width: 65vw;
+  background-color: #282c34;
+  border: rgb(252, 186, 3) 1vmin solid;
+  color:white;
+  font-weight: bold;
+  font-size: x-large;
+}
+
+
 @media all and (min-width: 500px) {
   
   .App-header {
@@ -36,6 +55,12 @@ input[type=radio]:checked + label>img {
     width: 11vh;
     height: 8vh;
   }
+  
+  .about-logo{
+    width: 28vh;
+    height: 28vh;
+    margin: auto;
+  }
 
   .App-body{
     width: 100vw;
@@ -43,6 +68,20 @@ input[type=radio]:checked + label>img {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .App-body:before {
+    content:"";
+    position:absolute;
+    width:100vw;
+    height:90vh;
+    z-index:-1;
+    opacity:0.65;
+    background-color: rgba(38,87,142,188);
+    background-image: url("GameBackground.PNG");
+    object-fit: cover;
+    background-repeat: no-repeat;
+    background-position: center;
   }
   
   
@@ -53,6 +92,34 @@ input[type=radio]:checked + label>img {
     margin: auto;
     background-color: white;
     border: rgb(252, 186, 3) 1vmin solid;
+  }
+
+  .host-game-page{
+    margin: auto;
+    padding: 2vmin;
+    background-color: white;
+    border: rgb(252, 186, 3) 1vmin solid;
+  }
+
+  .state-message{
+    margin: auto;
+    padding: 5vmin;
+    background-color: #282c34;
+    border: rgb(252, 186, 3) 1vmin solid;
+    color:white;
+  }
+  
+  .host-game-page iframe{
+    height: 72vh;
+    width: 100vh;
+  }
+
+  .about-page{
+    margin: auto;
+    padding: 2vmin;
+    background-color: white;
+    border: rgb(252, 186, 3) 1vmin solid;
+    color:#282c34;
   }
 
   .black-rectangle{
@@ -88,6 +155,14 @@ input[type=radio]:checked + label>img {
     width: 60vmin;
     height: 83vmin;
     margin: auto;
+    background-color: white;
+    border: rgb(252, 186, 3) 1vmin solid;
+  }
+
+  .home-square{
+    padding: 5vmin;
+    margin: auto;
+    color: #282c34;
     background-color: white;
     border: rgb(252, 186, 3) 1vmin solid;
   }
@@ -139,7 +214,7 @@ input[type=radio]:checked + label>img {
     justify-content: center;
     text-align: center;
     height: 15vh;
-    font-size: calc(10px + 2vmin);
+    font-size: calc(8px + 2vmin);
     color: white;
   }
 
@@ -147,6 +222,12 @@ input[type=radio]:checked + label>img {
     margin: auto 2vmin;
     width: 10vh;
     height: 8vh;
+  }
+
+  .about-logo{
+    width: 28vw;
+    height: 28vw;
+    margin: auto;
   }
   
   .App-body{
@@ -156,6 +237,20 @@ input[type=radio]:checked + label>img {
     justify-content: center;
     align-items: center;
   }
+
+  .App-body:before {
+    content:"";
+    position:absolute;
+    width:100vw;
+    height:85vh;
+    z-index:-1;
+    opacity:0.6;
+    background-color: rgba(38,87,142,188);
+    background-image: url("GameBackground.PNG");
+    object-fit: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
   
   .build_surrounding_square {
     display: flex;
@@ -164,6 +259,27 @@ input[type=radio]:checked + label>img {
     margin: auto;
     background-color: white;
     border: rgb(252, 186, 3) 1vmin solid;
+  }
+
+  .host-game-page{
+    margin: auto;
+    padding: 2vmin;
+    background-color: white;
+    border: rgb(252, 186, 3) 1vmin solid;
+    color: #282c34;
+  }
+  
+  .host-game-page iframe{
+    height: 85vw;
+    width: 85vw;
+  }
+
+  .about-page{
+    margin: auto;
+    padding: 2vmin;
+    background-color: white;
+    border: rgb(252, 186, 3) 1vmin solid;
+    color:#282c34;
   }
 
   .black-rectangle{
@@ -200,6 +316,14 @@ input[type=radio]:checked + label>img {
     width: 90vmin;
     height: 130vmin;
     margin: auto;
+    background-color: white;
+    border: rgb(252, 186, 3) 1vmin solid;
+  }
+
+  .home-square{
+    padding: 5vmin;
+    margin: auto;
+    color: #282c34;
     background-color: white;
     border: rgb(252, 186, 3) 1vmin solid;
   }
@@ -251,8 +375,8 @@ input[type=radio]:checked + label>img {
 
 .submit-button {
   margin-top: 5px;
-  width: 150px;
-  padding: 10px;
+  width: calc((60px + 14vmin));
+  padding: 1vmin;
   font-size: 1.2em;
   text-align: center;
 }
